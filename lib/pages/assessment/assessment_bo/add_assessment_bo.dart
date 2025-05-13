@@ -355,7 +355,7 @@ class AddAssessmentBo extends StatelessWidget {
               ),
               child: GestureDetector(
                 onTap: () {
-                  Get.to(() => const InputAssessmentBo());
+                  Get.to(() => InputAssessmentBo());
                 },
                 child: Container(
                   height: 50,
