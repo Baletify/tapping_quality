@@ -20,6 +20,27 @@ class AssessmentBoInputController extends GetxController {
   var isCleanedTool1Checked = false.obs;
   var isCleanedTool2Checked = false.obs;
 
+  void resetState() {
+    isSmallChecked.value = false;
+    isMediumChecked.value = false;
+    isLargeChecked.value = false;
+    selectedDepth.value = '';
+    isOpt1Checked.value = false;
+    isOpt2Checked.value = false;
+    isOpt3Checked.value = false;
+    isOpt4Checked.value = false;
+    isOpt5Checked.value = false;
+    isOpt6Checked.value = false;
+    isOpt7Checked.value = false;
+    selectedAngle.value = '';
+    selectedScrap.value = '';
+    isTool1Checked.value = false;
+    isTool2Checked.value = false;
+    isTool3Checked.value = false;
+    isCleanedTool1Checked.value = false;
+    isCleanedTool2Checked.value = false;
+  }
+
   void toggleCheckbox(String size) {
     switch (size) {
       case 'small':

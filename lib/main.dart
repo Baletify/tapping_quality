@@ -6,10 +6,15 @@ import 'package:tapping_quality/pages/home_page.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // await DatabaseHelper().deleteDatabaseFile();
-  await DatabaseHelper().checkTables();
-  List<Map<String, dynamic>> users = await DatabaseHelper().getAllUsers();
+  // await DatabaseHelper().checkTables();
+  // List<Map<String, dynamic>> users = await DatabaseHelper().getAllUsers();
 
-  print('Users in the database: $users');
+  // print('Users in the database: $users');
+
+  final List<Map<String, dynamic>> data =
+      await DatabaseHelper().getAllAssessmentDetails();
+  print('Assessment Details in the database: $data');
+
   await DatabaseHelper().database; // Initialize the database
   runApp(const MyApp());
 }

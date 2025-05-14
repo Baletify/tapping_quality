@@ -56,6 +56,7 @@ class DatabaseHelper {
         sistem_sadap TEXT NOT NULL,
         panel_sadap TEXT NOT NULL,
         jenis_sadap TEXT NOT NULL,
+        'jenis_kulit_pohon' TEXT NOT NULL,
         tanggal_inspeksi DATETIME NOT NULL,
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
         nik_mandor VARCHAR(255),
@@ -69,47 +70,28 @@ class DatabaseHelper {
     ''');
 
     await db.execute('''
-      CREATE TABLE foreman_assesments (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      parameter TEXT NULL,
-      syarat TEXT NULL,
-      skor INTEGER NULL,
-      p1 BOOLEAN NULL,
-      p2 BOOLEAN NULL,
-      p3 BOOLEAN NULL,
-      p4 BOOLEAN NULL,
-      p5 BOOLEAN NULL,
-      p6 BOOLEAN NULL,
-      p7 BOOLEAN NULL,
-      p8 BOOLEAN NULL,
-      p9 BOOLEAN NULL,
-      p10 BOOLEAN NULL,
-      assessment_code_fk VARCHAR(75),
-      FOREIGN KEY (assessment_code_fk) REFERENCES assessment_details(assessment_code)
+      CREATE TABLE criteria (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL,
+        description TEXT DEFAULT NULL,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
       );
 ''');
 
     await db.execute('''
-      CREATE TABLE instructor_assesments (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      parameter TEXT NULL,
-      syarat TEXT NULL,
-      skor INTEGER NULL,
-      p1 BOOLEAN NULL,
-      p2 BOOLEAN NULL,
-      p3 BOOLEAN NULL,
-      p4 BOOLEAN NULL,
-      p5 BOOLEAN NULL,
-      p6 BOOLEAN NULL,
-      p7 BOOLEAN NULL,
-      p8 BOOLEAN NULL,
-      p9 BOOLEAN NULL,
-      p10 BOOLEAN NULL,
-      verified_by VARCHAR(255),
-      verified_at DATETIME,
-      assessment_code_fk VARCHAR(75),
-      FOREIGN KEY (assessment_code_fk) REFERENCES assessment_details(assessment_code)
-      );
+      CREATE TABLE trees (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        tree_identifier VARCHAR(255) NOT NULL
+        )
+    ''');
+
+    await db.execute('''
+     CREATE TABLE tree_assessments (
+     id INTEGER PRIMARY KEY AUTOINCREMENT,
+     assessment_detail_id INTEGER NOT NULL,
+     tree_id INTEGER NOT NULL,
+     criteria_id INTEGER NOT NULL
+     )
 ''');
 
     await db.execute('''
@@ -122,8 +104,6 @@ class DatabaseHelper {
         ('555-555', 'M. Hidayaturrahman', 'Penyadap', '', 'Reguler', 'Sub Divisi A', 'Arif Halimawan', NULL, NULL, NULL),
         ('666-666', 'Nanda Dwi Perkasa', 'Penyadap', '', 'Reguler', 'Sub Divisi A', 'Arif Halimawan', NULL, NULL, NULL),
         ('777-777', 'Alif Ilham', 'Penyadap', '', 'FL', 'Sub Divisi A', NULL, NULL, 'Arif Halimawan', NULL)
-
-     
 ''');
   }
 
@@ -150,6 +130,14 @@ class DatabaseHelper {
 
     // Query the users table
     final result = await db.query('users');
+    return result;
+  }
+
+  Future<List<Map<String, dynamic>>> getAllAssessmentDetails() async {
+    final db = await database;
+
+    // Query the assessment_details table
+    final result = await db.query('assessment_details');
     return result;
   }
 }

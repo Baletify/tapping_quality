@@ -1,8 +1,11 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tapping_quality/controllers/assessment_bo_detail_controller.dart';
 import 'package:tapping_quality/models/user_model.dart';
 import 'package:tapping_quality/pages/assessment/assessment_bo/input_assessment_bo.dart';
+import 'package:tapping_quality/services/assessment_detail_bo_service.dart';
 
 class AddAssessmentBo extends StatelessWidget {
   const AddAssessmentBo({super.key});
@@ -15,6 +18,23 @@ class AddAssessmentBo extends StatelessWidget {
     final AssessmentBoDetailController userController = Get.put(
       AssessmentBoDetailController(),
     );
+
+    String generateRandomCode() {
+      const String chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+      final Random random = Random();
+
+      // Generate 16 random characters
+      String randomString =
+          List.generate(
+            16,
+            (index) => chars[random.nextInt(chars.length)],
+          ).join();
+
+      // Insert dashes to format as XXXX-XXXX-XXXX-XXXX
+      return '${randomString.substring(0, 4)}-${randomString.substring(4, 8)}-${randomString.substring(8, 12)}-${randomString.substring(12, 16)}';
+    }
+
+    final service = Get.put(AssessmentDetailBoService());
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -75,9 +95,7 @@ class AddAssessmentBo extends StatelessWidget {
                             );
 
                             // Update the selected date in the controller
-                            if (pickedDate != null) {
-                              dateController.updateDate(pickedDate);
-                            }
+                            dateController.updateDate(pickedDate!);
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -191,7 +209,7 @@ class AddAssessmentBo extends StatelessWidget {
                   controller: userController.departemenController,
                   readOnly: true,
                   decoration: InputDecoration(
-                    labelText: 'Kemandoran',
+                    labelText: 'Departemen',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
@@ -205,6 +223,7 @@ class AddAssessmentBo extends StatelessWidget {
               child: Container(
                 decoration: BoxDecoration(color: Colors.white),
                 child: TextField(
+                  controller: userController.blokController,
                   decoration: InputDecoration(
                     labelText: 'Blok',
                     border: OutlineInputBorder(
@@ -354,7 +373,27 @@ class AddAssessmentBo extends StatelessWidget {
                 bottom: 100.0,
               ),
               child: GestureDetector(
-                onTap: () {
+                onTap: () async {
+                  final Map<String, dynamic> data = {
+                    'assessment_code': generateRandomCode(),
+                    'tanggal_inspeksi':
+                        dateController.selectedDate.value.toString(),
+                    'blok': userController.blokController.text,
+                    'task': userController.taskController.text,
+                    'no_hancak': userController.noHancakController.text,
+                    'tahun_tanam': userController.tahunTanamController.text,
+                    'clone': userController.cloneController.text,
+                    'sistem_sadap': userController.sistemSadapController.text,
+                    'panel_sadap': userController.tappingPanelController.text,
+                    'jenis_kulit_pohon':
+                        userController.treeSkinTypeController.text,
+                    'jenis_sadap': 'BO',
+                    'nik_mandor': '221-222',
+                    'nik_instruktur': '201-222',
+                    'nik_penyadap': userController.nikController.text,
+                  };
+
+                  await service.insertAssessmentDetails(data);
                   Get.to(() => InputAssessmentBo());
                 },
                 child: Container(

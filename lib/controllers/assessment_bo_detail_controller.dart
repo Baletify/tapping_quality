@@ -16,6 +16,12 @@ class AssessmentBoDetailController extends GetxController {
   final kemandoranController = TextEditingController();
   final departemenController = TextEditingController();
   final statusController = TextEditingController();
+  final blokController = TextEditingController();
+  final taskController = TextEditingController();
+  final noHancakController = TextEditingController();
+  final tahunTanamController = TextEditingController();
+  final cloneController = TextEditingController();
+  final sistemSadapController = TextEditingController();
   final treeSkinTypeController = TextEditingController();
   final tappingPanelController = TextEditingController();
 

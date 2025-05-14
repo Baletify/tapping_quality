@@ -1,13 +1,54 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tapping_quality/controllers/assessment_bo_input_controller.dart';
+import 'package:tapping_quality/pages/assessment/assessment_result.dart';
 
-class InputAssessmentBo extends StatelessWidget {
-  InputAssessmentBo({super.key});
+class InputAssessmentBo extends StatefulWidget {
+  const InputAssessmentBo({super.key});
 
+  @override
+  State<InputAssessmentBo> createState() => _InputAssessmentBoState();
+}
+
+class _InputAssessmentBoState extends State<InputAssessmentBo> {
   final AssessmentBoInputController controller = Get.put(
     AssessmentBoInputController(),
   );
+
+  int treeIndex = 1; // Start with Tree 1
+
+  void incrementTreeIndex() {
+    if (treeIndex < 10) {
+      setState(() {
+        treeIndex++;
+      });
+      controller.resetState(); // Reset the state for the new tree
+    } else {
+      Get.snackbar(
+        'Info',
+        'You have reached the last tree.',
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.blue,
+        colorText: Colors.white,
+      );
+    }
+  }
+
+  void decrementTreeIndex() {
+    if (treeIndex > 1) {
+      setState(() {
+        treeIndex--;
+      });
+    } else {
+      Get.snackbar(
+        'Info',
+        'You are already at the first tree.',
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.blue,
+        colorText: Colors.white,
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,16 +77,80 @@ class InputAssessmentBo extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 10),
-          Row(
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Expanded(
-                child: Container(
-                  height: 100,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
+              Container(
+                width: 350,
+                height: 10,
+                decoration: BoxDecoration(color: Colors.white),
+                child: LinearProgressIndicator(
+                  value: treeIndex / 10,
+                  backgroundColor: Colors.grey[300],
+                  color: Colors.blue,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Jumlah Pohon yang Diinspeksi',
+                      style: const TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    Text(
+                      'Pohon $treeIndex dari 10',
+                      style: const TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 5),
+              Container(
+                width: 350,
+                height: 10,
+                decoration: BoxDecoration(color: Colors.white),
+                child: LinearProgressIndicator(
+                  value: treeIndex / 10,
+                  backgroundColor: Colors.grey[300],
+                  color: Colors.blue,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Progress Jumlah Item yang Dinilai',
+                      style: const TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    Text(
+                      'Penilaian 3 dari 110',
+                      style: const TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
@@ -1003,7 +1108,7 @@ class InputAssessmentBo extends StatelessWidget {
                     ),
                     SizedBox(height: 10),
                     Container(
-                      height: 180,
+                      height: 200,
                       width: 350,
                       decoration: BoxDecoration(
                         color: Colors.white,
@@ -1108,6 +1213,327 @@ class InputAssessmentBo extends StatelessWidget {
                         ],
                       ),
                     ),
+                    SizedBox(height: 10),
+                    Container(
+                      height: 180,
+                      width: 350,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black26,
+                            spreadRadius: 1,
+                            blurRadius: 5,
+                            offset: const Offset(0, 3),
+                          ),
+                        ],
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              left: 10.0,
+                              right: 8.0,
+                              top: 8.0,
+                              bottom: 8.0,
+                            ),
+                            child: Text(
+                              'Pohon sehat tidak disadap - Hanya 1 Pilihan',
+                              style: TextStyle(
+                                fontFamily: 'Poppins',
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              left: 8.0,
+                              right: 8.0,
+                              top: 2.0,
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.grey),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Obx(
+                                    () => RadioListTile<String>(
+                                      title: const Text(
+                                        'Ya',
+                                        style: TextStyle(
+                                          fontFamily: 'Poppins',
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                      value: 'Ya',
+                                      groupValue:
+                                          controller.selectedScrap.value,
+                                      onChanged: (value) {
+                                        controller.selectScrap(value!);
+                                      },
+
+                                      controlAffinity:
+                                          ListTileControlAffinity.trailing,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: 5),
+                                Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.grey),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Obx(
+                                    () => RadioListTile<String>(
+                                      title: const Text(
+                                        'Tidak',
+                                        style: TextStyle(
+                                          fontFamily: 'Poppins',
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                      value: 'Tidak',
+                                      groupValue:
+                                          controller.selectedScrap.value,
+                                      onChanged: (value) {
+                                        controller.selectScrap(value!);
+                                      },
+                                      controlAffinity:
+                                          ListTileControlAffinity.trailing,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Container(
+                      height: 180,
+                      width: 350,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black26,
+                            spreadRadius: 1,
+                            blurRadius: 5,
+                            offset: const Offset(0, 3),
+                          ),
+                        ],
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              left: 10.0,
+                              right: 8.0,
+                              top: 8.0,
+                              bottom: 8.0,
+                            ),
+                            child: Text(
+                              'Hasil tidak dipungut - Hanya 1 Pilihan',
+                              style: TextStyle(
+                                fontFamily: 'Poppins',
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              left: 8.0,
+                              right: 8.0,
+                              top: 2.0,
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.grey),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Obx(
+                                    () => RadioListTile<String>(
+                                      title: const Text(
+                                        'Ya',
+                                        style: TextStyle(
+                                          fontFamily: 'Poppins',
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                      value: 'Ya',
+                                      groupValue:
+                                          controller.selectedScrap.value,
+                                      onChanged: (value) {
+                                        controller.selectScrap(value!);
+                                      },
+
+                                      controlAffinity:
+                                          ListTileControlAffinity.trailing,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: 5),
+                                Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.grey),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Obx(
+                                    () => RadioListTile<String>(
+                                      title: const Text(
+                                        'Tidak',
+                                        style: TextStyle(
+                                          fontFamily: 'Poppins',
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                      value: 'Tidak',
+                                      groupValue:
+                                          controller.selectedScrap.value,
+                                      onChanged: (value) {
+                                        controller.selectScrap(value!);
+                                      },
+                                      controlAffinity:
+                                          ListTileControlAffinity.trailing,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Container(
+                      height: 180,
+                      width: 350,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black26,
+                            spreadRadius: 1,
+                            blurRadius: 5,
+                            offset: const Offset(0, 3),
+                          ),
+                        ],
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              left: 10.0,
+                              right: 8.0,
+                              top: 8.0,
+                              bottom: 8.0,
+                            ),
+                            child: Text(
+                              'Talang sadap mepet - Hanya 1 Pilihan',
+                              style: TextStyle(
+                                fontFamily: 'Poppins',
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              left: 8.0,
+                              right: 8.0,
+                              top: 2.0,
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.grey),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Obx(
+                                    () => RadioListTile<String>(
+                                      title: const Text(
+                                        'Ya',
+                                        style: TextStyle(
+                                          fontFamily: 'Poppins',
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                      value: 'Ya',
+                                      groupValue:
+                                          controller.selectedScrap.value,
+                                      onChanged: (value) {
+                                        controller.selectScrap(value!);
+                                      },
+
+                                      controlAffinity:
+                                          ListTileControlAffinity.trailing,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: 5),
+                                Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.grey),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Obx(
+                                    () => RadioListTile<String>(
+                                      title: const Text(
+                                        'Tidak',
+                                        style: TextStyle(
+                                          fontFamily: 'Poppins',
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                      value: 'Tidak',
+                                      groupValue:
+                                          controller.selectedScrap.value,
+                                      onChanged: (value) {
+                                        controller.selectScrap(value!);
+                                      },
+                                      controlAffinity:
+                                          ListTileControlAffinity.trailing,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -1118,40 +1544,52 @@ class InputAssessmentBo extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Container(
-                  height: 50,
-                  width: 120,
-                  decoration: BoxDecoration(
-                    color: Colors.lightBlue[600],
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Center(
-                    child: Text(
-                      'Sebelumnya',
-                      style: const TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                GestureDetector(
+                  onTap: decrementTreeIndex,
+                  child: Container(
+                    height: 50,
+                    width: 120,
+                    decoration: BoxDecoration(
+                      color: Colors.lightBlue[600],
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Center(
+                      child: Text(
+                        'Sebelumnya',
+                        style: const TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ),
                 ),
-                Container(
-                  height: 50,
-                  width: 120,
-                  decoration: BoxDecoration(
-                    color: Colors.lightBlue[600],
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Center(
-                    child: Text(
-                      'Berikutnya',
-                      style: const TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                GestureDetector(
+                  onTap: () {
+                    if (treeIndex == 10) {
+                      Get.to(() => AssessmentResult());
+                    } else {
+                      incrementTreeIndex();
+                    }
+                  },
+                  child: Container(
+                    height: 50,
+                    width: 120,
+                    decoration: BoxDecoration(
+                      color: Colors.lightBlue[600],
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Center(
+                      child: Text(
+                        treeIndex == 10 ? 'Submit' : 'Berikutnya',
+                        style: const TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ),
