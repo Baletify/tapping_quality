@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:tapping_quality/services/assessment_input_bo_service.dart';
 
 class AssessmentBoInputController extends GetxController {
   var isSmallChecked = false.obs;
@@ -14,11 +15,40 @@ class AssessmentBoInputController extends GetxController {
   var isOpt7Checked = false.obs;
   var selectedAngle = ''.obs;
   var selectedScrap = ''.obs;
+  var selectedBlong = ''.obs;
+  var selectedHealthyTree = ''.obs;
+  var selectedResultTake = ''.obs;
+  var selectedTalangSadap = ''.obs;
   var isTool1Checked = false.obs;
   var isTool2Checked = false.obs;
   var isTool3Checked = false.obs;
   var isCleanedTool1Checked = false.obs;
   var isCleanedTool2Checked = false.obs;
+  var assessmentDetails = <Map<String, dynamic>>[].obs;
+  var criteria = <Map<String, dynamic>>[].obs;
+  var selectedCriteriaIds = <int>[].obs;
+  
+  @override
+  void onInit() {
+    super.onInit();
+    fetchAssessmentDetails();
+    fetchCriteria();
+  }
+
+  void fetchAssessmentDetails() async {
+    final service = AssessmentInputBoService();
+    final data = await service.getFirst();
+
+    assessmentDetails.assignAll(data);
+    // print('Assessment Details: $assessmentDetails');
+  }
+
+  void fetchCriteria() async {
+    final service = AssessmentInputBoService();
+    final data = await service.getCriteria();
+
+    criteria.assignAll(data);
+  }
 
   void resetState() {
     isSmallChecked.value = false;
@@ -34,6 +64,10 @@ class AssessmentBoInputController extends GetxController {
     isOpt7Checked.value = false;
     selectedAngle.value = '';
     selectedScrap.value = '';
+    selectedBlong.value = '';
+    selectedHealthyTree.value = '';
+    selectedResultTake.value = '';
+    selectedTalangSadap.value = '';
     isTool1Checked.value = false;
     isTool2Checked.value = false;
     isTool3Checked.value = false;
@@ -116,5 +150,21 @@ class AssessmentBoInputController extends GetxController {
         isCleanedTool2Checked.value = !isCleanedTool2Checked.value;
         break;
     }
+  }
+
+  void selectBlong(String blong) {
+    selectedBlong.value = blong;
+  }
+
+  void selectHealthyTree(String healthyTree) {
+    selectedHealthyTree.value = healthyTree;
+  }
+
+  void selectResultTake(String resultTake) {
+    selectedResultTake.value = resultTake;
+  }
+
+  void selectTalangSadap(String talangSadap) {
+    selectedTalangSadap.value = talangSadap;
   }
 }

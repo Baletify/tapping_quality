@@ -239,6 +239,7 @@ class AddAssessmentBo extends StatelessWidget {
               child: Container(
                 decoration: BoxDecoration(color: Colors.white),
                 child: TextField(
+                  controller: userController.taskController,
                   decoration: InputDecoration(
                     labelText: 'Task',
                     border: OutlineInputBorder(
@@ -254,6 +255,7 @@ class AddAssessmentBo extends StatelessWidget {
               child: Container(
                 decoration: BoxDecoration(color: Colors.white),
                 child: TextField(
+                  controller: userController.noHancakController,
                   decoration: InputDecoration(
                     labelText: 'No. Hancak',
                     border: OutlineInputBorder(
@@ -269,6 +271,7 @@ class AddAssessmentBo extends StatelessWidget {
               child: Container(
                 decoration: BoxDecoration(color: Colors.white),
                 child: TextField(
+                  controller: userController.tahunTanamController,
                   decoration: InputDecoration(
                     labelText: 'Tahun Tanam',
                     border: OutlineInputBorder(
@@ -284,6 +287,7 @@ class AddAssessmentBo extends StatelessWidget {
               child: Container(
                 decoration: BoxDecoration(color: Colors.white),
                 child: TextField(
+                  controller: userController.cloneController,
                   decoration: InputDecoration(
                     labelText: 'Clone',
                     border: OutlineInputBorder(
@@ -299,6 +303,9 @@ class AddAssessmentBo extends StatelessWidget {
               child: Container(
                 decoration: BoxDecoration(color: Colors.white),
                 child: TextField(
+                  controller: userController.sistemSadapController,
+                  readOnly: true,
+                  
                   decoration: InputDecoration(
                     labelText: 'Sistem Sadap',
                     border: OutlineInputBorder(
@@ -388,8 +395,6 @@ class AddAssessmentBo extends StatelessWidget {
                     'jenis_kulit_pohon':
                         userController.treeSkinTypeController.text,
                     'jenis_sadap': 'BO',
-                    'nik_mandor': '221-222',
-                    'nik_instruktur': '201-222',
                     'nik_penyadap': userController.nikController.text,
                   };
 

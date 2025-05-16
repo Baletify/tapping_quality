@@ -25,7 +25,7 @@ class UserModel {
     this.noHp,
   });
 
-  // Factory method to create a UserModel from a Map (e.g., from SQLite or API)
+  // Factory method to create a UserModel from a Map 
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
       id: map['id'],
@@ -42,7 +42,7 @@ class UserModel {
     );
   }
 
-  // Convert UserModel to a Map (e.g., for saving to SQLite or API)
+
   Map<String, dynamic> toMap() {
     return {
       'id': id,

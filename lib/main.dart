@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+// import 'package:tapping_quality/controllers/assessment_bo_input_controller.dart';
 import 'package:tapping_quality/helpers/database_helper.dart';
 import 'package:tapping_quality/pages/home_page.dart';
+import 'package:tapping_quality/services/assessment_input_bo_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -9,11 +11,16 @@ void main() async {
   // await DatabaseHelper().checkTables();
   // List<Map<String, dynamic>> users = await DatabaseHelper().getAllUsers();
 
+  // await AssessmentInputBoService().getCriteria();
+  // final listCriteria = Get.put(AssessmentBoInputController());
+  // listCriteria.fetchAssessmentDetails();
+  // // await AssessmentBoInputController().fetchCriteria();
+
   // print('Users in the database: $users');
 
-  final List<Map<String, dynamic>> data =
-      await DatabaseHelper().getAllAssessmentDetails();
-  print('Assessment Details in the database: $data');
+  // final List<Map<String, dynamic>> data =
+  //     await DatabaseHelper().getAllAssessmentDetails();
+  // print('Assessment Details in the database: $data');
 
   await DatabaseHelper().database; // Initialize the database
   runApp(const MyApp());

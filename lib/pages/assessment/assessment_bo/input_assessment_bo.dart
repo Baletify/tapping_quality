@@ -16,12 +16,14 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
   );
 
   int treeIndex = 1; // Start with Tree 1
+  int questionIndex = 0; // Start with Question 1
 
   void incrementTreeIndex() {
     if (treeIndex < 10) {
       setState(() {
         treeIndex++;
       });
+      resetQuestionCount();
       controller.resetState(); // Reset the state for the new tree
     } else {
       Get.snackbar(
@@ -38,6 +40,7 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
     if (treeIndex > 1) {
       setState(() {
         treeIndex--;
+        resetQuestionCount();
       });
     } else {
       Get.snackbar(
@@ -48,6 +51,55 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
         colorText: Colors.white,
       );
     }
+  }
+
+  List<bool> answeredQuestions = List.generate(11, (index) => false);
+  bool isQ1Answered() =>
+      controller.isSmallChecked.value ||
+      controller.isMediumChecked.value ||
+      controller.isLargeChecked.value;
+  bool isQ2Answered() => controller.selectedDepth.value.isNotEmpty;
+  bool isQ3Answered() =>
+      controller.isOpt1Checked.value ||
+      controller.isOpt2Checked.value ||
+      controller.isOpt3Checked.value ||
+      controller.isOpt4Checked.value ||
+      controller.isOpt5Checked.value ||
+      controller.isOpt6Checked.value ||
+      controller.isOpt7Checked.value;
+  bool isQ4Answered() => controller.selectedAngle.value.isNotEmpty;
+  bool isQ5Answered() => controller.selectedScrap.value.isNotEmpty;
+  bool isQ6Answered() =>
+      controller.isTool1Checked.value ||
+      controller.isTool2Checked.value ||
+      controller.isTool3Checked.value;
+  bool isQ7Answered() =>
+      controller.isCleanedTool1Checked.value ||
+      controller.isCleanedTool2Checked.value;
+  bool isQ8Answered() => controller.selectedBlong.value.isNotEmpty;
+  bool isQ9Answered() => controller.selectedHealthyTree.value.isNotEmpty;
+  bool isQ10Answered() => controller.selectedResultTake.value.isNotEmpty;
+  bool isQ11Answered() => controller.selectedTalangSadap.value.isNotEmpty;
+
+  void checkAndAdvanceQuestion(int containerIndex, bool isNowAnswered) {
+    if (isNowAnswered && !answeredQuestions[containerIndex]) {
+      setState(() {
+        answeredQuestions[containerIndex] = true;
+        questionIndex++;
+      });
+    } else if (!isNowAnswered && answeredQuestions[containerIndex]) {
+      setState(() {
+        answeredQuestions[containerIndex] = false;
+        questionIndex--;
+      });
+    }
+  }
+
+  void resetQuestionCount() {
+    setState(() {
+      questionIndex = 0;
+      answeredQuestions = List.generate(11, (index) => false);
+    });
   }
 
   @override
@@ -71,10 +123,16 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
               color: Colors.transparent,
               borderRadius: BorderRadius.circular(10),
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [_leftCard(), _rightCard()],
-            ),
+            child: Obx(() {
+              final detail =
+                  controller.assessmentDetails.isNotEmpty
+                      ? controller.assessmentDetails.first
+                      : null;
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [_leftCard(detail), _rightCard(detail)],
+              );
+            }),
           ),
           const SizedBox(height: 10),
           Column(
@@ -122,7 +180,7 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                 height: 10,
                 decoration: BoxDecoration(color: Colors.white),
                 child: LinearProgressIndicator(
-                  value: treeIndex / 10,
+                  value: questionIndex / 11,
                   backgroundColor: Colors.grey[300],
                   color: Colors.blue,
                 ),
@@ -142,7 +200,7 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                       ),
                     ),
                     Text(
-                      'Penilaian 3 dari 110',
+                      'Penilaian $questionIndex dari 11',
                       style: const TextStyle(
                         fontFamily: 'Poppins',
                         fontSize: 10,
@@ -162,6 +220,7 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                 padding: EdgeInsets.all(8.0),
                 child: Column(
                   children: [
+                    // 1 Luka Kayu
                     Container(
                       height: 250,
                       width: 350,
@@ -225,6 +284,17 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                       value: controller.isSmallChecked.value,
                                       onChanged: (value) {
                                         controller.toggleCheckbox('small');
+                                        checkAndAdvanceQuestion(
+                                          0,
+                                          isQ1Answered(),
+                                        );
+                                        if (value == true) {
+                                          controller.selectedCriteriaIds.add(1);
+                                        } else {
+                                          controller.selectedCriteriaIds.remove(
+                                            1,
+                                          );
+                                        }
                                       },
                                       controlAffinity:
                                           ListTileControlAffinity.platform,
@@ -251,6 +321,17 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                       value: controller.isMediumChecked.value,
                                       onChanged: (value) {
                                         controller.toggleCheckbox('medium');
+                                        checkAndAdvanceQuestion(
+                                          0,
+                                          isQ1Answered(),
+                                        );
+                                        if (value == true) {
+                                          controller.selectedCriteriaIds.add(2);
+                                        } else {
+                                          controller.selectedCriteriaIds.remove(
+                                            2,
+                                          );
+                                        }
                                       },
                                       controlAffinity:
                                           ListTileControlAffinity.platform,
@@ -277,6 +358,17 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                       value: controller.isLargeChecked.value,
                                       onChanged: (value) {
                                         controller.toggleCheckbox('large');
+                                        checkAndAdvanceQuestion(
+                                          0,
+                                          isQ1Answered(),
+                                        );
+                                        if (value == true) {
+                                          controller.selectedCriteriaIds.add(3);
+                                        } else {
+                                          controller.selectedCriteriaIds.remove(
+                                            3,
+                                          );
+                                        }
                                       },
                                       controlAffinity:
                                           ListTileControlAffinity.platform,
@@ -290,6 +382,7 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                       ),
                     ),
                     const SizedBox(height: 10),
+                    // 2 Kedalaman Sadap
                     Container(
                       height: 250,
                       width: 350,
@@ -355,6 +448,10 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           controller.selectedDepth.value,
                                       onChanged: (value) {
                                         controller.selectDepth(value!);
+                                        checkAndAdvanceQuestion(
+                                          1,
+                                          isQ2Answered(),
+                                        );
                                       },
 
                                       controlAffinity:
@@ -384,6 +481,10 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           controller.selectedDepth.value,
                                       onChanged: (value) {
                                         controller.selectDepth(value!);
+                                        checkAndAdvanceQuestion(
+                                          1,
+                                          isQ2Answered(),
+                                        );
                                       },
                                       controlAffinity:
                                           ListTileControlAffinity.trailing,
@@ -412,6 +513,10 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           controller.selectedDepth.value,
                                       onChanged: (value) {
                                         controller.selectDepth(value!);
+                                        checkAndAdvanceQuestion(
+                                          1,
+                                          isQ2Answered(),
+                                        );
                                       },
                                       controlAffinity:
                                           ListTileControlAffinity.trailing,
@@ -425,6 +530,7 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                       ),
                     ),
                     const SizedBox(height: 10),
+                    // 3 Irisan Sadap
                     Container(
                       height: 500,
                       width: 350,
@@ -488,6 +594,10 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                       value: controller.isOpt1Checked.value,
                                       onChanged: (value) {
                                         controller.toggleCheckbox2('opt1');
+                                        checkAndAdvanceQuestion(
+                                          2,
+                                          isQ3Answered(),
+                                        );
                                       },
                                       controlAffinity:
                                           ListTileControlAffinity.platform,
@@ -514,6 +624,10 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                       value: controller.isOpt2Checked.value,
                                       onChanged: (value) {
                                         controller.toggleCheckbox2('opt2');
+                                        checkAndAdvanceQuestion(
+                                          2,
+                                          isQ3Answered(),
+                                        );
                                       },
                                       controlAffinity:
                                           ListTileControlAffinity.platform,
@@ -540,6 +654,10 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                       value: controller.isOpt3Checked.value,
                                       onChanged: (value) {
                                         controller.toggleCheckbox2('opt3');
+                                        checkAndAdvanceQuestion(
+                                          2,
+                                          isQ3Answered(),
+                                        );
                                       },
                                       controlAffinity:
                                           ListTileControlAffinity.platform,
@@ -566,6 +684,10 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                       value: controller.isOpt4Checked.value,
                                       onChanged: (value) {
                                         controller.toggleCheckbox2('opt4');
+                                        checkAndAdvanceQuestion(
+                                          2,
+                                          isQ3Answered(),
+                                        );
                                       },
                                       controlAffinity:
                                           ListTileControlAffinity.platform,
@@ -592,6 +714,10 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                       value: controller.isOpt5Checked.value,
                                       onChanged: (value) {
                                         controller.toggleCheckbox2('opt5');
+                                        checkAndAdvanceQuestion(
+                                          2,
+                                          isQ3Answered(),
+                                        );
                                       },
                                       controlAffinity:
                                           ListTileControlAffinity.platform,
@@ -618,6 +744,10 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                       value: controller.isOpt6Checked.value,
                                       onChanged: (value) {
                                         controller.toggleCheckbox2('opt6');
+                                        checkAndAdvanceQuestion(
+                                          2,
+                                          isQ3Answered(),
+                                        );
                                       },
                                       controlAffinity:
                                           ListTileControlAffinity.platform,
@@ -644,6 +774,10 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                       value: controller.isOpt7Checked.value,
                                       onChanged: (value) {
                                         controller.toggleCheckbox2('opt7');
+                                        checkAndAdvanceQuestion(
+                                          2,
+                                          isQ3Answered(),
+                                        );
                                       },
                                       controlAffinity:
                                           ListTileControlAffinity.platform,
@@ -657,6 +791,7 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                       ),
                     ),
                     const SizedBox(height: 10),
+                    // 4 Sudut Sadap
                     Container(
                       height: 180,
                       width: 350,
@@ -722,6 +857,10 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           controller.selectedAngle.value,
                                       onChanged: (value) {
                                         controller.selectAngle(value!);
+                                        checkAndAdvanceQuestion(
+                                          3,
+                                          isQ4Answered(),
+                                        );
                                       },
 
                                       controlAffinity:
@@ -751,6 +890,10 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           controller.selectedAngle.value,
                                       onChanged: (value) {
                                         controller.selectAngle(value!);
+                                        checkAndAdvanceQuestion(
+                                          3,
+                                          isQ4Answered(),
+                                        );
                                       },
                                       controlAffinity:
                                           ListTileControlAffinity.trailing,
@@ -764,6 +907,7 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                       ),
                     ),
                     const SizedBox(height: 10),
+                    // 5 Pengambilan Scrap
                     Container(
                       height: 180,
                       width: 350,
@@ -829,6 +973,10 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           controller.selectedScrap.value,
                                       onChanged: (value) {
                                         controller.selectScrap(value!);
+                                        checkAndAdvanceQuestion(
+                                          4,
+                                          isQ5Answered(),
+                                        );
                                       },
 
                                       controlAffinity:
@@ -858,6 +1006,10 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           controller.selectedScrap.value,
                                       onChanged: (value) {
                                         controller.selectScrap(value!);
+                                        checkAndAdvanceQuestion(
+                                          4,
+                                          isQ5Answered(),
+                                        );
                                       },
                                       controlAffinity:
                                           ListTileControlAffinity.trailing,
@@ -871,6 +1023,7 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                       ),
                     ),
                     const SizedBox(height: 10),
+                    // 6 Peralatan tidak lengkap
                     Container(
                       height: 250,
                       width: 350,
@@ -934,6 +1087,10 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                       value: controller.isTool1Checked.value,
                                       onChanged: (value) {
                                         controller.toggleCheckbox3('Talang');
+                                        checkAndAdvanceQuestion(
+                                          5,
+                                          isQ6Answered(),
+                                        );
                                       },
                                       controlAffinity:
                                           ListTileControlAffinity.platform,
@@ -960,6 +1117,10 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                       value: controller.isTool2Checked.value,
                                       onChanged: (value) {
                                         controller.toggleCheckbox3('Mangkok');
+                                        checkAndAdvanceQuestion(
+                                          5,
+                                          isQ6Answered(),
+                                        );
                                       },
                                       controlAffinity:
                                           ListTileControlAffinity.platform,
@@ -986,6 +1147,10 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                       value: controller.isTool3Checked.value,
                                       onChanged: (value) {
                                         controller.toggleCheckbox3('Hanger');
+                                        checkAndAdvanceQuestion(
+                                          5,
+                                          isQ6Answered(),
+                                        );
                                       },
                                       controlAffinity:
                                           ListTileControlAffinity.platform,
@@ -999,6 +1164,7 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                       ),
                     ),
                     SizedBox(height: 10),
+                    // 7 Kebersihan Alat
                     Container(
                       height: 180,
                       width: 350,
@@ -1065,6 +1231,10 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                               .value,
                                       onChanged: (value) {
                                         controller.toggleCheckbox4('Talang');
+                                        checkAndAdvanceQuestion(
+                                          6,
+                                          isQ7Answered(),
+                                        );
                                       },
                                       controlAffinity:
                                           ListTileControlAffinity.platform,
@@ -1094,6 +1264,10 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                               .value,
                                       onChanged: (value) {
                                         controller.toggleCheckbox4('Mangkok');
+                                        checkAndAdvanceQuestion(
+                                          6,
+                                          isQ7Answered(),
+                                        );
                                       },
                                       controlAffinity:
                                           ListTileControlAffinity.platform,
@@ -1107,6 +1281,7 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                       ),
                     ),
                     SizedBox(height: 10),
+                    // 8 Kebersihan Ember/Blong latek
                     Container(
                       height: 200,
                       width: 350,
@@ -1169,9 +1344,13 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                       ),
                                       value: 'Ya',
                                       groupValue:
-                                          controller.selectedScrap.value,
+                                          controller.selectedBlong.value,
                                       onChanged: (value) {
-                                        controller.selectScrap(value!);
+                                        controller.selectBlong(value!);
+                                        checkAndAdvanceQuestion(
+                                          7,
+                                          isQ8Answered(),
+                                        );
                                       },
 
                                       controlAffinity:
@@ -1198,9 +1377,13 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                       ),
                                       value: 'Tidak',
                                       groupValue:
-                                          controller.selectedScrap.value,
+                                          controller.selectedBlong.value,
                                       onChanged: (value) {
-                                        controller.selectScrap(value!);
+                                        controller.selectBlong(value!);
+                                        checkAndAdvanceQuestion(
+                                          7,
+                                          isQ8Answered(),
+                                        );
                                       },
                                       controlAffinity:
                                           ListTileControlAffinity.trailing,
@@ -1214,6 +1397,7 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                       ),
                     ),
                     SizedBox(height: 10),
+                    // 9 Pohon sehat tidak disadap
                     Container(
                       height: 180,
                       width: 350,
@@ -1276,9 +1460,13 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                       ),
                                       value: 'Ya',
                                       groupValue:
-                                          controller.selectedScrap.value,
+                                          controller.selectedHealthyTree.value,
                                       onChanged: (value) {
-                                        controller.selectScrap(value!);
+                                        controller.selectHealthyTree(value!);
+                                        checkAndAdvanceQuestion(
+                                          8,
+                                          isQ9Answered(),
+                                        );
                                       },
 
                                       controlAffinity:
@@ -1305,9 +1493,13 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                       ),
                                       value: 'Tidak',
                                       groupValue:
-                                          controller.selectedScrap.value,
+                                          controller.selectedHealthyTree.value,
                                       onChanged: (value) {
-                                        controller.selectScrap(value!);
+                                        controller.selectHealthyTree(value!);
+                                        checkAndAdvanceQuestion(
+                                          8,
+                                          isQ9Answered(),
+                                        );
                                       },
                                       controlAffinity:
                                           ListTileControlAffinity.trailing,
@@ -1321,6 +1513,7 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                       ),
                     ),
                     SizedBox(height: 10),
+                    // 10 Hasil tidak dipungut
                     Container(
                       height: 180,
                       width: 350,
@@ -1383,9 +1576,13 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                       ),
                                       value: 'Ya',
                                       groupValue:
-                                          controller.selectedScrap.value,
+                                          controller.selectedResultTake.value,
                                       onChanged: (value) {
-                                        controller.selectScrap(value!);
+                                        controller.selectResultTake(value!);
+                                        checkAndAdvanceQuestion(
+                                          9,
+                                          isQ10Answered(),
+                                        );
                                       },
 
                                       controlAffinity:
@@ -1412,9 +1609,13 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                       ),
                                       value: 'Tidak',
                                       groupValue:
-                                          controller.selectedScrap.value,
+                                          controller.selectedResultTake.value,
                                       onChanged: (value) {
-                                        controller.selectScrap(value!);
+                                        controller.selectResultTake(value!);
+                                        checkAndAdvanceQuestion(
+                                          9,
+                                          isQ10Answered(),
+                                        );
                                       },
                                       controlAffinity:
                                           ListTileControlAffinity.trailing,
@@ -1428,6 +1629,7 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                       ),
                     ),
                     SizedBox(height: 10),
+                    // 11 Talang sadap mepet
                     Container(
                       height: 180,
                       width: 350,
@@ -1490,9 +1692,13 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                       ),
                                       value: 'Ya',
                                       groupValue:
-                                          controller.selectedScrap.value,
+                                          controller.selectedTalangSadap.value,
                                       onChanged: (value) {
-                                        controller.selectScrap(value!);
+                                        controller.selectTalangSadap(value!);
+                                        checkAndAdvanceQuestion(
+                                          10,
+                                          isQ11Answered(),
+                                        );
                                       },
 
                                       controlAffinity:
@@ -1519,9 +1725,13 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                       ),
                                       value: 'Tidak',
                                       groupValue:
-                                          controller.selectedScrap.value,
+                                          controller.selectedTalangSadap.value,
                                       onChanged: (value) {
-                                        controller.selectScrap(value!);
+                                        controller.selectTalangSadap(value!);
+                                        checkAndAdvanceQuestion(
+                                          10,
+                                          isQ11Answered(),
+                                        );
                                       },
                                       controlAffinity:
                                           ListTileControlAffinity.trailing,
@@ -1602,7 +1812,7 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
     );
   }
 
-  Container _rightCard() {
+  Container _rightCard(detail) {
     return Container(
       width: 180,
       height: 110,
@@ -1620,10 +1830,10 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 2.0, left: 5.0),
+            padding: const EdgeInsets.only(top: 5.0, left: 5.0),
             child: const Text(
               'Detail Assessment:',
               style: TextStyle(
@@ -1643,7 +1853,7 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                   'Tanggal:',
                   style: TextStyle(
                     fontFamily: 'Poppins',
-                    fontSize: 12,
+                    fontSize: 10,
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
                   ),
@@ -1656,11 +1866,11 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                     left: 5.0,
                     right: 5.0,
                   ),
-                  child: const Text(
-                    '19 Jan 2025',
+                  child: Text(
+                    detail?['tanggal_inspeksi'] ?? 'N/A',
                     style: TextStyle(
                       fontFamily: 'Poppins',
-                      fontSize: 12,
+                      fontSize: 10,
                       fontWeight: FontWeight.w400,
                       color: Colors.black,
                     ),
@@ -1678,7 +1888,7 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                   'Sistem Sadap:',
                   style: TextStyle(
                     fontFamily: 'Poppins',
-                    fontSize: 12,
+                    fontSize: 10,
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
                   ),
@@ -1691,11 +1901,11 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                     left: 5.0,
                     right: 5.0,
                   ),
-                  child: const Text(
-                    'BO',
+                  child: Text(
+                    detail?['sistem_sadap'] ?? 'N/A',
                     style: TextStyle(
                       fontFamily: 'Poppins',
-                      fontSize: 12,
+                      fontSize: 10,
                       fontWeight: FontWeight.w400,
                       color: Colors.black,
                     ),
@@ -1713,7 +1923,7 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                   'Task:',
                   style: TextStyle(
                     fontFamily: 'Poppins',
-                    fontSize: 12,
+                    fontSize: 10,
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
                   ),
@@ -1726,11 +1936,11 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                     left: 5.0,
                     right: 5.0,
                   ),
-                  child: const Text(
-                    'A',
+                  child: Text(
+                    detail?['panel_sadap'] ?? 'N/A',
                     style: TextStyle(
                       fontFamily: 'Poppins',
-                      fontSize: 12,
+                      fontSize: 10,
                       fontWeight: FontWeight.w400,
                       color: Colors.black,
                     ),
@@ -1748,7 +1958,7 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                   'Kulit Sadap:',
                   style: TextStyle(
                     fontFamily: 'Poppins',
-                    fontSize: 12,
+                    fontSize: 10,
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
                   ),
@@ -1761,11 +1971,11 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                     left: 5.0,
                     right: 5.0,
                   ),
-                  child: const Text(
-                    'Perawan',
+                  child: Text(
+                    detail?['jenis_kulit_pohon'] ?? 'N/A',
                     style: TextStyle(
                       fontFamily: 'Poppins',
-                      fontSize: 12,
+                      fontSize: 10,
                       fontWeight: FontWeight.w400,
                       color: Colors.black,
                     ),
@@ -1779,7 +1989,7 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
     );
   }
 
-  Container _leftCard() {
+  Container _leftCard(detail) {
     return Container(
       width: 180,
       height: 110,
@@ -1797,10 +2007,10 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 2.0, left: 5.0),
+            padding: const EdgeInsets.only(top: 5.0, left: 5.0),
             child: const Text(
               'Detail Tapper:',
               style: TextStyle(
@@ -1820,7 +2030,7 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                   'NIK:',
                   style: TextStyle(
                     fontFamily: 'Poppins',
-                    fontSize: 12,
+                    fontSize: 10,
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
                   ),
@@ -1833,11 +2043,11 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                     left: 5.0,
                     right: 5.0,
                   ),
-                  child: const Text(
-                    'XXX-XXX',
-                    style: TextStyle(
+                  child: Text(
+                    detail?['nik_penyadap'] ?? 'N/A',
+                    style: const TextStyle(
                       fontFamily: 'Poppins',
-                      fontSize: 12,
+                      fontSize: 10,
                       fontWeight: FontWeight.w400,
                       color: Colors.black,
                     ),
@@ -1855,7 +2065,7 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                   'Nama:',
                   style: TextStyle(
                     fontFamily: 'Poppins',
-                    fontSize: 12,
+                    fontSize: 10,
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
                   ),
@@ -1868,11 +2078,11 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                     left: 5.0,
                     right: 5.0,
                   ),
-                  child: const Text(
-                    'John Doe',
+                  child: Text(
+                    detail?['name'] ?? 'N/A',
                     style: TextStyle(
                       fontFamily: 'Poppins',
-                      fontSize: 12,
+                      fontSize: 10,
                       fontWeight: FontWeight.w400,
                       color: Colors.black,
                     ),
@@ -1890,7 +2100,7 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                   'Kemandoran:',
                   style: TextStyle(
                     fontFamily: 'Poppins',
-                    fontSize: 12,
+                    fontSize: 10,
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
                   ),
@@ -1903,11 +2113,11 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                     left: 5.0,
                     right: 5.0,
                   ),
-                  child: const Text(
-                    'John Smith',
+                  child: Text(
+                    detail?['kemandoran'] ?? 'N/A',
                     style: TextStyle(
                       fontFamily: 'Poppins',
-                      fontSize: 12,
+                      fontSize: 10,
                       fontWeight: FontWeight.w400,
                       color: Colors.black,
                     ),
@@ -1925,7 +2135,7 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                   'Sub Divisi:',
                   style: TextStyle(
                     fontFamily: 'Poppins',
-                    fontSize: 12,
+                    fontSize: 10,
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
                   ),
@@ -1938,11 +2148,11 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                     left: 5.0,
                     right: 5.0,
                   ),
-                  child: const Text(
-                    'II/D',
+                  child: Text(
+                    detail?['departemen'] ?? 'N/A',
                     style: TextStyle(
                       fontFamily: 'Poppins',
-                      fontSize: 12,
+                      fontSize: 10,
                       fontWeight: FontWeight.w400,
                       color: Colors.black,
                     ),

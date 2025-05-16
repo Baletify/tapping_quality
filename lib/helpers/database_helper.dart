@@ -27,6 +27,7 @@ class DatabaseHelper {
   Future<void> _onCreate(Database db, int version) async {
     // Create tables
 
+    // users
     await db.execute('''
       CREATE TABLE users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -42,12 +43,12 @@ class DatabaseHelper {
         no_hp TEXT DEFAULT NULL
       );
 ''');
+    // assessment_details
     await db.execute('''
       CREATE TABLE assessment_details (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         assessment_code VARCHAR(75) NOT NULL,
-        kemandoran TEXT,
-        sub_divisi TEXT,
+        nik_penyadap VARCHAR(255) CONSTRAINT fk_nik_penyadap REFERENCES users(nik),
         blok VARCHAR(255) NOT NULL,
         task VARCHAR(255) NOT NULL,
         no_hancak VARCHAR(255) NOT NULL,
@@ -56,19 +57,16 @@ class DatabaseHelper {
         sistem_sadap TEXT NOT NULL,
         panel_sadap TEXT NOT NULL,
         jenis_sadap TEXT NOT NULL,
-        'jenis_kulit_pohon' TEXT NOT NULL,
+        jenis_kulit_pohon TEXT NOT NULL,
         tanggal_inspeksi DATETIME NOT NULL,
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-        nik_mandor VARCHAR(255),
-        nik_instruktur VARCHAR(255),
-        nik_penyadap VARCHAR(255),
         verified_at DATETIME DEFAULT NULL,
         foreman_upload_at DATETIME DEFAULT NULL,
-        instructor_upload_at DATETIME DEFAULT NULL,
-        FOREIGN KEY (nik_penyadap) REFERENCES users(nik)
+        instructor_upload_at DATETIME DEFAULT NULL
       );
     ''');
 
+    // criteria
     await db.execute('''
       CREATE TABLE criteria (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -78,6 +76,7 @@ class DatabaseHelper {
       );
 ''');
 
+    // trees
     await db.execute('''
       CREATE TABLE trees (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -85,6 +84,7 @@ class DatabaseHelper {
         )
     ''');
 
+    // tree_assessments
     await db.execute('''
      CREATE TABLE tree_assessments (
      id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -94,6 +94,7 @@ class DatabaseHelper {
      )
 ''');
 
+    // Create users
     await db.execute('''
       INSERT INTO users (nik, name, role, jabatan, status, departemen, kemandoran, email, password, no_hp)
       VALUES
@@ -104,6 +105,57 @@ class DatabaseHelper {
         ('555-555', 'M. Hidayaturrahman', 'Penyadap', '', 'Reguler', 'Sub Divisi A', 'Arif Halimawan', NULL, NULL, NULL),
         ('666-666', 'Nanda Dwi Perkasa', 'Penyadap', '', 'Reguler', 'Sub Divisi A', 'Arif Halimawan', NULL, NULL, NULL),
         ('777-777', 'Alif Ilham', 'Penyadap', '', 'FL', 'Sub Divisi A', NULL, NULL, 'Arif Halimawan', NULL)
+''');
+    // Create criteria
+    await db.execute('''
+      INSERT INTO criteria (name, description) VALUES
+      ('Luka kayu', 'Kecil (1 cm x 0.6 cm)'),
+      ('Luka kayu', 'Sedang (1.5 cm x 3 cm)'),
+      ('Luka kayu', 'Besar (>1.5 cm x 3 cm)'),
+      ('Kedalaman Sadap', 'Kurang Dalam'),
+      ('Kedalaman Sadap', 'Normatif'),
+      ('Kedalaman Sadap', 'Terlalu Dalam'),
+      ('Irisan Sadap','Irisan melampauai batas depan'),
+      ('Irisan Sadap','Irisan melampaui batas belakang'),
+      ('Irisan Sadap', 'Tidak ada sodokan'),
+      ('Irisan Sadap', 'Tidak ada pethikan (V)'),
+      ('Irisan Sadap', 'Tebal tatal > 2mm'),
+      ('Irisan Sadap', 'Bergelombang'),
+      ('Irisan Sadap', 'Tidak ada Tanda Bulan'),
+      ('Sudut Sadap', '> 30 derajat'),
+      ('Sudut Sadap', '< 30 derajat'),
+      ('Pengambilan Scrap', 'Diambil'),
+      ('Pengambilan Scrap', 'Tidak diambil'),
+      ('Peralatan tidak lengkap', 'Talang'),
+      ('Peralatan tidak lengkap', 'Mangkok'),
+      ('Peralatan tidak lengkap', 'Hanger'),
+      ('Kebersihan Alat', 'Talang'),
+      ('Kebersihan Alat', 'Mangkok'),
+      ('Kebersihan Ember/Blong Latek', 'Ya'),
+      ('Kebersihan Ember/Blong Latek', 'Tidak'),
+      ('Pohon Sehat tidak disadap', 'Ya'),
+      ('Pohon Sehat tidak disadap', 'Tidak'),
+      ('Hasil tidak dipungut', 'Ya'),
+      ('Hasil tidak dipungut', 'Tidak'),
+      ('Talang sadap mepet', 'Ya'),
+      ('Talang sadap mepet', 'Tidak'),
+      ('Teknik Penyadapan Panel Atas', 'Tidak menggunakan gagang pisau panjang'),
+      ('Teknik Penyadapan Panel Atas', 'Tidak menggunakan pisau sodhok (HO)'),
+      ('Teknik Penyadapan Panel Atas', 'Sadapan tidak dishodok/ditarik')
+''');
+    // Create trees
+    await db.execute('''
+      INSERT INTO trees (tree_identifier) VALUES
+      ('Pohon 1'),
+      ('Pohon 2'),
+      ('Pohon 3'),
+      ('Pohon 4'),
+      ('Pohon 5'),
+      ('Pohon 6'),
+      ('Pohon 7'),
+      ('Pohon 8'),
+      ('Pohon 9'),
+      ('Pohon 10')
 ''');
   }
 

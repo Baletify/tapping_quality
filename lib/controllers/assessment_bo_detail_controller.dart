@@ -34,18 +34,19 @@ class AssessmentBoDetailController extends GetxController {
     super.onInit();
     // Initialize the user list
     treeSkinType = ['Perawan', 'Pulihan', 'NTA'].obs;
-    tappingPanel = ['HO', 'VH', 'GO'].obs;
+    tappingPanel = ['HO', 'VH', 'GO', 'BO'].obs;
 
     try {
       // Fetch users from the UserService
-      final users = await UserService().getAllUsers();
+      final users = await UserService().getTapperByDepartment('Sub Divisi A');
       userList.value = users;
-      filteredUsers.value = users; // Initially, show all users
+      filteredUsers.value = users;
     } catch (e) {
       print('Error fetching users: $e');
       userList.value = [];
       filteredUsers.value = [];
     }
+    sistemSadapController.text = 'BO';
   }
 
   // Method to filter users based on search query

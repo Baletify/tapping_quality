@@ -4,18 +4,32 @@ import 'package:tapping_quality/models/user_model.dart';
 class UserService {
   final DatabaseHelper db = DatabaseHelper();
 
-  Future<List<UserModel>> getAllUsers() async {
-    final dbClient = await db.database;
-    final result = await dbClient.query('users');
-    return result.map((user) => UserModel.fromMap(user)).toList();
-  }
-
-  Future<List<UserModel?>> getUserByDivision(String division) async {
+  Future<List<UserModel>> getTapper(String department) async {
     final dbClient = await db.database;
     final result = await dbClient.query(
       'users',
-      where: 'departemen = ?',
-      whereArgs: [division],
+      where: 'role = ? AND departemen = ?',
+      whereArgs: ['Penyadap', department],
+    );
+    return result.map((user) => UserModel.fromMap(user)).toList();
+  }
+
+  Future<List<UserModel>> getTapperByDepartment(String department) async {
+    final dbClient = await db.database;
+    final result = await dbClient.query(
+      'users',
+      where: 'departemen = ? AND role = ?',
+      whereArgs: [department, 'Penyadap'],
+    );
+    return result.map((user) => UserModel.fromMap(user)).toList();
+  }
+
+  Future<List<UserModel>> getMandor(String department) async {
+    final dbClient = await db.database;
+    final result = await dbClient.query(
+      'users',
+      where: 'role = ? AND departemen = ?',
+      whereArgs: ['Mandor'],
     );
     return result.map((user) => UserModel.fromMap(user)).toList();
   }
