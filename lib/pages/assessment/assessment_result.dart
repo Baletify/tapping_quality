@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:tapping_quality/controllers/assessment_result_controller.dart';
 import 'package:tapping_quality/pages/home_page.dart';
 
 class AssessmentResult extends StatefulWidget {
@@ -7,6 +9,10 @@ class AssessmentResult extends StatefulWidget {
   @override
   State<AssessmentResult> createState() => _AssessmentResultState();
 }
+
+final AssessmentResultController controller = Get.put(
+  AssessmentResultController(),
+);
 
 class _AssessmentResultState extends State<AssessmentResult> {
   @override
@@ -90,438 +96,446 @@ class _AssessmentResultState extends State<AssessmentResult> {
                             ),
                           ),
                         ),
-                        Expanded(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Container(
-                                width: 300,
-                                height: 400,
-                                decoration: BoxDecoration(color: Colors.white),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                            bottom: 6.0,
-                                            left: 4.0,
-                                            right: 4.0,
-                                          ),
-                                          child: Text(
-                                            'NIK',
-                                            style: TextStyle(
-                                              fontFamily: 'Poppins',
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.grey,
+                        Obx(() {
+                          final result =
+                              controller.assessmentResult.isNotEmpty
+                                  ? controller.assessmentResult.first
+                                  : null;
+                          return Expanded(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Container(
+                                  width: 300,
+                                  height: 400,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                              bottom: 6.0,
+                                              left: 4.0,
+                                              right: 4.0,
                                             ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                            bottom: 6.0,
-                                            left: 4.0,
-                                            right: 4.0,
-                                          ),
-                                          child: Text(
-                                            '123-123',
-                                            style: TextStyle(
-                                              fontFamily: 'Poppins',
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.grey,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                            bottom: 6.0,
-                                            left: 4.0,
-                                            right: 4.0,
-                                          ),
-                                          child: Text(
-                                            'Nama',
-                                            style: TextStyle(
-                                              fontFamily: 'Poppins',
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.grey,
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                            bottom: 6.0,
-                                            left: 4.0,
-                                            right: 4.0,
-                                          ),
-                                          child: Text(
-                                            'Ahmadi',
-                                            style: TextStyle(
-                                              fontFamily: 'Poppins',
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.grey,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                            bottom: 6.0,
-                                            left: 4.0,
-                                            right: 4.0,
-                                          ),
-                                          child: Text(
-                                            'Kemandoran',
-                                            style: TextStyle(
-                                              fontFamily: 'Poppins',
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.grey,
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                            bottom: 6.0,
-                                            left: 4.0,
-                                            right: 4.0,
-                                          ),
-                                          child: Text(
-                                            'Syamsudin',
-                                            style: TextStyle(
-                                              fontFamily: 'Poppins',
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.grey,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                            bottom: 6.0,
-                                            left: 4.0,
-                                            right: 4.0,
-                                          ),
-                                          child: Text(
-                                            'Sub Divisi',
-                                            style: TextStyle(
-                                              fontFamily: 'Poppins',
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.grey,
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                            bottom: 6.0,
-                                            left: 4.0,
-                                            right: 4.0,
-                                          ),
-                                          child: Text(
-                                            'II/D',
-                                            style: TextStyle(
-                                              fontFamily: 'Poppins',
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.grey,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                            bottom: 6.0,
-                                            left: 4.0,
-                                            right: 4.0,
-                                          ),
-                                          child: Text(
-                                            'Task',
-                                            style: TextStyle(
-                                              fontFamily: 'Poppins',
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.grey,
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                            bottom: 6.0,
-                                            left: 4.0,
-                                            right: 4.0,
-                                          ),
-                                          child: Text(
-                                            'A',
-                                            style: TextStyle(
-                                              fontFamily: 'Poppins',
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.grey,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                            bottom: 6.0,
-                                            left: 4.0,
-                                            right: 4.0,
-                                          ),
-                                          child: Text(
-                                            'Nilai Rata-rata',
-                                            style: TextStyle(
-                                              fontFamily: 'Poppins',
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.grey,
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                            bottom: 6.0,
-                                            left: 4.0,
-                                            right: 4.0,
-                                          ),
-                                          child: Text(
-                                            '22.3',
-                                            style: TextStyle(
-                                              fontFamily: 'Poppins',
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.grey,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                            bottom: 6.0,
-                                            left: 4.0,
-                                            right: 4.0,
-                                          ),
-                                          child: Text(
-                                            'Kulit Sadap',
-                                            style: TextStyle(
-                                              fontFamily: 'Poppins',
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.grey,
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                            bottom: 6.0,
-                                            left: 4.0,
-                                            right: 4.0,
-                                          ),
-                                          child: Text(
-                                            'Perawan',
-                                            style: TextStyle(
-                                              fontFamily: 'Poppins',
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.grey,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                            bottom: 6.0,
-                                            left: 4.0,
-                                            right: 4.0,
-                                          ),
-                                          child: Text(
-                                            'Kelas Penyadap',
-                                            style: TextStyle(
-                                              fontFamily: 'Poppins',
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.grey,
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                            bottom: 6.0,
-                                            left: 4.0,
-                                            right: 4.0,
-                                          ),
-                                          child: Text(
-                                            '2',
-                                            style: TextStyle(
-                                              fontFamily: 'Poppins',
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.grey,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                            bottom: 6.0,
-                                            left: 4.0,
-                                            right: 4.0,
-                                          ),
-                                          child: Text(
-                                            'Inspeksi Oleh',
-                                            style: TextStyle(
-                                              fontFamily: 'Poppins',
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.grey,
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                            bottom: 6.0,
-                                            left: 4.0,
-                                            right: 4.0,
-                                          ),
-                                          child: Text(
-                                            'Syamsudin',
-                                            style: TextStyle(
-                                              fontFamily: 'Poppins',
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.grey,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                            bottom: 6.0,
-                                            left: 4.0,
-                                            right: 4.0,
-                                          ),
-                                          child: Text(
-                                            'Verifikasi Oleh',
-                                            style: TextStyle(
-                                              fontFamily: 'Poppins',
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.grey,
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                            bottom: 6.0,
-                                            left: 4.0,
-                                            right: 4.0,
-                                          ),
-                                          child: Text(
-                                            '-',
-                                            style: TextStyle(
-                                              fontFamily: 'Poppins',
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.grey,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 40),
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder:
-                                                  (context) => const HomePage(),
-                                            ),
-                                          );
-                                        },
-                                        child: Container(
-                                          height: 50,
-                                          decoration: BoxDecoration(
-                                            color: Colors.lightBlue[600],
-                                            borderRadius: BorderRadius.circular(
-                                              8,
-                                            ),
-                                          ),
-                                          width: double.infinity,
-                                          child: Center(
                                             child: Text(
-                                              'Selesai',
-                                              style: const TextStyle(
+                                              'NIK',
+                                              style: TextStyle(
                                                 fontFamily: 'Poppins',
-                                                fontSize: 16,
+                                                fontSize: 14,
                                                 fontWeight: FontWeight.bold,
-                                                color: Colors.white,
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                              bottom: 6.0,
+                                              left: 4.0,
+                                              right: 4.0,
+                                            ),
+                                            child: Text(
+                                              result?['nik_penyadap'] ?? 'N/A',
+                                              style: TextStyle(
+                                                fontFamily: 'Poppins',
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                              bottom: 6.0,
+                                              left: 4.0,
+                                              right: 4.0,
+                                            ),
+                                            child: Text(
+                                              'Nama',
+                                              style: TextStyle(
+                                                fontFamily: 'Poppins',
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                              bottom: 6.0,
+                                              left: 4.0,
+                                              right: 4.0,
+                                            ),
+                                            child: Text(
+                                              'Ahmadi',
+                                              style: TextStyle(
+                                                fontFamily: 'Poppins',
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                              bottom: 6.0,
+                                              left: 4.0,
+                                              right: 4.0,
+                                            ),
+                                            child: Text(
+                                              'Kemandoran',
+                                              style: TextStyle(
+                                                fontFamily: 'Poppins',
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                              bottom: 6.0,
+                                              left: 4.0,
+                                              right: 4.0,
+                                            ),
+                                            child: Text(
+                                              'Syamsudin',
+                                              style: TextStyle(
+                                                fontFamily: 'Poppins',
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                              bottom: 6.0,
+                                              left: 4.0,
+                                              right: 4.0,
+                                            ),
+                                            child: Text(
+                                              'Sub Divisi',
+                                              style: TextStyle(
+                                                fontFamily: 'Poppins',
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                              bottom: 6.0,
+                                              left: 4.0,
+                                              right: 4.0,
+                                            ),
+                                            child: Text(
+                                              'II/D',
+                                              style: TextStyle(
+                                                fontFamily: 'Poppins',
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                              bottom: 6.0,
+                                              left: 4.0,
+                                              right: 4.0,
+                                            ),
+                                            child: Text(
+                                              'Task',
+                                              style: TextStyle(
+                                                fontFamily: 'Poppins',
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                              bottom: 6.0,
+                                              left: 4.0,
+                                              right: 4.0,
+                                            ),
+                                            child: Text(
+                                              'A',
+                                              style: TextStyle(
+                                                fontFamily: 'Poppins',
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                              bottom: 6.0,
+                                              left: 4.0,
+                                              right: 4.0,
+                                            ),
+                                            child: Text(
+                                              'Nilai Rata-rata',
+                                              style: TextStyle(
+                                                fontFamily: 'Poppins',
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                              bottom: 6.0,
+                                              left: 4.0,
+                                              right: 4.0,
+                                            ),
+                                            child: Text(
+                                              '22.3',
+                                              style: TextStyle(
+                                                fontFamily: 'Poppins',
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                              bottom: 6.0,
+                                              left: 4.0,
+                                              right: 4.0,
+                                            ),
+                                            child: Text(
+                                              'Kulit Sadap',
+                                              style: TextStyle(
+                                                fontFamily: 'Poppins',
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                              bottom: 6.0,
+                                              left: 4.0,
+                                              right: 4.0,
+                                            ),
+                                            child: Text(
+                                              'Perawan',
+                                              style: TextStyle(
+                                                fontFamily: 'Poppins',
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                              bottom: 6.0,
+                                              left: 4.0,
+                                              right: 4.0,
+                                            ),
+                                            child: Text(
+                                              'Kelas Penyadap',
+                                              style: TextStyle(
+                                                fontFamily: 'Poppins',
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                              bottom: 6.0,
+                                              left: 4.0,
+                                              right: 4.0,
+                                            ),
+                                            child: Text(
+                                              '2',
+                                              style: TextStyle(
+                                                fontFamily: 'Poppins',
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                              bottom: 6.0,
+                                              left: 4.0,
+                                              right: 4.0,
+                                            ),
+                                            child: Text(
+                                              'Inspeksi Oleh',
+                                              style: TextStyle(
+                                                fontFamily: 'Poppins',
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                              bottom: 6.0,
+                                              left: 4.0,
+                                              right: 4.0,
+                                            ),
+                                            child: Text(
+                                              'Syamsudin',
+                                              style: TextStyle(
+                                                fontFamily: 'Poppins',
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                              bottom: 6.0,
+                                              left: 4.0,
+                                              right: 4.0,
+                                            ),
+                                            child: Text(
+                                              'Verifikasi Oleh',
+                                              style: TextStyle(
+                                                fontFamily: 'Poppins',
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                              bottom: 6.0,
+                                              left: 4.0,
+                                              right: 4.0,
+                                            ),
+                                            child: Text(
+                                              '-',
+                                              style: TextStyle(
+                                                fontFamily: 'Poppins',
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 40),
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder:
+                                                    (context) =>
+                                                        const HomePage(),
+                                              ),
+                                            );
+                                          },
+                                          child: Container(
+                                            height: 50,
+                                            decoration: BoxDecoration(
+                                              color: Colors.lightBlue[600],
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                            ),
+                                            width: double.infinity,
+                                            child: Center(
+                                              child: Text(
+                                                'Selesai',
+                                                style: const TextStyle(
+                                                  fontFamily: 'Poppins',
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.white,
+                                                ),
                                               ),
                                             ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        ),
+                              ],
+                            ),
+                          );
+                        }),
                       ],
                     ),
                   ],

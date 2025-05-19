@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tapping_quality/controllers/assessment_bo_input_controller.dart';
 import 'package:tapping_quality/pages/assessment/assessment_result.dart';
+import 'package:intl/intl.dart';
+import 'package:tapping_quality/services/assessment_input_bo_service.dart';
 
 class InputAssessmentBo extends StatefulWidget {
   const InputAssessmentBo({super.key});
@@ -17,11 +19,25 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
 
   int treeIndex = 1; // Start with Tree 1
   int questionIndex = 0; // Start with Question 1
+  final service = Get.put(AssessmentInputBoService());
+
+  String formatTanggalInspeksi(String? dateStr) {
+    if (dateStr == null) return 'N/A';
+    try {
+      final date = DateTime.parse(dateStr);
+      return DateFormat('d MMMM y').format(date);
+    } catch (e) {
+      return 'N/A';
+    }
+  }
 
   void incrementTreeIndex() {
     if (treeIndex < 10) {
       setState(() {
         treeIndex++;
+        if (controller.selectedCriteriaIds.length < treeIndex) {
+          controller.selectedCriteriaIds.add([]);
+        }
       });
       resetQuestionCount();
       controller.resetState(); // Reset the state for the new tree
@@ -39,7 +55,19 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
   void decrementTreeIndex() {
     if (treeIndex > 1) {
       setState(() {
+        // Remove the last criteria list (for the current tree)
+        if (controller.selectedCriteriaIds.length >= treeIndex) {
+          controller.selectedCriteriaIds.removeAt(treeIndex - 1);
+        }
         treeIndex--;
+        // Re-initialize the criteria list for the previous tree as empty
+        if (controller.selectedCriteriaIds.length < treeIndex) {
+          controller.selectedCriteriaIds.add([]);
+        } else {
+          controller.selectedCriteriaIds[treeIndex - 1] = [];
+        }
+
+        // controller.resetState();
         resetQuestionCount();
       });
     } else {
@@ -289,11 +317,20 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           isQ1Answered(),
                                         );
                                         if (value == true) {
-                                          controller.selectedCriteriaIds.add(1);
+                                          if (!controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .contains(1)) {
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .add(1);
+                                          }
                                         } else {
-                                          controller.selectedCriteriaIds.remove(
-                                            1,
-                                          );
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(1);
                                         }
                                       },
                                       controlAffinity:
@@ -326,11 +363,20 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           isQ1Answered(),
                                         );
                                         if (value == true) {
-                                          controller.selectedCriteriaIds.add(2);
+                                          if (!controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .contains(2)) {
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .add(2);
+                                          }
                                         } else {
-                                          controller.selectedCriteriaIds.remove(
-                                            2,
-                                          );
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(2);
                                         }
                                       },
                                       controlAffinity:
@@ -363,11 +409,20 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           isQ1Answered(),
                                         );
                                         if (value == true) {
-                                          controller.selectedCriteriaIds.add(3);
+                                          if (!controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .contains(3)) {
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .add(3);
+                                          }
                                         } else {
-                                          controller.selectedCriteriaIds.remove(
-                                            3,
-                                          );
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(3);
                                         }
                                       },
                                       controlAffinity:
@@ -452,8 +507,23 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           1,
                                           isQ2Answered(),
                                         );
+                                        if (value == 'Kurang Dalam') {
+                                          if (!controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .contains(4)) {
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .add(4);
+                                          }
+                                        } else {
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(4);
+                                        }
                                       },
-
                                       controlAffinity:
                                           ListTileControlAffinity.trailing,
                                     ),
@@ -485,6 +555,22 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           1,
                                           isQ2Answered(),
                                         );
+                                        if (value == 'Normatif') {
+                                          if (!controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .contains(5)) {
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .add(5);
+                                          }
+                                        } else {
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(5);
+                                        }
                                       },
                                       controlAffinity:
                                           ListTileControlAffinity.trailing,
@@ -517,6 +603,22 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           1,
                                           isQ2Answered(),
                                         );
+                                        if (value == 'Terlalu Dalam') {
+                                          if (!controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .contains(6)) {
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .add(6);
+                                          }
+                                        } else {
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(6);
+                                        }
                                       },
                                       controlAffinity:
                                           ListTileControlAffinity.trailing,
@@ -598,6 +700,22 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           2,
                                           isQ3Answered(),
                                         );
+                                        if (value == true) {
+                                          if (!controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .contains(7)) {
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .add(7);
+                                          }
+                                        } else {
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(7);
+                                        }
                                       },
                                       controlAffinity:
                                           ListTileControlAffinity.platform,
@@ -628,6 +746,22 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           2,
                                           isQ3Answered(),
                                         );
+                                        if (value == true) {
+                                          if (!controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .contains(8)) {
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .add(8);
+                                          }
+                                        } else {
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(8);
+                                        }
                                       },
                                       controlAffinity:
                                           ListTileControlAffinity.platform,
@@ -658,6 +792,22 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           2,
                                           isQ3Answered(),
                                         );
+                                        if (value == true) {
+                                          if (!controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .contains(9)) {
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .add(9);
+                                          }
+                                        } else {
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(9);
+                                        }
                                       },
                                       controlAffinity:
                                           ListTileControlAffinity.platform,
@@ -688,6 +838,22 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           2,
                                           isQ3Answered(),
                                         );
+                                        if (value == true) {
+                                          if (!controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .contains(10)) {
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .add(10);
+                                          }
+                                        } else {
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(10);
+                                        }
                                       },
                                       controlAffinity:
                                           ListTileControlAffinity.platform,
@@ -718,6 +884,22 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           2,
                                           isQ3Answered(),
                                         );
+                                        if (value == true) {
+                                          if (!controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .contains(11)) {
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .add(11);
+                                          }
+                                        } else {
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(11);
+                                        }
                                       },
                                       controlAffinity:
                                           ListTileControlAffinity.platform,
@@ -748,6 +930,22 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           2,
                                           isQ3Answered(),
                                         );
+                                        if (value == true) {
+                                          if (!controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .contains(12)) {
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .add(12);
+                                          }
+                                        } else {
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(12);
+                                        }
                                       },
                                       controlAffinity:
                                           ListTileControlAffinity.platform,
@@ -778,6 +976,22 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           2,
                                           isQ3Answered(),
                                         );
+                                        if (value == true) {
+                                          if (!controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .contains(13)) {
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .add(13);
+                                          }
+                                        } else {
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(13);
+                                        }
                                       },
                                       controlAffinity:
                                           ListTileControlAffinity.platform,
@@ -861,6 +1075,22 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           3,
                                           isQ4Answered(),
                                         );
+                                        if (value == '> 30 derajat') {
+                                          if (!controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .contains(14)) {
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .add(14);
+                                          }
+                                        } else {
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(14);
+                                        }
                                       },
 
                                       controlAffinity:
@@ -894,6 +1124,22 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           3,
                                           isQ4Answered(),
                                         );
+                                        if (value == '< 30 derajat') {
+                                          if (!controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .contains(15)) {
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .add(15);
+                                          }
+                                        } else {
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(15);
+                                        }
                                       },
                                       controlAffinity:
                                           ListTileControlAffinity.trailing,
@@ -977,6 +1223,22 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           4,
                                           isQ5Answered(),
                                         );
+                                        if (value == 'Diambil') {
+                                          if (!controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .contains(16)) {
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .add(16);
+                                          }
+                                        } else {
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(16);
+                                        }
                                       },
 
                                       controlAffinity:
@@ -1010,6 +1272,22 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           4,
                                           isQ5Answered(),
                                         );
+                                        if (value == 'Tidak Diambil') {
+                                          if (!controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .contains(17)) {
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .add(17);
+                                          }
+                                        } else {
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(17);
+                                        }
                                       },
                                       controlAffinity:
                                           ListTileControlAffinity.trailing,
@@ -1091,6 +1369,22 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           5,
                                           isQ6Answered(),
                                         );
+                                        if (value == true) {
+                                          if (!controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .contains(18)) {
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .add(18);
+                                          }
+                                        } else {
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(18);
+                                        }
                                       },
                                       controlAffinity:
                                           ListTileControlAffinity.platform,
@@ -1121,6 +1415,22 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           5,
                                           isQ6Answered(),
                                         );
+                                        if (value == true) {
+                                          if (!controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .contains(19)) {
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .add(19);
+                                          }
+                                        } else {
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(19);
+                                        }
                                       },
                                       controlAffinity:
                                           ListTileControlAffinity.platform,
@@ -1151,6 +1461,22 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           5,
                                           isQ6Answered(),
                                         );
+                                        if (value == true) {
+                                          if (!controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .contains(20)) {
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .add(20);
+                                          }
+                                        } else {
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(20);
+                                        }
                                       },
                                       controlAffinity:
                                           ListTileControlAffinity.platform,
@@ -1235,6 +1561,22 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           6,
                                           isQ7Answered(),
                                         );
+                                        if (value == true) {
+                                          if (!controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .contains(21)) {
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .add(21);
+                                          }
+                                        } else {
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(21);
+                                        }
                                       },
                                       controlAffinity:
                                           ListTileControlAffinity.platform,
@@ -1268,6 +1610,22 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           6,
                                           isQ7Answered(),
                                         );
+                                        if (value == true) {
+                                          if (!controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .contains(22)) {
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .add(22);
+                                          }
+                                        } else {
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(22);
+                                        }
                                       },
                                       controlAffinity:
                                           ListTileControlAffinity.platform,
@@ -1351,6 +1709,22 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           7,
                                           isQ8Answered(),
                                         );
+                                        if (value == 'Ya') {
+                                          if (!controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .contains(23)) {
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .add(23);
+                                          }
+                                        } else {
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(23);
+                                        }
                                       },
 
                                       controlAffinity:
@@ -1384,6 +1758,22 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           7,
                                           isQ8Answered(),
                                         );
+                                        if (value == 'Tidak') {
+                                          if (!controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .contains(24)) {
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .add(24);
+                                          }
+                                        } else {
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(24);
+                                        }
                                       },
                                       controlAffinity:
                                           ListTileControlAffinity.trailing,
@@ -1467,6 +1857,22 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           8,
                                           isQ9Answered(),
                                         );
+                                        if (value == 'Ya') {
+                                          if (!controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .contains(25)) {
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .add(25);
+                                          }
+                                        } else {
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(25);
+                                        }
                                       },
 
                                       controlAffinity:
@@ -1500,6 +1906,22 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           8,
                                           isQ9Answered(),
                                         );
+                                        if (value == 'Tidak') {
+                                          if (!controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .contains(26)) {
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .add(26);
+                                          }
+                                        } else {
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(26);
+                                        }
                                       },
                                       controlAffinity:
                                           ListTileControlAffinity.trailing,
@@ -1583,6 +2005,22 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           9,
                                           isQ10Answered(),
                                         );
+                                        if (value == 'Ya') {
+                                          if (!controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .contains(27)) {
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .add(27);
+                                          }
+                                        } else {
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(27);
+                                        }
                                       },
 
                                       controlAffinity:
@@ -1616,6 +2054,22 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           9,
                                           isQ10Answered(),
                                         );
+                                        if (value == 'Tidak') {
+                                          if (!controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .contains(28)) {
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .add(28);
+                                          }
+                                        } else {
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(28);
+                                        }
                                       },
                                       controlAffinity:
                                           ListTileControlAffinity.trailing,
@@ -1699,6 +2153,17 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           10,
                                           isQ11Answered(),
                                         );
+                                        if (value == 'Ya') {
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .add(29);
+                                        } else {
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(29);
+                                        }
                                       },
 
                                       controlAffinity:
@@ -1732,6 +2197,17 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           10,
                                           isQ11Answered(),
                                         );
+                                        if (value == 'Tidak') {
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .add(30);
+                                        } else {
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(30);
+                                        }
                                       },
                                       controlAffinity:
                                           ListTileControlAffinity.trailing,
@@ -1777,10 +2253,41 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                   ),
                 ),
                 GestureDetector(
-                  onTap: () {
+                  onTap: () async {
                     if (treeIndex == 10) {
+                      final detail =
+                          controller.assessmentDetails.isNotEmpty
+                              ? controller.assessmentDetails.first
+                              : null;
+                      final assessmentDetailId = detail?['id'];
+
+                      List<Map<String, dynamic>> toSave = [];
+                      for (
+                        int treeIdx = 0;
+                        treeIdx < controller.selectedCriteriaIds.length;
+                        treeIdx++
+                      ) {
+                        final treeId =
+                            treeIdx + 1; // If your tree_id starts from 1
+                        for (final criteriaId
+                            in controller.selectedCriteriaIds[treeIdx]) {
+                          toSave.add({
+                            'tree_id': treeId,
+                            'criteria_id': criteriaId,
+                            'assessment_detail_id': assessmentDetailId,
+                          });
+                        }
+                      }
+                      print(toSave);
+
+                      await service.insertAssessment(toSave);
                       Get.to(() => AssessmentResult());
+                      print('All Tree Index ${controller.selectedCriteriaIds}');
                     } else {
+                      print(
+                        'Selected Criteria for Tree $treeIndex: ${controller.selectedCriteriaIds[treeIndex - 1]}',
+                      );
+                      print('Tree Index: $treeIndex');
                       incrementTreeIndex();
                     }
                   },
@@ -1867,7 +2374,7 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                     right: 5.0,
                   ),
                   child: Text(
-                    detail?['tanggal_inspeksi'] ?? 'N/A',
+                    formatTanggalInspeksi(detail?['tanggal_inspeksi']),
                     style: TextStyle(
                       fontFamily: 'Poppins',
                       fontSize: 10,

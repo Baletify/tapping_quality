@@ -32,6 +32,7 @@ class AssessmentBoDetailController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
+    resetAllFields();
     // Initialize the user list
     treeSkinType = ['Perawan', 'Pulihan', 'NTA'].obs;
     tappingPanel = ['HO', 'VH', 'GO', 'BO'].obs;
@@ -78,5 +79,22 @@ class AssessmentBoDetailController extends GetxController {
 
   void updateTappingPanel(String panel) {
     tappingPanelController.text = panel;
+  }
+
+  void resetAllFields() {
+    nikController.clear();
+    kemandoranController.clear();
+    departemenController.clear();
+    statusController.clear();
+    blokController.clear();
+    taskController.clear();
+    noHancakController.clear();
+    tahunTanamController.clear();
+    cloneController.clear();
+    sistemSadapController.clear();
+    treeSkinTypeController.clear();
+    tappingPanelController.clear();
+
+    selectedUser.value = null;
   }
 }

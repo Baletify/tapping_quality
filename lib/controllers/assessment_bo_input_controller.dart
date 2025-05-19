@@ -26,13 +26,15 @@ class AssessmentBoInputController extends GetxController {
   var isCleanedTool2Checked = false.obs;
   var assessmentDetails = <Map<String, dynamic>>[].obs;
   var criteria = <Map<String, dynamic>>[].obs;
-  var selectedCriteriaIds = <int>[].obs;
-  
+  var selectedCriteriaIds = <List<int>>[].obs;
+
   @override
   void onInit() {
     super.onInit();
     fetchAssessmentDetails();
     fetchCriteria();
+    selectedCriteriaIds.value = List.generate(10, (_) => []);
+    resetState();
   }
 
   void fetchAssessmentDetails() async {
