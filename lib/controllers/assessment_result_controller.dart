@@ -4,15 +4,10 @@ import 'package:tapping_quality/services/assessment_result_service.dart';
 class AssessmentResultController extends GetxController {
   var assessmentResult = <Map<String, dynamic>>[].obs;
 
-  @override
-  void onInit() {
-    super.onInit();
-    fetchAssessmentResult();
-  }
 
-  void fetchAssessmentResult() async {
+  void fetchAssessmentResult(int id, dynamic date) async {
     final service = AssessmentResultService();
-    final data = await service.getAssessmentResult();
+    final data = await service.getAssessmentResult(id, date);
 
     assessmentResult.assignAll(data);
     print('Assessment Result: $assessmentResult');

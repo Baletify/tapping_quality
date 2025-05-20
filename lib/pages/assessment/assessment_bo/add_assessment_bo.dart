@@ -234,21 +234,33 @@ class AddAssessmentBo extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 15),
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-              child: Container(
-                decoration: BoxDecoration(color: Colors.white),
-                child: TextField(
-                  controller: userController.taskController,
-                  decoration: InputDecoration(
-                    labelText: 'Task',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
+            Obx(() {
+              return Padding(
+                padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                child: Container(
+                  decoration: BoxDecoration(color: Colors.white),
+                  child: DropdownMenu<String>(
+                    controller:
+                        TextEditingController(), // Optional: Add a controller if needed
+                    width: double.infinity,
+                    hintText: 'Task',
+                    requestFocusOnTap: true,
+                    dropdownMenuEntries:
+                        userController.taskList
+                            .map(
+                              (type) => DropdownMenuEntry<String>(
+                                label: type,
+                                value: type,
+                              ),
+                            )
+                            .toList(),
+                    onSelected: (value) {
+                      userController.updateTask(value!);
+                    },
                   ),
                 ),
-              ),
-            ),
+              );
+            }),
             const SizedBox(height: 15),
             Padding(
               padding: const EdgeInsets.only(left: 8.0, right: 8.0),
@@ -257,7 +269,7 @@ class AddAssessmentBo extends StatelessWidget {
                 child: TextField(
                   controller: userController.noHancakController,
                   decoration: InputDecoration(
-                    labelText: 'No. Hancak',
+                    labelText: 'No. Hancak (1-25)',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
@@ -305,7 +317,6 @@ class AddAssessmentBo extends StatelessWidget {
                 child: TextField(
                   controller: userController.sistemSadapController,
                   readOnly: true,
-                  
                   decoration: InputDecoration(
                     labelText: 'Sistem Sadap',
                     border: OutlineInputBorder(
@@ -398,8 +409,15 @@ class AddAssessmentBo extends StatelessWidget {
                     'nik_penyadap': userController.nikController.text,
                   };
 
-                  await service.insertAssessmentDetails(data);
-                  Get.to(() => InputAssessmentBo());
+                  final Map<String, dynamic> details = await service
+                      .insertAssessmentDetails(data);
+                  Get.to(
+                    () => InputAssessmentBo(
+                      assessmentDetailId: details['id'],
+                      inspectionDate: details['tanggal_inspeksi'],
+                    ),
+                  );
+                  userController.resetAllFields();
                 },
                 child: Container(
                   height: 50,

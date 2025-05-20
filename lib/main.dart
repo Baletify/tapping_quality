@@ -5,7 +5,7 @@ import 'package:tapping_quality/helpers/database_helper.dart';
 // import 'package:tapping_quality/pages/assessment/assessment_result.dart';
 import 'package:tapping_quality/pages/home_page.dart';
 // import 'package:tapping_quality/services/assessment_input_bo_service.dart';
-import 'package:tapping_quality/services/assessment_result_service.dart';
+// import 'package:tapping_quality/services/assessment_result_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,11 +16,11 @@ void main() async {
   // await AssessmentInputBoService().getCriteria();
   // final listCriteria = Get.put(AssessmentBoInputController());
   // listCriteria.fetchAssessmentDetails();
-  // // await AssessmentBoInputController().fetchCriteria();
+  // await AssessmentBoInputController().fetchCriteria();
 
-  List<Map<String, dynamic>> treeAssessment =
-      await AssessmentResultService().getAssessmentResult();
-  print('Result in local: $treeAssessment');
+  // List<Map<String, dynamic>> treeAssessment =
+  //     await AssessmentResultService().getAssessmentResult();
+  // print('Result in local: $treeAssessment');
 
   // print('Users in the database: $users');
 

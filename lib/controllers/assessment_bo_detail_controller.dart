@@ -11,6 +11,7 @@ class AssessmentBoDetailController extends GetxController {
   var selectedUser = Rx<UserModel?>(null);
   var treeSkinType = ['Perawan', 'Pulihan', 'NTA'].obs;
   var tappingPanel = ['HO', 'VH', 'GO'].obs;
+  var taskList = ['A', 'B', 'C', 'D'].obs;
 
   final nikController = TextEditingController();
   final kemandoranController = TextEditingController();
@@ -33,9 +34,11 @@ class AssessmentBoDetailController extends GetxController {
   void onInit() async {
     super.onInit();
     resetAllFields();
+    sistemSadapController.text = 'BO';
     // Initialize the user list
     treeSkinType = ['Perawan', 'Pulihan', 'NTA'].obs;
     tappingPanel = ['HO', 'VH', 'GO', 'BO'].obs;
+    taskList = ['A', 'B', 'C', 'D'].obs;
 
     try {
       // Fetch users from the UserService
@@ -47,7 +50,6 @@ class AssessmentBoDetailController extends GetxController {
       userList.value = [];
       filteredUsers.value = [];
     }
-    sistemSadapController.text = 'BO';
   }
 
   // Method to filter users based on search query
@@ -75,6 +77,10 @@ class AssessmentBoDetailController extends GetxController {
 
   void updateTreeSkinType(String type) {
     treeSkinTypeController.text = type;
+  }
+
+  void updateTask(String task) {
+    taskController.text = task;
   }
 
   void updateTappingPanel(String panel) {

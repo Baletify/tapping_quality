@@ -3,14 +3,18 @@ import 'package:sqflite/sqflite.dart';
 import 'package:tapping_quality/helpers/database_helper.dart';
 
 class AssessmentDetailBoService extends GetxController {
-  Future<int> insertAssessmentDetails(Map<String, dynamic> data) async {
+  Future<Map<String,dynamic>> insertAssessmentDetails(Map<String, dynamic> data) async {
     final db = await DatabaseHelper().database;
-    // print('Inserting data: $data');
-
-    return await db.insert(
+    final id = await db.insert(
       'assessment_details',
       data,
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
+    // print('Inserting data: $data');
+
+    return {
+      'id': id,
+      'tanggal_inspeksi': data['tanggal_inspeksi'],
+    };
   }
 }

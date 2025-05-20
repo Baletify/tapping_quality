@@ -91,7 +91,7 @@ class HomePage extends StatelessWidget {
             padding: const EdgeInsets.only(top: 20.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [_menuSection3(), _menuSection4()],
+              children: [_menuSection4()],
             ),
           ),
         ],
@@ -147,7 +147,7 @@ class HomePage extends StatelessWidget {
                 child: Container(
                   color: Colors.transparent,
                   child: const Text(
-                    'Menu 4',
+                    'Upload',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontFamily: 'Poppins',
@@ -165,70 +165,70 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  // Menu 3
-  Container _menuSection3() {
-    return Container(
-      width: 160,
-      height: 135,
-      decoration: BoxDecoration(
-        color: Colors.green,
-        borderRadius: BorderRadius.circular(9),
-        boxShadow: const [
-          BoxShadow(
-            color: Colors.black12,
-            blurRadius: 6.0,
-            spreadRadius: 3.0,
-            offset: Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Column(
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 10.0),
-                child: Container(
-                  color: Colors.transparent,
-                  child: Image.asset(
-                    'assets/icons/list-check-3.png',
-                    width: 50,
-                    height: 50,
-                    fit: BoxFit.cover,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: Container(
-                  color: Colors.transparent,
-                  child: const Text(
-                    'Verifikasi\nAssessment',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 16,
-                      fontWeight: FontWeight.w800,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
+  // // Menu 3
+  // Container _menuSection3() {
+  //   return Container(
+  //     width: 160,
+  //     height: 135,
+  //     decoration: BoxDecoration(
+  //       color: Colors.green,
+  //       borderRadius: BorderRadius.circular(9),
+  //       boxShadow: const [
+  //         BoxShadow(
+  //           color: Colors.black12,
+  //           blurRadius: 6.0,
+  //           spreadRadius: 3.0,
+  //           offset: Offset(0, 2),
+  //         ),
+  //       ],
+  //     ),
+  //     child: Column(
+  //       children: [
+  //         Row(
+  //           crossAxisAlignment: CrossAxisAlignment.start,
+  //           mainAxisAlignment: MainAxisAlignment.center,
+  //           children: [
+  //             Padding(
+  //               padding: const EdgeInsets.only(top: 10.0),
+  //               child: Container(
+  //                 color: Colors.transparent,
+  //                 child: Image.asset(
+  //                   'assets/icons/list-check-3.png',
+  //                   width: 50,
+  //                   height: 50,
+  //                   fit: BoxFit.cover,
+  //                   color: Colors.white,
+  //                 ),
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //         Row(
+  //           crossAxisAlignment: CrossAxisAlignment.start,
+  //           mainAxisAlignment: MainAxisAlignment.center,
+  //           children: [
+  //             Padding(
+  //               padding: const EdgeInsets.only(top: 8.0),
+  //               child: Container(
+  //                 color: Colors.transparent,
+  //                 child: const Text(
+  //                   'Verifikasi\nAssessment',
+  //                   textAlign: TextAlign.center,
+  //                   style: TextStyle(
+  //                     fontFamily: 'Poppins',
+  //                     fontSize: 16,
+  //                     fontWeight: FontWeight.w800,
+  //                     color: Colors.white,
+  //                   ),
+  //                 ),
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   // Menu 2
 

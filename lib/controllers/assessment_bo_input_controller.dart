@@ -2,9 +2,7 @@ import 'package:get/get.dart';
 import 'package:tapping_quality/services/assessment_input_bo_service.dart';
 
 class AssessmentBoInputController extends GetxController {
-  var isSmallChecked = false.obs;
-  var isMediumChecked = false.obs;
-  var isLargeChecked = false.obs;
+  var selectedWound = ''.obs;
   var selectedDepth = ''.obs;
   var isOpt1Checked = false.obs;
   var isOpt2Checked = false.obs;
@@ -13,6 +11,7 @@ class AssessmentBoInputController extends GetxController {
   var isOpt5Checked = false.obs;
   var isOpt6Checked = false.obs;
   var isOpt7Checked = false.obs;
+  var isOpt8Checked = false.obs;
   var selectedAngle = ''.obs;
   var selectedScrap = ''.obs;
   var selectedBlong = ''.obs;
@@ -22,8 +21,10 @@ class AssessmentBoInputController extends GetxController {
   var isTool1Checked = false.obs;
   var isTool2Checked = false.obs;
   var isTool3Checked = false.obs;
+  var isTool4Checked = false.obs;
   var isCleanedTool1Checked = false.obs;
   var isCleanedTool2Checked = false.obs;
+  var isCleanedTool3Checked = false.obs;
   var assessmentDetails = <Map<String, dynamic>>[].obs;
   var criteria = <Map<String, dynamic>>[].obs;
   var selectedCriteriaIds = <List<int>>[].obs;
@@ -39,7 +40,7 @@ class AssessmentBoInputController extends GetxController {
 
   void fetchAssessmentDetails() async {
     final service = AssessmentInputBoService();
-    final data = await service.getFirst();
+    final data = await service.getAll();
 
     assessmentDetails.assignAll(data);
     // print('Assessment Details: $assessmentDetails');
@@ -53,9 +54,7 @@ class AssessmentBoInputController extends GetxController {
   }
 
   void resetState() {
-    isSmallChecked.value = false;
-    isMediumChecked.value = false;
-    isLargeChecked.value = false;
+    selectedWound.value = '';
     selectedDepth.value = '';
     isOpt1Checked.value = false;
     isOpt2Checked.value = false;
@@ -64,6 +63,7 @@ class AssessmentBoInputController extends GetxController {
     isOpt5Checked.value = false;
     isOpt6Checked.value = false;
     isOpt7Checked.value = false;
+    isOpt8Checked.value = false;
     selectedAngle.value = '';
     selectedScrap.value = '';
     selectedBlong.value = '';
@@ -73,22 +73,13 @@ class AssessmentBoInputController extends GetxController {
     isTool1Checked.value = false;
     isTool2Checked.value = false;
     isTool3Checked.value = false;
+    isTool4Checked.value = false;
     isCleanedTool1Checked.value = false;
     isCleanedTool2Checked.value = false;
   }
 
-  void toggleCheckbox(String size) {
-    switch (size) {
-      case 'small':
-        isSmallChecked.value = !isSmallChecked.value;
-        break;
-      case 'medium':
-        isMediumChecked.value = !isMediumChecked.value;
-        break;
-      case 'large':
-        isLargeChecked.value = !isLargeChecked.value;
-        break;
-    }
+  void selectWound(String size) {
+    selectedWound.value = size;
   }
 
   void selectDepth(String depth) {
@@ -99,24 +90,58 @@ class AssessmentBoInputController extends GetxController {
     switch (option) {
       case 'opt1':
         isOpt1Checked.value = !isOpt1Checked.value;
+        if (isOpt1Checked.value && isOpt8Checked.value) {
+          isOpt8Checked.value = false;
+        }
         break;
       case 'opt2':
         isOpt2Checked.value = !isOpt2Checked.value;
+        if (isOpt2Checked.value && isOpt8Checked.value) {
+          isOpt8Checked.value = false;
+        }
         break;
       case 'opt3':
         isOpt3Checked.value = !isOpt3Checked.value;
+        if (isOpt3Checked.value && isOpt8Checked.value) {
+          isOpt8Checked.value = false;
+        }
         break;
       case 'opt4':
         isOpt4Checked.value = !isOpt4Checked.value;
+        if (isOpt4Checked.value && isOpt8Checked.value) {
+          isOpt8Checked.value = false;
+        }
         break;
       case 'opt5':
         isOpt5Checked.value = !isOpt5Checked.value;
+        if (isOpt5Checked.value && isOpt8Checked.value) {
+          isOpt8Checked.value = false;
+        }
         break;
       case 'opt6':
         isOpt6Checked.value = !isOpt6Checked.value;
+        if (isOpt6Checked.value && isOpt8Checked.value) {
+          isOpt8Checked.value = false;
+        }
         break;
       case 'opt7':
         isOpt7Checked.value = !isOpt7Checked.value;
+        if (isOpt7Checked.value && isOpt8Checked.value) {
+          isOpt8Checked.value = false;
+        }
+        break;
+      case 'opt8':
+        isOpt8Checked.value = !isOpt8Checked.value;
+        if (isOpt8Checked.value) {
+          // Uncheck all others if opt8 is checked
+          isOpt1Checked.value = false;
+          isOpt2Checked.value = false;
+          isOpt3Checked.value = false;
+          isOpt4Checked.value = false;
+          isOpt5Checked.value = false;
+          isOpt6Checked.value = false;
+          isOpt7Checked.value = false;
+        }
         break;
     }
   }
@@ -133,12 +158,30 @@ class AssessmentBoInputController extends GetxController {
     switch (tool) {
       case 'Talang':
         isTool1Checked.value = !isTool1Checked.value;
+        if (isTool1Checked.value && isTool4Checked.value) {
+          isTool4Checked.value = false;
+        }
         break;
       case 'Mangkok':
         isTool2Checked.value = !isTool2Checked.value;
+        if (isTool2Checked.value && isTool4Checked.value) {
+          isTool4Checked.value = false;
+        }
         break;
       case 'Hanger':
         isTool3Checked.value = !isTool3Checked.value;
+        if (isTool3Checked.value && isTool4Checked.value) {
+          isTool4Checked.value = false;
+        }
+        break;
+      case 'Lengkap':
+        isTool4Checked.value = !isTool4Checked.value;
+        if (isTool4Checked.value) {
+          // Uncheck all others if "Lengkap" is checked
+          isTool1Checked.value = false;
+          isTool2Checked.value = false;
+          isTool3Checked.value = false;
+        }
         break;
     }
   }
@@ -147,9 +190,23 @@ class AssessmentBoInputController extends GetxController {
     switch (cleanedTool) {
       case 'Talang':
         isCleanedTool1Checked.value = !isCleanedTool1Checked.value;
+        if (isCleanedTool1Checked.value && isCleanedTool3Checked.value) {
+          isCleanedTool3Checked.value = false;
+        }
         break;
       case 'Mangkok':
         isCleanedTool2Checked.value = !isCleanedTool2Checked.value;
+        if (isCleanedTool2Checked.value && isCleanedTool3Checked.value) {
+          isCleanedTool3Checked.value = false;
+        }
+        break;
+      case 'Bersih':
+        isCleanedTool3Checked.value = !isCleanedTool3Checked.value;
+        if (isCleanedTool3Checked.value) {
+          // Uncheck all others if "Bersih" is checked
+          isCleanedTool1Checked.value = false;
+          isCleanedTool2Checked.value = false;
+        }
         break;
     }
   }

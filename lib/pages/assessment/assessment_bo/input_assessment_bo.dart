@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tapping_quality/controllers/assessment_bo_input_controller.dart';
+import 'package:tapping_quality/controllers/assessment_result_controller.dart';
 import 'package:tapping_quality/pages/assessment/assessment_result.dart';
 import 'package:intl/intl.dart';
 import 'package:tapping_quality/services/assessment_input_bo_service.dart';
 
 class InputAssessmentBo extends StatefulWidget {
-  const InputAssessmentBo({super.key});
+  final int assessmentDetailId;
+  final dynamic inspectionDate;
+  const InputAssessmentBo({
+    super.key,
+    required this.assessmentDetailId,
+    required this.inspectionDate,
+  });
 
   @override
   State<InputAssessmentBo> createState() => _InputAssessmentBoState();
@@ -20,6 +27,7 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
   int treeIndex = 1; // Start with Tree 1
   int questionIndex = 0; // Start with Question 1
   final service = Get.put(AssessmentInputBoService());
+  final resultService = Get.put(AssessmentResultController());
 
   String formatTanggalInspeksi(String? dateStr) {
     if (dateStr == null) return 'N/A';
@@ -82,10 +90,7 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
   }
 
   List<bool> answeredQuestions = List.generate(11, (index) => false);
-  bool isQ1Answered() =>
-      controller.isSmallChecked.value ||
-      controller.isMediumChecked.value ||
-      controller.isLargeChecked.value;
+  bool isQ1Answered() => controller.selectedWound.value.isNotEmpty;
   bool isQ2Answered() => controller.selectedDepth.value.isNotEmpty;
   bool isQ3Answered() =>
       controller.isOpt1Checked.value ||
@@ -94,16 +99,19 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
       controller.isOpt4Checked.value ||
       controller.isOpt5Checked.value ||
       controller.isOpt6Checked.value ||
-      controller.isOpt7Checked.value;
+      controller.isOpt7Checked.value ||
+      controller.isOpt8Checked.value;
   bool isQ4Answered() => controller.selectedAngle.value.isNotEmpty;
   bool isQ5Answered() => controller.selectedScrap.value.isNotEmpty;
   bool isQ6Answered() =>
       controller.isTool1Checked.value ||
       controller.isTool2Checked.value ||
-      controller.isTool3Checked.value;
+      controller.isTool3Checked.value ||
+      controller.isTool4Checked.value;
   bool isQ7Answered() =>
       controller.isCleanedTool1Checked.value ||
-      controller.isCleanedTool2Checked.value;
+      controller.isCleanedTool2Checked.value ||
+      controller.isCleanedTool3Checked.value;
   bool isQ8Answered() => controller.selectedBlong.value.isNotEmpty;
   bool isQ9Answered() => controller.selectedHealthyTree.value.isNotEmpty;
   bool isQ10Answered() => controller.selectedResultTake.value.isNotEmpty;
@@ -250,7 +258,7 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                   children: [
                     // 1 Luka Kayu
                     Container(
-                      height: 250,
+                      height: 300,
                       width: 350,
                       decoration: BoxDecoration(
                         color: Colors.white,
@@ -275,7 +283,7 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                               bottom: 8.0,
                             ),
                             child: Text(
-                              'Luka Kayu - Bisa Pilih Lebih dari 1',
+                              'Luka Kayu - Hanya 1 Pilihan',
                               style: TextStyle(
                                 fontFamily: 'Poppins',
                                 fontSize: 14,
@@ -299,7 +307,7 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   child: Obx(
-                                    () => CheckboxListTile(
+                                    () => RadioListTile<String>(
                                       title: const Text(
                                         'Kecil (1 cm x 0.6 cm)',
                                         style: TextStyle(
@@ -309,14 +317,16 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           color: Colors.black,
                                         ),
                                       ),
-                                      value: controller.isSmallChecked.value,
+                                      value: 'Kecil (1 cm x 0.6 cm)',
+                                      groupValue:
+                                          controller.selectedWound.value,
                                       onChanged: (value) {
-                                        controller.toggleCheckbox('small');
+                                        controller.selectWound(value!);
                                         checkAndAdvanceQuestion(
                                           0,
                                           isQ1Answered(),
                                         );
-                                        if (value == true) {
+                                        if (value == 'Kecil (1 cm x 0.6 cm)') {
                                           if (!controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
@@ -334,7 +344,7 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                         }
                                       },
                                       controlAffinity:
-                                          ListTileControlAffinity.platform,
+                                          ListTileControlAffinity.trailing,
                                     ),
                                   ),
                                 ),
@@ -345,7 +355,7 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   child: Obx(
-                                    () => CheckboxListTile(
+                                    () => RadioListTile<String>(
                                       title: const Text(
                                         'Sedang (1.5 cm x 3 cm)',
                                         style: TextStyle(
@@ -355,14 +365,16 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           color: Colors.black,
                                         ),
                                       ),
-                                      value: controller.isMediumChecked.value,
+                                      value: 'Sedang (1.5 cm x 3 cm)',
+                                      groupValue:
+                                          controller.selectedWound.value,
                                       onChanged: (value) {
-                                        controller.toggleCheckbox('medium');
+                                        controller.selectWound(value!);
                                         checkAndAdvanceQuestion(
                                           0,
                                           isQ1Answered(),
                                         );
-                                        if (value == true) {
+                                        if (value == 'Sedang (1.5 cm x 3 cm)') {
                                           if (!controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
@@ -380,7 +392,7 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                         }
                                       },
                                       controlAffinity:
-                                          ListTileControlAffinity.platform,
+                                          ListTileControlAffinity.trailing,
                                     ),
                                   ),
                                 ),
@@ -391,7 +403,7 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   child: Obx(
-                                    () => CheckboxListTile(
+                                    () => RadioListTile<String>(
                                       title: const Text(
                                         'Besar (>1.5 cm x 3 cm)',
                                         style: TextStyle(
@@ -401,14 +413,16 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           color: Colors.black,
                                         ),
                                       ),
-                                      value: controller.isLargeChecked.value,
+                                      value: 'Besar (>1.5 cm x 3 cm)',
+                                      groupValue:
+                                          controller.selectedWound.value,
                                       onChanged: (value) {
-                                        controller.toggleCheckbox('large');
+                                        controller.selectWound(value!);
                                         checkAndAdvanceQuestion(
                                           0,
                                           isQ1Answered(),
                                         );
-                                        if (value == true) {
+                                        if (value == 'Besar (>1.5 cm x 3 cm)') {
                                           if (!controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
@@ -422,11 +436,59 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
-                                              .remove(3);
+                                              .remove(2);
                                         }
                                       },
                                       controlAffinity:
-                                          ListTileControlAffinity.platform,
+                                          ListTileControlAffinity.trailing,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: 5),
+                                Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.grey),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Obx(
+                                    () => RadioListTile<String>(
+                                      title: const Text(
+                                        'Tidak ada luka kayu',
+                                        style: TextStyle(
+                                          fontFamily: 'Poppins',
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                      value: 'Tidak ada luka kayu',
+                                      groupValue:
+                                          controller.selectedWound.value,
+                                      onChanged: (value) {
+                                        controller.selectWound(value!);
+                                        checkAndAdvanceQuestion(
+                                          0,
+                                          isQ1Answered(),
+                                        );
+                                        if (value == 'Tidak ada luka kayu') {
+                                          if (!controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .contains(38)) {
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .add(38);
+                                          }
+                                        } else {
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(38);
+                                        }
+                                      },
+                                      controlAffinity:
+                                          ListTileControlAffinity.trailing,
                                     ),
                                   ),
                                 ),
@@ -634,7 +696,7 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                     const SizedBox(height: 10),
                     // 3 Irisan Sadap
                     Container(
-                      height: 500,
+                      height: 550,
                       width: 350,
                       decoration: BoxDecoration(
                         color: Colors.white,
@@ -998,6 +1060,52 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                     ),
                                   ),
                                 ),
+                                SizedBox(height: 5),
+                                Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.grey),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Obx(
+                                    () => CheckboxListTile(
+                                      title: const Text(
+                                        'Irisan sadap sudah sesuai',
+                                        style: TextStyle(
+                                          fontFamily: 'Poppins',
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                      value: controller.isOpt8Checked.value,
+                                      onChanged: (value) {
+                                        controller.toggleCheckbox2('opt8');
+                                        checkAndAdvanceQuestion(
+                                          2,
+                                          isQ3Answered(),
+                                        );
+                                        if (value == true) {
+                                          if (!controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .contains(39)) {
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .add(39);
+                                          }
+                                        } else {
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(39);
+                                        }
+                                      },
+                                      controlAffinity:
+                                          ListTileControlAffinity.platform,
+                                    ),
+                                  ),
+                                ),
                               ],
                             ),
                           ),
@@ -1007,7 +1115,7 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                     const SizedBox(height: 10),
                     // 4 Sudut Sadap
                     Container(
-                      height: 180,
+                      height: 240,
                       width: 350,
                       decoration: BoxDecoration(
                         color: Colors.white,
@@ -1139,6 +1247,54 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
                                               .remove(15);
+                                        }
+                                      },
+                                      controlAffinity:
+                                          ListTileControlAffinity.trailing,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: 5),
+                                Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.grey),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Obx(
+                                    () => RadioListTile<String>(
+                                      title: const Text(
+                                        '30 derajat',
+                                        style: TextStyle(
+                                          fontFamily: 'Poppins',
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                      value: '30 derajat',
+                                      groupValue:
+                                          controller.selectedAngle.value,
+                                      onChanged: (value) {
+                                        controller.selectAngle(value!);
+                                        checkAndAdvanceQuestion(
+                                          3,
+                                          isQ4Answered(),
+                                        );
+                                        if (value == '30 derajat') {
+                                          if (!controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .contains(40)) {
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .add(40);
+                                          }
+                                        } else {
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(40);
                                         }
                                       },
                                       controlAffinity:
@@ -1303,7 +1459,7 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                     const SizedBox(height: 10),
                     // 6 Peralatan tidak lengkap
                     Container(
-                      height: 250,
+                      height: 320,
                       width: 350,
                       decoration: BoxDecoration(
                         color: Colors.white,
@@ -1483,6 +1639,52 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                     ),
                                   ),
                                 ),
+                                SizedBox(height: 5),
+                                Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.grey),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Obx(
+                                    () => CheckboxListTile(
+                                      title: const Text(
+                                        'Peralatan Lengkap',
+                                        style: TextStyle(
+                                          fontFamily: 'Poppins',
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                      value: controller.isTool4Checked.value,
+                                      onChanged: (value) {
+                                        controller.toggleCheckbox3('Lengkap');
+                                        checkAndAdvanceQuestion(
+                                          5,
+                                          isQ6Answered(),
+                                        );
+                                        if (value == true) {
+                                          if (!controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .contains(41)) {
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .add(41);
+                                          }
+                                        } else {
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(41);
+                                        }
+                                      },
+                                      controlAffinity:
+                                          ListTileControlAffinity.platform,
+                                    ),
+                                  ),
+                                ),
                               ],
                             ),
                           ),
@@ -1492,7 +1694,7 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                     SizedBox(height: 10),
                     // 7 Kebersihan Alat
                     Container(
-                      height: 180,
+                      height: 240,
                       width: 350,
                       decoration: BoxDecoration(
                         color: Colors.white,
@@ -1543,7 +1745,7 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                   child: Obx(
                                     () => CheckboxListTile(
                                       title: const Text(
-                                        'Talang',
+                                        'Talang Kotor',
                                         style: TextStyle(
                                           fontFamily: 'Poppins',
                                           fontSize: 12,
@@ -1592,7 +1794,7 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                   child: Obx(
                                     () => CheckboxListTile(
                                       title: const Text(
-                                        'Mangkok',
+                                        'Mangkok Kotor',
                                         style: TextStyle(
                                           fontFamily: 'Poppins',
                                           fontSize: 12,
@@ -1625,6 +1827,55 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
                                               .remove(22);
+                                        }
+                                      },
+                                      controlAffinity:
+                                          ListTileControlAffinity.platform,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: 5),
+                                Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.grey),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Obx(
+                                    () => CheckboxListTile(
+                                      title: const Text(
+                                        'Peralatan Bersih',
+                                        style: TextStyle(
+                                          fontFamily: 'Poppins',
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                      value:
+                                          controller
+                                              .isCleanedTool3Checked
+                                              .value,
+                                      onChanged: (value) {
+                                        controller.toggleCheckbox4('Bersih');
+                                        checkAndAdvanceQuestion(
+                                          6,
+                                          isQ7Answered(),
+                                        );
+                                        if (value == true) {
+                                          if (!controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .contains(41)) {
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .add(41);
+                                          }
+                                        } else {
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(41);
                                         }
                                       },
                                       controlAffinity:
@@ -2260,6 +2511,7 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                               ? controller.assessmentDetails.first
                               : null;
                       final assessmentDetailId = detail?['id'];
+                      final inspectionDate = detail?['tanggal_inspeksi'];
 
                       List<Map<String, dynamic>> toSave = [];
                       for (
@@ -2278,11 +2530,18 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                           });
                         }
                       }
-                      print(toSave);
-
                       await service.insertAssessment(toSave);
-                      Get.to(() => AssessmentResult());
+                      Get.to(
+                        () => AssessmentResult(
+                          assessmentDetailId: assessmentDetailId,
+                          inspectionDate: inspectionDate,
+                        ),
+                      );
                       print('All Tree Index ${controller.selectedCriteriaIds}');
+                      resultService.fetchAssessmentResult(
+                        assessmentDetailId,
+                        inspectionDate,
+                      );
                     } else {
                       print(
                         'Selected Criteria for Tree $treeIndex: ${controller.selectedCriteriaIds[treeIndex - 1]}',
@@ -2444,7 +2703,7 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                     right: 5.0,
                   ),
                   child: Text(
-                    detail?['panel_sadap'] ?? 'N/A',
+                    detail?['task'] ?? 'N/A',
                     style: TextStyle(
                       fontFamily: 'Poppins',
                       fontSize: 10,

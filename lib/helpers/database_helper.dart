@@ -60,9 +60,7 @@ class DatabaseHelper {
         jenis_kulit_pohon TEXT NOT NULL,
         tanggal_inspeksi DATETIME NOT NULL,
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-        verified_at DATETIME DEFAULT NULL,
         foreman_upload_at DATETIME DEFAULT NULL,
-        instructor_upload_at DATETIME DEFAULT NULL
       );
     ''');
 
@@ -72,6 +70,7 @@ class DatabaseHelper {
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT NOT NULL,
         description TEXT DEFAULT NULL,
+        score DOUBLE DEFAULT NULL,
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP
       );
 ''');
@@ -108,40 +107,50 @@ class DatabaseHelper {
 ''');
     // Create criteria
     await db.execute('''
-      INSERT INTO criteria (name, description) VALUES
-      ('Luka kayu', 'Kecil (1 cm x 0.6 cm)'),
-      ('Luka kayu', 'Sedang (1.5 cm x 3 cm)'),
-      ('Luka kayu', 'Besar (>1.5 cm x 3 cm)'),
-      ('Kedalaman Sadap', 'Kurang Dalam'),
-      ('Kedalaman Sadap', 'Normatif'),
-      ('Kedalaman Sadap', 'Terlalu Dalam'),
-      ('Irisan Sadap','Irisan melampauai batas depan'),
-      ('Irisan Sadap','Irisan melampaui batas belakang'),
-      ('Irisan Sadap', 'Tidak ada sodokan'),
-      ('Irisan Sadap', 'Tidak ada pethikan (V)'),
-      ('Irisan Sadap', 'Tebal tatal > 2mm'),
-      ('Irisan Sadap', 'Bergelombang'),
-      ('Irisan Sadap', 'Tidak ada Tanda Bulan'),
-      ('Sudut Sadap', '> 30 derajat'),
-      ('Sudut Sadap', '< 30 derajat'),
-      ('Pengambilan Scrap', 'Diambil'),
-      ('Pengambilan Scrap', 'Tidak diambil'),
-      ('Peralatan tidak lengkap', 'Talang'),
-      ('Peralatan tidak lengkap', 'Mangkok'),
-      ('Peralatan tidak lengkap', 'Hanger'),
-      ('Kebersihan Alat', 'Talang'),
-      ('Kebersihan Alat', 'Mangkok'),
-      ('Kebersihan Ember/Blong Latek', 'Ya'),
-      ('Kebersihan Ember/Blong Latek', 'Tidak'),
-      ('Pohon Sehat tidak disadap', 'Ya'),
-      ('Pohon Sehat tidak disadap', 'Tidak'),
-      ('Hasil tidak dipungut', 'Ya'),
-      ('Hasil tidak dipungut', 'Tidak'),
-      ('Talang sadap mepet', 'Ya'),
-      ('Talang sadap mepet', 'Tidak'),
-      ('Teknik Penyadapan Panel Atas', 'Tidak menggunakan gagang pisau panjang'),
-      ('Teknik Penyadapan Panel Atas', 'Tidak menggunakan pisau sodhok (HO)'),
-      ('Teknik Penyadapan Panel Atas', 'Sadapan tidak dishodok/ditarik')
+      INSERT INTO criteria (id, name, description, score) VALUES
+      (1, 'Luka kayu', 'Kecil (1 cm x 0.6 cm)', 3),
+      (2, 'Luka kayu', 'Sedang (1.5 cm x 3 cm)', 5),
+      (3, 'Luka kayu', 'Besar (>1.5 cm x 3 cm)', 7),
+      (4, 'Kedalaman Sadap', 'Kurang Dalam', 2),
+      (5, 'Kedalaman Sadap', 'Normatif', 0),
+      (6, 'Kedalaman Sadap', 'Terlalu Dalam', 4),
+      (7, 'Irisan Sadap','Irisan melampauai batas depan', 2),
+      (8, 'Irisan Sadap','Irisan melampaui batas belakang', 2),
+      (9, 'Irisan Sadap', 'Tidak ada sodokan', 4),
+      (10, 'Irisan Sadap', 'Tidak ada pethikan (V)', 4),
+      (11, 'Irisan Sadap', 'Tebal tatal > 2mm', 10),
+      (12, 'Irisan Sadap', 'Bergelombang', 2),
+      (13, 'Irisan Sadap', 'Tidak ada Tanda Bulan', 2),
+      (14, 'Sudut Sadap', '> 30 derajat', 3),
+      (15, 'Sudut Sadap', '< 30 derajat', 3),
+      (16, 'Pengambilan Scrap', 'Diambil', 0),
+      (17, 'Pengambilan Scrap', 'Tidak diambil', 2),
+      (18, 'Peralatan tidak lengkap', 'Talang', 2),
+      (19, 'Peralatan tidak lengkap', 'Mangkok', 3),
+      (20, 'Peralatan tidak lengkap', 'Hanger', 1),
+      (21, 'Kebersihan Alat', 'Talang Kotor', 1),
+      (22, 'Kebersihan Alat', 'Mangkok Kotor', 1),
+      (23, 'Kebersihan Ember/Blong Latek', 'Bersih', 0),
+      (24, 'Kebersihan Ember/Blong Latek', 'Kotor', 0),
+      (25, 'Pohon Sehat tidak disadap', 'Ya', 10),
+      (26, 'Pohon Sehat tidak disadap', 'Tidak', 0),
+      (27, 'Hasil tidak dipungut', 'Ya', 10),
+      (28, 'Hasil tidak dipungut', 'Tidak', 0),
+      (29, 'Talang sadap mepet', 'Ya', 1),
+      (30, 'Talang sadap mepet', 'Tidak', 0),
+      (31, 'Teknik Penyadapan Panel Atas', 'Tidak menggunakan gagang pisau panjang', 3),
+      (32, 'Teknik Penyadapan Panel Atas', 'Tidak menggunakan pisau sodhok (HO)', 5),
+      (33, 'Teknik Penyadapan Panel Atas', 'Sadapan tidak dishodok/ditarik', 7),
+      (34, 'Teknik Penyadapan Panel Atas', 'Teknik Penyadapan Panel Atas Sudah sesuai', 0),
+      (35, 'Sudut Sadap', '> 45 derajat', 3),
+      (36,'Sudut Sadap', '< 45 derajat', 3),
+      (37, 'Sudut Sadap', '45 derajat', 0),
+      (38, 'Luka kayu', 'Tidak ada luka kayu', 0),
+      (39, 'Irisan Sadap', 'Irisan Sadap sudah sesuai', 0),
+      (40, 'Sudut Sadap', '30 derajat', 0),
+      (41, 'Peralatan Tidak Lengkap', 'Peralatan Lengkap', 0),
+      (42, 'Kebersihan Alat', 'Alat Bersih', 0)
+
 ''');
     // Create trees
     await db.execute('''

@@ -4,7 +4,14 @@ import 'package:tapping_quality/controllers/assessment_result_controller.dart';
 import 'package:tapping_quality/pages/home_page.dart';
 
 class AssessmentResult extends StatefulWidget {
-  const AssessmentResult({super.key});
+  final dynamic assessmentDetailId;
+  final dynamic inspectionDate;
+
+  const AssessmentResult({
+    super.key,
+    required this.assessmentDetailId,
+    required this.inspectionDate,
+  });
 
   @override
   State<AssessmentResult> createState() => _AssessmentResultState();
@@ -97,10 +104,20 @@ class _AssessmentResultState extends State<AssessmentResult> {
                           ),
                         ),
                         Obx(() {
+                          String kelas = '';
                           final result =
                               controller.assessmentResult.isNotEmpty
                                   ? controller.assessmentResult.first
                                   : null;
+                          if (result?['avg_score'] <= 10.0) {
+                            kelas = '1';
+                          } else if (result?['avg_score'] > 10.0) {
+                            kelas = '2';
+                          } else if (result?['avg_score'] > 25.0) {
+                            kelas = '3';
+                          } else {
+                            kelas = '4';
+                          }
                           return Expanded(
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
@@ -179,7 +196,7 @@ class _AssessmentResultState extends State<AssessmentResult> {
                                               right: 4.0,
                                             ),
                                             child: Text(
-                                              'Ahmadi',
+                                              result?['name'] ?? 'N/A',
                                               style: TextStyle(
                                                 fontFamily: 'Poppins',
                                                 fontSize: 14,
@@ -217,7 +234,7 @@ class _AssessmentResultState extends State<AssessmentResult> {
                                               right: 4.0,
                                             ),
                                             child: Text(
-                                              'Syamsudin',
+                                              result?['kemandoran'] ?? 'N/A',
                                               style: TextStyle(
                                                 fontFamily: 'Poppins',
                                                 fontSize: 14,
@@ -255,7 +272,7 @@ class _AssessmentResultState extends State<AssessmentResult> {
                                               right: 4.0,
                                             ),
                                             child: Text(
-                                              'II/D',
+                                              result?['departemen'] ?? 'N/A',
                                               style: TextStyle(
                                                 fontFamily: 'Poppins',
                                                 fontSize: 14,
@@ -293,7 +310,7 @@ class _AssessmentResultState extends State<AssessmentResult> {
                                               right: 4.0,
                                             ),
                                             child: Text(
-                                              'A',
+                                              result?['task'] ?? 'N/A',
                                               style: TextStyle(
                                                 fontFamily: 'Poppins',
                                                 fontSize: 14,
@@ -331,7 +348,10 @@ class _AssessmentResultState extends State<AssessmentResult> {
                                               right: 4.0,
                                             ),
                                             child: Text(
-                                              '22.3',
+                                              result?['avg_score'] != null
+                                                  ? result!['avg_score']
+                                                      .toStringAsFixed(2)
+                                                  : 'N/A',
                                               style: TextStyle(
                                                 fontFamily: 'Poppins',
                                                 fontSize: 14,
@@ -369,7 +389,8 @@ class _AssessmentResultState extends State<AssessmentResult> {
                                               right: 4.0,
                                             ),
                                             child: Text(
-                                              'Perawan',
+                                              result?['jenis_kulit_pohon'] ??
+                                                  'N/A',
                                               style: TextStyle(
                                                 fontFamily: 'Poppins',
                                                 fontSize: 14,
@@ -407,7 +428,7 @@ class _AssessmentResultState extends State<AssessmentResult> {
                                               right: 4.0,
                                             ),
                                             child: Text(
-                                              '2',
+                                              kelas,
                                               style: TextStyle(
                                                 fontFamily: 'Poppins',
                                                 fontSize: 14,
@@ -445,45 +466,7 @@ class _AssessmentResultState extends State<AssessmentResult> {
                                               right: 4.0,
                                             ),
                                             child: Text(
-                                              'Syamsudin',
-                                              style: TextStyle(
-                                                fontFamily: 'Poppins',
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.grey,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                              bottom: 6.0,
-                                              left: 4.0,
-                                              right: 4.0,
-                                            ),
-                                            child: Text(
-                                              'Verifikasi Oleh',
-                                              style: TextStyle(
-                                                fontFamily: 'Poppins',
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.grey,
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                              bottom: 6.0,
-                                              left: 4.0,
-                                              right: 4.0,
-                                            ),
-                                            child: Text(
-                                              '-',
+                                              result?['kemandoran'] ?? 'N/A',
                                               style: TextStyle(
                                                 fontFamily: 'Poppins',
                                                 fontSize: 14,
