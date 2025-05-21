@@ -19,7 +19,7 @@ void main() async {
   // await AssessmentBoInputController().fetchCriteria();
 
   // List<Map<String, dynamic>> treeAssessment =
-  //     await AssessmentResultService().getAssessmentResult();
+  //     await AssessmentResultService().getAssessmentResultTest();
   // print('Result in local: $treeAssessment');
 
   // print('Users in the database: $users');

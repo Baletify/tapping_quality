@@ -23,6 +23,7 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
   final AssessmentBoInputController controller = Get.put(
     AssessmentBoInputController(),
   );
+  final ScrollController _scrollController = ScrollController();
 
   int treeIndex = 1; // Start with Tree 1
   int questionIndex = 0; // Start with Question 1
@@ -49,6 +50,11 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
       });
       resetQuestionCount();
       controller.resetState(); // Reset the state for the new tree
+      _scrollController.animateTo(
+        0.0,
+        duration: Duration(milliseconds: 300),
+        curve: Curves.easeOut,
+      );
     } else {
       Get.snackbar(
         'Info',
@@ -77,6 +83,12 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
 
         // controller.resetState();
         resetQuestionCount();
+        controller.resetState(); // Reset the state for the new tree
+        _scrollController.animateTo(
+          0.0,
+          duration: Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
       });
     } else {
       Get.snackbar(
@@ -252,6 +264,7 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
           const SizedBox(height: 10),
           Expanded(
             child: SingleChildScrollView(
+              controller: _scrollController,
               child: Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Column(
@@ -1943,7 +1956,7 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                   child: Obx(
                                     () => RadioListTile<String>(
                                       title: const Text(
-                                        'Ya',
+                                        'Bersih',
                                         style: TextStyle(
                                           fontFamily: 'Poppins',
                                           fontSize: 12,
@@ -1951,7 +1964,7 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           color: Colors.black,
                                         ),
                                       ),
-                                      value: 'Ya',
+                                      value: 'Bersih',
                                       groupValue:
                                           controller.selectedBlong.value,
                                       onChanged: (value) {
@@ -1960,7 +1973,7 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           7,
                                           isQ8Answered(),
                                         );
-                                        if (value == 'Ya') {
+                                        if (value == 'Bersih') {
                                           if (!controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
@@ -1992,7 +2005,7 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                   child: Obx(
                                     () => RadioListTile<String>(
                                       title: const Text(
-                                        'Tidak',
+                                        'Kotor',
                                         style: TextStyle(
                                           fontFamily: 'Poppins',
                                           fontSize: 12,
@@ -2000,7 +2013,7 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           color: Colors.black,
                                         ),
                                       ),
-                                      value: 'Tidak',
+                                      value: 'Kotor',
                                       groupValue:
                                           controller.selectedBlong.value,
                                       onChanged: (value) {
@@ -2009,7 +2022,7 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           7,
                                           isQ8Answered(),
                                         );
-                                        if (value == 'Tidak') {
+                                        if (value == 'Kotor') {
                                           if (!controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]

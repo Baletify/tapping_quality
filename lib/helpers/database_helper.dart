@@ -58,9 +58,9 @@ class DatabaseHelper {
         panel_sadap TEXT NOT NULL,
         jenis_sadap TEXT NOT NULL,
         jenis_kulit_pohon TEXT NOT NULL,
-        tanggal_inspeksi DATETIME NOT NULL,
+        tanggal_inspeksi DATE NOT NULL,
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-        foreman_upload_at DATETIME DEFAULT NULL,
+        foreman_upload_at DATETIME DEFAULT NULL
       );
     ''');
 

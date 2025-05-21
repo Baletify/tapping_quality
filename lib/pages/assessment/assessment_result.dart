@@ -105,15 +105,23 @@ class _AssessmentResultState extends State<AssessmentResult> {
                         ),
                         Obx(() {
                           String kelas = '';
+                          double sumAvgScore = controller.assessmentResult.fold(
+                            0.0,
+                            (prev, element) =>
+                                prev +
+                                (element['avg_score'] != null
+                                    ? (element['avg_score'] as num).toDouble()
+                                    : 0.0),
+                          );
                           final result =
                               controller.assessmentResult.isNotEmpty
                                   ? controller.assessmentResult.first
                                   : null;
-                          if (result?['avg_score'] <= 10.0) {
+                          if (sumAvgScore <= 10.0) {
                             kelas = '1';
-                          } else if (result?['avg_score'] > 10.0) {
+                          } else if (sumAvgScore > 10.0) {
                             kelas = '2';
-                          } else if (result?['avg_score'] > 25.0) {
+                          } else if (sumAvgScore > 25.0) {
                             kelas = '3';
                           } else {
                             kelas = '4';
@@ -348,9 +356,10 @@ class _AssessmentResultState extends State<AssessmentResult> {
                                               right: 4.0,
                                             ),
                                             child: Text(
-                                              result?['avg_score'] != null
-                                                  ? result!['avg_score']
-                                                      .toStringAsFixed(2)
+                                              sumAvgScore != 0
+                                                  ? sumAvgScore.toStringAsFixed(
+                                                    2,
+                                                  )
                                                   : 'N/A',
                                               style: TextStyle(
                                                 fontFamily: 'Poppins',

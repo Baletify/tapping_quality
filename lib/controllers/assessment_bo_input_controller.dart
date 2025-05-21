@@ -76,6 +76,7 @@ class AssessmentBoInputController extends GetxController {
     isTool4Checked.value = false;
     isCleanedTool1Checked.value = false;
     isCleanedTool2Checked.value = false;
+    isCleanedTool3Checked.value = false;
   }
 
   void selectWound(String size) {

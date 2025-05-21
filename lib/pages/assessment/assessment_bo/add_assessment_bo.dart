@@ -316,7 +316,6 @@ class AddAssessmentBo extends StatelessWidget {
                 decoration: BoxDecoration(color: Colors.white),
                 child: TextField(
                   controller: userController.sistemSadapController,
-                  readOnly: true,
                   decoration: InputDecoration(
                     labelText: 'Sistem Sadap',
                     border: OutlineInputBorder(
