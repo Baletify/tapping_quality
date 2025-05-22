@@ -9,10 +9,12 @@ import 'package:tapping_quality/services/assessment_input_bo_service.dart';
 class InputAssessmentBo extends StatefulWidget {
   final int assessmentDetailId;
   final dynamic inspectionDate;
+  final String? nikPenyadap;
   const InputAssessmentBo({
     super.key,
     required this.assessmentDetailId,
     required this.inspectionDate,
+    required this.nikPenyadap,
   });
 
   @override
@@ -449,7 +451,7 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
-                                              .remove(2);
+                                              .remove(3);
                                         }
                                       },
                                       controlAffinity:
@@ -487,17 +489,17 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           if (!controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
-                                              .contains(38)) {
+                                              .contains(4)) {
                                             controller
                                                 .selectedCriteriaIds[treeIndex -
                                                     1]
-                                                .add(38);
+                                                .add(4);
                                           }
                                         } else {
                                           controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
-                                              .remove(38);
+                                              .remove(4);
                                         }
                                       },
                                       controlAffinity:
@@ -586,17 +588,17 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           if (!controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
-                                              .contains(4)) {
+                                              .contains(9)) {
                                             controller
                                                 .selectedCriteriaIds[treeIndex -
                                                     1]
-                                                .add(4);
+                                                .add(9);
                                           }
                                         } else {
                                           controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
-                                              .remove(4);
+                                              .remove(9);
                                         }
                                       },
                                       controlAffinity:
@@ -634,17 +636,17 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           if (!controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
-                                              .contains(5)) {
+                                              .contains(10)) {
                                             controller
                                                 .selectedCriteriaIds[treeIndex -
                                                     1]
-                                                .add(5);
+                                                .add(10);
                                           }
                                         } else {
                                           controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
-                                              .remove(5);
+                                              .remove(10);
                                         }
                                       },
                                       controlAffinity:
@@ -682,17 +684,17 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           if (!controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
-                                              .contains(6)) {
+                                              .contains(11)) {
                                             controller
                                                 .selectedCriteriaIds[treeIndex -
                                                     1]
-                                                .add(6);
+                                                .add(11);
                                           }
                                         } else {
                                           controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
-                                              .remove(6);
+                                              .remove(11);
                                         }
                                       },
                                       controlAffinity:
@@ -779,17 +781,17 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           if (!controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
-                                              .contains(7)) {
+                                              .contains(12)) {
                                             controller
                                                 .selectedCriteriaIds[treeIndex -
                                                     1]
-                                                .add(7);
+                                                .add(12);
                                           }
                                         } else {
                                           controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
-                                              .remove(7);
+                                              .remove(12);
                                         }
                                       },
                                       controlAffinity:
@@ -825,17 +827,17 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           if (!controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
-                                              .contains(8)) {
+                                              .contains(13)) {
                                             controller
                                                 .selectedCriteriaIds[treeIndex -
                                                     1]
-                                                .add(8);
+                                                .add(13);
                                           }
                                         } else {
                                           controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
-                                              .remove(8);
+                                              .remove(13);
                                         }
                                       },
                                       controlAffinity:
@@ -871,17 +873,17 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           if (!controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
-                                              .contains(9)) {
+                                              .contains(14)) {
                                             controller
                                                 .selectedCriteriaIds[treeIndex -
                                                     1]
-                                                .add(9);
+                                                .add(14);
                                           }
                                         } else {
                                           controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
-                                              .remove(9);
+                                              .remove(14);
                                         }
                                       },
                                       controlAffinity:
@@ -917,17 +919,17 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           if (!controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
-                                              .contains(10)) {
+                                              .contains(15)) {
                                             controller
                                                 .selectedCriteriaIds[treeIndex -
                                                     1]
-                                                .add(10);
+                                                .add(15);
                                           }
                                         } else {
                                           controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
-                                              .remove(10);
+                                              .remove(15);
                                         }
                                       },
                                       controlAffinity:
@@ -963,17 +965,17 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           if (!controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
-                                              .contains(11)) {
+                                              .contains(16)) {
                                             controller
                                                 .selectedCriteriaIds[treeIndex -
                                                     1]
-                                                .add(11);
+                                                .add(16);
                                           }
                                         } else {
                                           controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
-                                              .remove(11);
+                                              .remove(16);
                                         }
                                       },
                                       controlAffinity:
@@ -1009,17 +1011,17 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           if (!controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
-                                              .contains(12)) {
+                                              .contains(17)) {
                                             controller
                                                 .selectedCriteriaIds[treeIndex -
                                                     1]
-                                                .add(12);
+                                                .add(17);
                                           }
                                         } else {
                                           controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
-                                              .remove(12);
+                                              .remove(17);
                                         }
                                       },
                                       controlAffinity:
@@ -1055,17 +1057,17 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           if (!controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
-                                              .contains(13)) {
+                                              .contains(18)) {
                                             controller
                                                 .selectedCriteriaIds[treeIndex -
                                                     1]
-                                                .add(13);
+                                                .add(18);
                                           }
                                         } else {
                                           controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
-                                              .remove(13);
+                                              .remove(18);
                                         }
                                       },
                                       controlAffinity:
@@ -1101,17 +1103,17 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           if (!controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
-                                              .contains(39)) {
+                                              .contains(19)) {
                                             controller
                                                 .selectedCriteriaIds[treeIndex -
                                                     1]
-                                                .add(39);
+                                                .add(19);
                                           }
                                         } else {
                                           controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
-                                              .remove(39);
+                                              .remove(19);
                                         }
                                       },
                                       controlAffinity:
@@ -1200,17 +1202,17 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           if (!controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
-                                              .contains(14)) {
+                                              .contains(20)) {
                                             controller
                                                 .selectedCriteriaIds[treeIndex -
                                                     1]
-                                                .add(14);
+                                                .add(20);
                                           }
                                         } else {
                                           controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
-                                              .remove(14);
+                                              .remove(20);
                                         }
                                       },
 
@@ -1249,17 +1251,17 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           if (!controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
-                                              .contains(15)) {
+                                              .contains(21)) {
                                             controller
                                                 .selectedCriteriaIds[treeIndex -
                                                     1]
-                                                .add(15);
+                                                .add(21);
                                           }
                                         } else {
                                           controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
-                                              .remove(15);
+                                              .remove(21);
                                         }
                                       },
                                       controlAffinity:
@@ -1297,17 +1299,17 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           if (!controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
-                                              .contains(40)) {
+                                              .contains(22)) {
                                             controller
                                                 .selectedCriteriaIds[treeIndex -
                                                     1]
-                                                .add(40);
+                                                .add(22);
                                           }
                                         } else {
                                           controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
-                                              .remove(40);
+                                              .remove(22);
                                         }
                                       },
                                       controlAffinity:
@@ -1396,17 +1398,17 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           if (!controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
-                                              .contains(16)) {
+                                              .contains(26)) {
                                             controller
                                                 .selectedCriteriaIds[treeIndex -
                                                     1]
-                                                .add(16);
+                                                .add(26);
                                           }
                                         } else {
                                           controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
-                                              .remove(16);
+                                              .remove(26);
                                         }
                                       },
 
@@ -1445,17 +1447,17 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           if (!controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
-                                              .contains(17)) {
+                                              .contains(27)) {
                                             controller
                                                 .selectedCriteriaIds[treeIndex -
                                                     1]
-                                                .add(17);
+                                                .add(27);
                                           }
                                         } else {
                                           controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
-                                              .remove(17);
+                                              .remove(27);
                                         }
                                       },
                                       controlAffinity:
@@ -1542,17 +1544,17 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           if (!controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
-                                              .contains(18)) {
+                                              .contains(28)) {
                                             controller
                                                 .selectedCriteriaIds[treeIndex -
                                                     1]
-                                                .add(18);
+                                                .add(28);
                                           }
                                         } else {
                                           controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
-                                              .remove(18);
+                                              .remove(28);
                                         }
                                       },
                                       controlAffinity:
@@ -1588,17 +1590,17 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           if (!controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
-                                              .contains(19)) {
+                                              .contains(29)) {
                                             controller
                                                 .selectedCriteriaIds[treeIndex -
                                                     1]
-                                                .add(19);
+                                                .add(29);
                                           }
                                         } else {
                                           controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
-                                              .remove(19);
+                                              .remove(29);
                                         }
                                       },
                                       controlAffinity:
@@ -1634,17 +1636,17 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           if (!controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
-                                              .contains(20)) {
+                                              .contains(30)) {
                                             controller
                                                 .selectedCriteriaIds[treeIndex -
                                                     1]
-                                                .add(20);
+                                                .add(30);
                                           }
                                         } else {
                                           controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
-                                              .remove(20);
+                                              .remove(30);
                                         }
                                       },
                                       controlAffinity:
@@ -1680,17 +1682,17 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           if (!controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
-                                              .contains(41)) {
+                                              .contains(31)) {
                                             controller
                                                 .selectedCriteriaIds[treeIndex -
                                                     1]
-                                                .add(41);
+                                                .add(31);
                                           }
                                         } else {
                                           controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
-                                              .remove(41);
+                                              .remove(31);
                                         }
                                       },
                                       controlAffinity:
@@ -1780,17 +1782,17 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           if (!controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
-                                              .contains(21)) {
+                                              .contains(32)) {
                                             controller
                                                 .selectedCriteriaIds[treeIndex -
                                                     1]
-                                                .add(21);
+                                                .add(32);
                                           }
                                         } else {
                                           controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
-                                              .remove(21);
+                                              .remove(32);
                                         }
                                       },
                                       controlAffinity:
@@ -1829,17 +1831,17 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           if (!controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
-                                              .contains(22)) {
+                                              .contains(33)) {
                                             controller
                                                 .selectedCriteriaIds[treeIndex -
                                                     1]
-                                                .add(22);
+                                                .add(33);
                                           }
                                         } else {
                                           controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
-                                              .remove(22);
+                                              .remove(33);
                                         }
                                       },
                                       controlAffinity:
@@ -1878,17 +1880,17 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           if (!controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
-                                              .contains(41)) {
+                                              .contains(34)) {
                                             controller
                                                 .selectedCriteriaIds[treeIndex -
                                                     1]
-                                                .add(41);
+                                                .add(34);
                                           }
                                         } else {
                                           controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
-                                              .remove(41);
+                                              .remove(34);
                                         }
                                       },
                                       controlAffinity:
@@ -1977,17 +1979,17 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           if (!controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
-                                              .contains(23)) {
+                                              .contains(35)) {
                                             controller
                                                 .selectedCriteriaIds[treeIndex -
                                                     1]
-                                                .add(23);
+                                                .add(35);
                                           }
                                         } else {
                                           controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
-                                              .remove(23);
+                                              .remove(35);
                                         }
                                       },
 
@@ -2026,17 +2028,17 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           if (!controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
-                                              .contains(24)) {
+                                              .contains(36)) {
                                             controller
                                                 .selectedCriteriaIds[treeIndex -
                                                     1]
-                                                .add(24);
+                                                .add(36);
                                           }
                                         } else {
                                           controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
-                                              .remove(24);
+                                              .remove(36);
                                         }
                                       },
                                       controlAffinity:
@@ -2125,17 +2127,17 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           if (!controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
-                                              .contains(25)) {
+                                              .contains(37)) {
                                             controller
                                                 .selectedCriteriaIds[treeIndex -
                                                     1]
-                                                .add(25);
+                                                .add(37);
                                           }
                                         } else {
                                           controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
-                                              .remove(25);
+                                              .remove(37);
                                         }
                                       },
 
@@ -2174,17 +2176,17 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           if (!controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
-                                              .contains(26)) {
+                                              .contains(38)) {
                                             controller
                                                 .selectedCriteriaIds[treeIndex -
                                                     1]
-                                                .add(26);
+                                                .add(38);
                                           }
                                         } else {
                                           controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
-                                              .remove(26);
+                                              .remove(38);
                                         }
                                       },
                                       controlAffinity:
@@ -2273,17 +2275,17 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           if (!controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
-                                              .contains(27)) {
+                                              .contains(39)) {
                                             controller
                                                 .selectedCriteriaIds[treeIndex -
                                                     1]
-                                                .add(27);
+                                                .add(39);
                                           }
                                         } else {
                                           controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
-                                              .remove(27);
+                                              .remove(39);
                                         }
                                       },
 
@@ -2322,17 +2324,17 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           if (!controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
-                                              .contains(28)) {
+                                              .contains(40)) {
                                             controller
                                                 .selectedCriteriaIds[treeIndex -
                                                     1]
-                                                .add(28);
+                                                .add(40);
                                           }
                                         } else {
                                           controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
-                                              .remove(28);
+                                              .remove(40);
                                         }
                                       },
                                       controlAffinity:
@@ -2418,15 +2420,20 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           isQ11Answered(),
                                         );
                                         if (value == 'Ya') {
-                                          controller
+                                          if (!controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
-                                              .add(29);
+                                              .contains(41)) {
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .add(41);
+                                          }
                                         } else {
                                           controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
-                                              .remove(29);
+                                              .remove(41);
                                         }
                                       },
 
@@ -2462,15 +2469,20 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           isQ11Answered(),
                                         );
                                         if (value == 'Tidak') {
-                                          controller
+                                          if (!controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
-                                              .add(30);
+                                              .contains(42)) {
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .add(42);
+                                          }
                                         } else {
                                           controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
-                                              .remove(30);
+                                              .remove(42);
                                         }
                                       },
                                       controlAffinity:
@@ -2524,8 +2536,19 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                               ? controller.assessmentDetails.first
                               : null;
                       final assessmentDetailId = detail?['id'];
+                      final nikPenyadap = detail?['nik_penyadap'];
                       final inspectionDate = detail?['tanggal_inspeksi'];
-
+                      String dateString;
+                      if (inspectionDate is DateTime) {
+                        dateString =
+                            "${inspectionDate.year.toString().padLeft(4, '0')}-${inspectionDate.month.toString().padLeft(2, '0')}-${inspectionDate.day.toString().padLeft(2, '0')}";
+                      } else if (inspectionDate is String &&
+                          inspectionDate.length >= 10) {
+                        // Take only the first 10 characters (yyyy-MM-dd)
+                        dateString = inspectionDate.substring(0, 10);
+                      } else {
+                        dateString = inspectionDate.toString();
+                      }
                       List<Map<String, dynamic>> toSave = [];
                       for (
                         int treeIdx = 0;
@@ -2547,14 +2570,16 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                       Get.to(
                         () => AssessmentResult(
                           assessmentDetailId: assessmentDetailId,
-                          inspectionDate: inspectionDate,
+                          inspectionDate: dateString,
+                          nikPenyadap: detail?['nik_penyadap'],
                         ),
                       );
                       print('All Tree Index ${controller.selectedCriteriaIds}');
                       resultService.fetchAssessmentResult(
-                        assessmentDetailId,
-                        inspectionDate,
+                        nikPenyadap,
+                        dateString,
                       );
+                      print('date string: $dateString');
                     } else {
                       print(
                         'Selected Criteria for Tree $treeIndex: ${controller.selectedCriteriaIds[treeIndex - 1]}',
@@ -2664,7 +2689,7 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
               Padding(
                 padding: const EdgeInsets.only(top: 1.0, left: 5.0, right: 5.0),
                 child: const Text(
-                  'Sistem Sadap:',
+                  'Panel Sadap:',
                   style: TextStyle(
                     fontFamily: 'Poppins',
                     fontSize: 10,
@@ -2681,7 +2706,7 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                     right: 5.0,
                   ),
                   child: Text(
-                    detail?['sistem_sadap'] ?? 'N/A',
+                    detail?['panel_sadap'] ?? 'N/A',
                     style: TextStyle(
                       fontFamily: 'Poppins',
                       fontSize: 10,

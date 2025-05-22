@@ -143,6 +143,241 @@ class InspectionLog extends StatelessWidget {
               ),
             ],
           ),
+          const SizedBox(height: 10),
+          Obx(() {
+            final report = controller.assessmentReport;
+            double totalScore = report.fold(
+              0.0,
+              (prev, element) =>
+                  prev +
+                  (element['avg_score'] != null
+                      ? (element['avg_score'] as num).toDouble()
+                      : 0.0),
+            );
+            String kelas = '';
+            if (totalScore >= 0 && totalScore <= 10.9) {
+              kelas = '1';
+            } else if (totalScore > 10.9 && totalScore <= 20.9) {
+              kelas = '2';
+            } else if (totalScore > 20.9 && totalScore <= 26.9) {
+              kelas = '3';
+            } else if (totalScore > 26.9 && totalScore <= 32.9) {
+              kelas = '4';
+            } else {
+              kelas = 'No Class';
+            }
+            final isAllNull =
+                report.isNotEmpty &&
+                report.first.values.every((value) => value == null);
+            if (!controller.isSearched.value || report.isEmpty || isAllNull) {
+              return Center(
+                child: Image.asset(
+                  'assets/images/404-page.png',
+                  width: 300,
+                  height: 500,
+                  fit: BoxFit.contain,
+                ),
+              );
+            } else {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  _leftCard(report),
+                  Container(
+                    width: 175,
+                    height: 100,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.1),
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset: const Offset(0, 3),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 5.0, left: 5.0),
+                          child: const Text(
+                            'Hasil Assessment:',
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                top: 1.0,
+                                left: 5.0,
+                                right: 5.0,
+                              ),
+                              child: const Text(
+                                'Panel Sadap:',
+                                style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                            Flexible(
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                  top: 1.0,
+                                  left: 5.0,
+                                  right: 5.0,
+                                ),
+                                child: Text(
+                                  report.first['panel_sadap'] ?? 'N/A',
+                                  style: const TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                top: 1.0,
+                                left: 5.0,
+                                right: 5.0,
+                              ),
+                              child: const Text(
+                                'Status Kulit:',
+                                style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                            Flexible(
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                  top: 1.0,
+                                  left: 5.0,
+                                  right: 5.0,
+                                ),
+                                child: Text(
+                                  report.first['jenis_kulit_pohon'] ?? 'N/A',
+                                  style: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                top: 1.0,
+                                left: 5.0,
+                                right: 5.0,
+                              ),
+                              child: const Text(
+                                'Nilai:',
+                                style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                            Flexible(
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                  top: 1.0,
+                                  left: 5.0,
+                                  right: 5.0,
+                                ),
+                                child: Text(
+                                  totalScore.toStringAsFixed(1),
+                                  style: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                top: 1.0,
+                                left: 5.0,
+                                right: 5.0,
+                              ),
+                              child: const Text(
+                                'Kelas:',
+                                style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                            Flexible(
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                  top: 1.0,
+                                  left: 5.0,
+                                  right: 5.0,
+                                ),
+                                child: Text(
+                                  kelas,
+                                  style: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              );
+            }
+          }),
+
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
@@ -159,12 +394,18 @@ class InspectionLog extends StatelessWidget {
                   if (!controller.isSearched.value ||
                       report.isEmpty ||
                       isAllNull) {
-                    return Center(
-                      child: Image.asset(
-                        'assets/images/404-page.png',
-                        width: 200,
-                        height: 200,
-                      ),
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Data Tidak Ditemukan',
+                          style: const TextStyle(
+                            fontFamily: 'Poppins',
+                            fontSize: 16,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ],
                     );
                   } else {
                     // Show your Card/ListView with results
@@ -174,8 +415,27 @@ class InspectionLog extends StatelessWidget {
                         final result = controller.assessmentReport[index];
                         return Card(
                           child: ListTile(
-                            title: Text(result['name'] ?? 'N/A'),
-                            subtitle: Text(result['nik_penyadap'] ?? 'N/A'),
+                            title: Text(
+                              result['criteria_name'] ?? 'N/A',
+                              style: const TextStyle(
+                                fontFamily: 'Poppins',
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
+                            ),
+                            trailing: Text(
+                              result['avg_score'] != null
+                                  ? (result['avg_score'] as num)
+                                      .toStringAsFixed(1)
+                                  : 'N/A',
+                              style: const TextStyle(
+                                fontFamily: 'Poppins',
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
+                            ),
                           ),
                         );
                       },
@@ -184,6 +444,183 @@ class InspectionLog extends StatelessWidget {
                 }),
               ),
             ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Container _leftCard(RxList<Map<String, dynamic>> report) {
+    return Container(
+      width: 175,
+      height: 100,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8),
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            spreadRadius: 2,
+            blurRadius: 5,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 5.0, left: 5.0),
+            child: const Text(
+              'Detail Tapper:',
+              style: TextStyle(
+                fontFamily: 'Poppins',
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 1.0, left: 5.0, right: 5.0),
+                child: const Text(
+                  'NIK:',
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+              Flexible(
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    top: 1.0,
+                    left: 5.0,
+                    right: 5.0,
+                  ),
+                  child: Text(
+                    report.first['nik_penyadap'] ?? 'N/A',
+                    style: const TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 10,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 1.0, left: 5.0, right: 5.0),
+                child: const Text(
+                  'Nama:',
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+              Flexible(
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    top: 1.0,
+                    left: 5.0,
+                    right: 5.0,
+                  ),
+                  child: Text(
+                    report.first['name'] ?? 'N/A',
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 10,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 1.0, left: 5.0, right: 5.0),
+                child: const Text(
+                  'Kemandoran:',
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+              Flexible(
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    top: 1.0,
+                    left: 5.0,
+                    right: 5.0,
+                  ),
+                  child: Text(
+                    report.first['kemandoran'] ?? 'N/A',
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 10,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 1.0, left: 5.0, right: 5.0),
+                child: const Text(
+                  'Sub Divisi:',
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+              Flexible(
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    top: 1.0,
+                    left: 5.0,
+                    right: 5.0,
+                  ),
+                  child: Text(
+                    report.first['departemen'] ?? 'N/A',
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 10,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ],
       ),

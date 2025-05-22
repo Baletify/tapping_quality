@@ -5,12 +5,12 @@ class AssessmentResultController extends GetxController {
   var assessmentResult = <Map<String, dynamic>>[].obs;
   var assessmentReport = <Map<String, dynamic>>[].obs;
 
-  void fetchAssessmentResult(int id, dynamic date) async {
+  void fetchAssessmentResult(String nikPenyadap, dynamic date) async {
     final service = AssessmentResultService();
-    final data = await service.getAssessmentResult(id, date);
+    final data = await service.getAssessmentResult(nikPenyadap, date);
 
     assessmentResult.assignAll(data);
-    print('Assessment Result: $assessmentResult');
+    // print('Assessment Result: $assessmentResult');
   }
 
   fetchAssessmentReport(String nik, dynamic date) async {
@@ -18,6 +18,6 @@ class AssessmentResultController extends GetxController {
     final data = await service.getAssessmentReport(nik, date);
 
     assessmentReport.assignAll(data);
-    print('Assessment Report: $assessmentReport');
+    // print('Assessment Report: $assessmentReport');
   }
 }

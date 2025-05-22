@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tapping_quality/controllers/assessment_bo_detail_controller.dart';
+import 'package:tapping_quality/controllers/assessment_bo_input_controller.dart';
 import 'package:tapping_quality/models/user_model.dart';
 import 'package:tapping_quality/pages/assessment/assessment_bo/input_assessment_bo.dart';
 import 'package:tapping_quality/services/assessment_detail_bo_service.dart';
@@ -410,10 +411,12 @@ class AddAssessmentBo extends StatelessWidget {
 
                   final Map<String, dynamic> details = await service
                       .insertAssessmentDetails(data);
+                  Get.delete<AssessmentBoInputController>();
                   Get.to(
                     () => InputAssessmentBo(
                       assessmentDetailId: details['id'],
                       inspectionDate: details['tanggal_inspeksi'],
+                      nikPenyadap: details['nik_penyadap'],
                     ),
                   );
                   userController.resetAllFields();

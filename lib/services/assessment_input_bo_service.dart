@@ -8,6 +8,7 @@ class AssessmentInputBoService extends GetxController {
     final List<Map<String, dynamic>> result = await db.rawQuery(
       'SELECT assessment_details.*, users.nik, users.name, users.kemandoran, users.departemen FROM assessment_details LEFT JOIN users ON assessment_details.nik_penyadap = users.nik ORDER BY assessment_details.id DESC',
     );
+    // print('Assessment Details: $result');
     return result;
   }
 

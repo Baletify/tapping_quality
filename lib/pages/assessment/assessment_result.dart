@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tapping_quality/controllers/assessment_bo_detail_controller.dart';
+import 'package:tapping_quality/controllers/assessment_bo_input_controller.dart';
 import 'package:tapping_quality/controllers/assessment_result_controller.dart';
 import 'package:tapping_quality/pages/home_page.dart';
 
 class AssessmentResult extends StatefulWidget {
   final dynamic assessmentDetailId;
   final dynamic inspectionDate;
+  final String? nikPenyadap;
 
   const AssessmentResult({
     super.key,
     required this.assessmentDetailId,
     required this.inspectionDate,
+    this.nikPenyadap,
   });
 
   @override
@@ -105,7 +109,7 @@ class _AssessmentResultState extends State<AssessmentResult> {
                         ),
                         Obx(() {
                           String kelas = '';
-                          double sumAvgScore = controller.assessmentResult.fold(
+                          double totalScore = controller.assessmentResult.fold(
                             0.0,
                             (prev, element) =>
                                 prev +
@@ -117,14 +121,16 @@ class _AssessmentResultState extends State<AssessmentResult> {
                               controller.assessmentResult.isNotEmpty
                                   ? controller.assessmentResult.first
                                   : null;
-                          if (sumAvgScore <= 10.0) {
+                          if (totalScore >= 0 && totalScore <= 10.9) {
                             kelas = '1';
-                          } else if (sumAvgScore > 10.0) {
+                          } else if (totalScore > 10.9 && totalScore <= 20.9) {
                             kelas = '2';
-                          } else if (sumAvgScore > 25.0) {
+                          } else if (totalScore > 20.9 && totalScore <= 26.9) {
                             kelas = '3';
-                          } else {
+                          } else if (totalScore > 26.9 && totalScore <= 32.9) {
                             kelas = '4';
+                          } else {
+                            kelas = 'No Class';
                           }
                           return Expanded(
                             child: Row(
@@ -356,8 +362,8 @@ class _AssessmentResultState extends State<AssessmentResult> {
                                               right: 4.0,
                                             ),
                                             child: Text(
-                                              sumAvgScore != 0
-                                                  ? sumAvgScore.toStringAsFixed(
+                                              totalScore != 0
+                                                  ? totalScore.toStringAsFixed(
                                                     2,
                                                   )
                                                   : 'N/A',
@@ -490,6 +496,10 @@ class _AssessmentResultState extends State<AssessmentResult> {
                                         padding: const EdgeInsets.only(top: 40),
                                         child: GestureDetector(
                                           onTap: () {
+                                            Get.delete<
+                                              AssessmentBoInputController
+                                            >();
+                                            Get.delete<AssessmentBoDetailController>();
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(

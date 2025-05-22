@@ -34,7 +34,6 @@ class AssessmentBoDetailController extends GetxController {
   void onInit() async {
     super.onInit();
     resetAllFields();
-    sistemSadapController.text = 'BO';
     // Initialize the user list
     treeSkinType = ['Perawan', 'Pulihan', 'NTA'].obs;
     tappingPanel = ['HO', 'VH', 'GO', 'BO'].obs;
