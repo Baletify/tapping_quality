@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tapping_quality/controllers/assessment_bo_detail_controller.dart';
 import 'package:tapping_quality/controllers/assessment_bo_input_controller.dart';
+import 'package:tapping_quality/controllers/assessment_ho_input_controller.dart';
 import 'package:tapping_quality/controllers/assessment_result_controller.dart';
 import 'package:tapping_quality/pages/home_page.dart';
 
@@ -497,9 +498,14 @@ class _AssessmentResultState extends State<AssessmentResult> {
                                         child: GestureDetector(
                                           onTap: () {
                                             Get.delete<
+                                              AssessmentHoInputController
+                                            >();
+                                            Get.delete<
                                               AssessmentBoInputController
                                             >();
-                                            Get.delete<AssessmentBoDetailController>();
+                                            Get.delete<
+                                              AssessmentBoDetailController
+                                            >();
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(

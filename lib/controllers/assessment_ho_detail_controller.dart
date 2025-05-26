@@ -1,0 +1,105 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:tapping_quality/models/user_model.dart';
+import 'package:tapping_quality/services/user_service.dart';
+
+class AssessmentHoDetailController extends GetxController {
+  var selectedDate = DateTime.now().obs;
+
+  var userList = <UserModel>[].obs;
+  var filteredUsers = <UserModel>[].obs;
+  var selectedUser = Rx<UserModel?>(null);
+  var treeSkinType = ['Perawan', 'Pulihan', 'NTA'].obs;
+  var tappingPanel = ['HO', 'VH', 'GO'].obs;
+  var taskList = ['A', 'B', 'C', 'D'].obs;
+
+  final nikController = TextEditingController();
+  final kemandoranController = TextEditingController();
+  final departemenController = TextEditingController();
+  final statusController = TextEditingController();
+  final blokController = TextEditingController();
+  final taskController = TextEditingController();
+  final noHancakController = TextEditingController();
+  final tahunTanamController = TextEditingController();
+  final cloneController = TextEditingController();
+  final sistemSadapController = TextEditingController();
+  final treeSkinTypeController = TextEditingController();
+  final tappingPanelController = TextEditingController();
+
+  void updateDate(DateTime date) {
+    selectedDate.value = date;
+  }
+
+  @override
+  void onInit() async {
+    super.onInit();
+    resetAllFields();
+    // Initialize the user list
+    treeSkinType = ['Perawan', 'Pulihan', 'NTA'].obs;
+    tappingPanel = ['HO', 'VH', 'GO', 'BO'].obs;
+    taskList = ['A', 'B', 'C', 'D'].obs;
+
+    try {
+      // Fetch users from the UserService
+      final users = await UserService().getTapperByDepartment('Sub Divisi A');
+      userList.value = users;
+      filteredUsers.value = users;
+    } catch (e) {
+      print('Error fetching users: $e');
+      userList.value = [];
+      filteredUsers.value = [];
+    }
+  }
+
+  // Method to filter users based on search query
+  void filterUsers(String query) {
+    if (query.isEmpty) {
+      filteredUsers.value = userList;
+    } else {
+      filteredUsers.value =
+          userList
+              .where(
+                (user) => user.name.toLowerCase().contains(query.toLowerCase()),
+              )
+              .toList();
+    }
+  }
+
+  // Method to update the selected user
+  void updateSelectedUser(UserModel? user) {
+    selectedUser.value = user;
+    nikController.text = user?.nik ?? '';
+    kemandoranController.text = user?.kemandoran ?? '';
+    departemenController.text = user?.departemen ?? '';
+    statusController.text = user?.status ?? '';
+  }
+
+  void updateTreeSkinType(String type) {
+    treeSkinTypeController.text = type;
+  }
+
+  void updateTask(String task) {
+    taskController.text = task;
+  }
+
+  void updateTappingPanel(String panel) {
+    tappingPanelController.text = panel;
+  }
+
+  void resetAllFields() {
+    nikController.clear();
+    kemandoranController.clear();
+    departemenController.clear();
+    statusController.clear();
+    blokController.clear();
+    taskController.clear();
+    noHancakController.clear();
+    tahunTanamController.clear();
+    cloneController.clear();
+    sistemSadapController.clear();
+    treeSkinTypeController.clear();
+    tappingPanelController.clear();
+
+    selectedUser.value = null;
+  }
+}

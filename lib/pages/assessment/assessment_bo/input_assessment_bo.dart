@@ -152,6 +152,70 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
     });
   }
 
+  void selectWoundRadioBtn(int treeIndex, int selectedId) {
+    final woundID = [1, 2, 3, 4]; // all possible IDs for this question
+    controller.selectedCriteriaIds[treeIndex - 1].removeWhere(
+      (id) => woundID.contains(id),
+    );
+    controller.selectedCriteriaIds[treeIndex - 1].add(selectedId);
+  }
+
+  void selectDepthRadioBtn(int treeIndex, int selectedId) {
+    final depthID = [9, 10, 11]; // all possible IDs for this question
+    controller.selectedCriteriaIds[treeIndex - 1].removeWhere(
+      (id) => depthID.contains(id),
+    );
+    controller.selectedCriteriaIds[treeIndex - 1].add(selectedId);
+  }
+
+  selectAngleRadioBtn(int treeIndex, int selectedId) {
+    final angleID = [20, 21, 22]; // all possible IDs for this question
+    controller.selectedCriteriaIds[treeIndex - 1].removeWhere(
+      (id) => angleID.contains(id),
+    );
+    controller.selectedCriteriaIds[treeIndex - 1].add(selectedId);
+  }
+
+  selectScrapRadioBtn(int treeIndex, int selectedId) {
+    final scrapID = [26, 27]; // all possible IDs for this question
+    controller.selectedCriteriaIds[treeIndex - 1].removeWhere(
+      (id) => scrapID.contains(id),
+    );
+    controller.selectedCriteriaIds[treeIndex - 1].add(selectedId);
+  }
+
+  void selectBlongRadioBtn(int treeIndex, int selectedId) {
+    final blongID = [35, 36]; // all possible IDs for this question
+    controller.selectedCriteriaIds[treeIndex - 1].removeWhere(
+      (id) => blongID.contains(id),
+    );
+    controller.selectedCriteriaIds[treeIndex - 1].add(selectedId);
+  }
+
+  void selectHealthyTreeRadioBtn(int treeIndex, int selectedId) {
+    final healthyTreeID = [37, 38]; // all possible IDs for this question
+    controller.selectedCriteriaIds[treeIndex - 1].removeWhere(
+      (id) => healthyTreeID.contains(id),
+    );
+    controller.selectedCriteriaIds[treeIndex - 1].add(selectedId);
+  }
+
+  void selectResultTakeRadioBtn(int treeIndex, int selectedId) {
+    final resultTakeID = [39, 40]; // all possible IDs for this question
+    controller.selectedCriteriaIds[treeIndex - 1].removeWhere(
+      (id) => resultTakeID.contains(id),
+    );
+    controller.selectedCriteriaIds[treeIndex - 1].add(selectedId);
+  }
+
+  void selectTalangSadapRadioBtn(int treeIndex, int selectedId) {
+    final talangSadapID = [41, 42]; // all possible IDs for this question
+    controller.selectedCriteriaIds[treeIndex - 1].removeWhere(
+      (id) => talangSadapID.contains(id),
+    );
+    controller.selectedCriteriaIds[treeIndex - 1].add(selectedId);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -342,20 +406,16 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           isQ1Answered(),
                                         );
                                         if (value == 'Kecil (1 cm x 0.6 cm)') {
-                                          if (!controller
-                                              .selectedCriteriaIds[treeIndex -
-                                                  1]
-                                              .contains(1)) {
-                                            controller
-                                                .selectedCriteriaIds[treeIndex -
-                                                    1]
-                                                .add(1);
-                                          }
-                                        } else {
-                                          controller
-                                              .selectedCriteriaIds[treeIndex -
-                                                  1]
-                                              .remove(1);
+                                          selectWoundRadioBtn(treeIndex, 1);
+                                        } else if (value ==
+                                            'Sedang (1.5 cm x 3 cm)') {
+                                          selectWoundRadioBtn(treeIndex, 2);
+                                        } else if (value ==
+                                            'Besar (>1.5 cm x 3 cm)') {
+                                          selectWoundRadioBtn(treeIndex, 3);
+                                        } else if (value ==
+                                            'Tidak ada luka kayu') {
+                                          selectWoundRadioBtn(treeIndex, 4);
                                         }
                                       },
                                       controlAffinity:
@@ -389,21 +449,17 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           0,
                                           isQ1Answered(),
                                         );
-                                        if (value == 'Sedang (1.5 cm x 3 cm)') {
-                                          if (!controller
-                                              .selectedCriteriaIds[treeIndex -
-                                                  1]
-                                              .contains(2)) {
-                                            controller
-                                                .selectedCriteriaIds[treeIndex -
-                                                    1]
-                                                .add(2);
-                                          }
-                                        } else {
-                                          controller
-                                              .selectedCriteriaIds[treeIndex -
-                                                  1]
-                                              .remove(2);
+                                        if (value == 'Kecil (1 cm x 0.6 cm)') {
+                                          selectWoundRadioBtn(treeIndex, 1);
+                                        } else if (value ==
+                                            'Sedang (1.5 cm x 3 cm)') {
+                                          selectWoundRadioBtn(treeIndex, 2);
+                                        } else if (value ==
+                                            'Besar (>1.5 cm x 3 cm)') {
+                                          selectWoundRadioBtn(treeIndex, 3);
+                                        } else if (value ==
+                                            'Tidak ada luka kayu') {
+                                          selectWoundRadioBtn(treeIndex, 4);
                                         }
                                       },
                                       controlAffinity:
@@ -437,21 +493,17 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           0,
                                           isQ1Answered(),
                                         );
-                                        if (value == 'Besar (>1.5 cm x 3 cm)') {
-                                          if (!controller
-                                              .selectedCriteriaIds[treeIndex -
-                                                  1]
-                                              .contains(3)) {
-                                            controller
-                                                .selectedCriteriaIds[treeIndex -
-                                                    1]
-                                                .add(3);
-                                          }
-                                        } else {
-                                          controller
-                                              .selectedCriteriaIds[treeIndex -
-                                                  1]
-                                              .remove(3);
+                                        if (value == 'Kecil (1 cm x 0.6 cm)') {
+                                          selectWoundRadioBtn(treeIndex, 1);
+                                        } else if (value ==
+                                            'Sedang (1.5 cm x 3 cm)') {
+                                          selectWoundRadioBtn(treeIndex, 2);
+                                        } else if (value ==
+                                            'Besar (>1.5 cm x 3 cm)') {
+                                          selectWoundRadioBtn(treeIndex, 3);
+                                        } else if (value ==
+                                            'Tidak ada luka kayu') {
+                                          selectWoundRadioBtn(treeIndex, 4);
                                         }
                                       },
                                       controlAffinity:
@@ -485,21 +537,17 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           0,
                                           isQ1Answered(),
                                         );
-                                        if (value == 'Tidak ada luka kayu') {
-                                          if (!controller
-                                              .selectedCriteriaIds[treeIndex -
-                                                  1]
-                                              .contains(4)) {
-                                            controller
-                                                .selectedCriteriaIds[treeIndex -
-                                                    1]
-                                                .add(4);
-                                          }
-                                        } else {
-                                          controller
-                                              .selectedCriteriaIds[treeIndex -
-                                                  1]
-                                              .remove(4);
+                                        if (value == 'Kecil (1 cm x 0.6 cm)') {
+                                          selectWoundRadioBtn(treeIndex, 1);
+                                        } else if (value ==
+                                            'Sedang (1.5 cm x 3 cm)') {
+                                          selectWoundRadioBtn(treeIndex, 2);
+                                        } else if (value ==
+                                            'Besar (>1.5 cm x 3 cm)') {
+                                          selectWoundRadioBtn(treeIndex, 3);
+                                        } else if (value ==
+                                            'Tidak ada luka kayu') {
+                                          selectWoundRadioBtn(treeIndex, 4);
                                         }
                                       },
                                       controlAffinity:
@@ -585,20 +633,11 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           isQ2Answered(),
                                         );
                                         if (value == 'Kurang Dalam') {
-                                          if (!controller
-                                              .selectedCriteriaIds[treeIndex -
-                                                  1]
-                                              .contains(9)) {
-                                            controller
-                                                .selectedCriteriaIds[treeIndex -
-                                                    1]
-                                                .add(9);
-                                          }
-                                        } else {
-                                          controller
-                                              .selectedCriteriaIds[treeIndex -
-                                                  1]
-                                              .remove(9);
+                                          selectDepthRadioBtn(treeIndex, 9);
+                                        } else if (value == 'Normatif') {
+                                          selectDepthRadioBtn(treeIndex, 10);
+                                        } else if (value == 'Terlalu Dalam') {
+                                          selectDepthRadioBtn(treeIndex, 11);
                                         }
                                       },
                                       controlAffinity:
@@ -632,21 +671,12 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           1,
                                           isQ2Answered(),
                                         );
-                                        if (value == 'Normatif') {
-                                          if (!controller
-                                              .selectedCriteriaIds[treeIndex -
-                                                  1]
-                                              .contains(10)) {
-                                            controller
-                                                .selectedCriteriaIds[treeIndex -
-                                                    1]
-                                                .add(10);
-                                          }
-                                        } else {
-                                          controller
-                                              .selectedCriteriaIds[treeIndex -
-                                                  1]
-                                              .remove(10);
+                                        if (value == 'Kurang Dalam') {
+                                          selectDepthRadioBtn(treeIndex, 9);
+                                        } else if (value == 'Normatif') {
+                                          selectDepthRadioBtn(treeIndex, 10);
+                                        } else if (value == 'Terlalu Dalam') {
+                                          selectDepthRadioBtn(treeIndex, 11);
                                         }
                                       },
                                       controlAffinity:
@@ -680,21 +710,12 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           1,
                                           isQ2Answered(),
                                         );
-                                        if (value == 'Terlalu Dalam') {
-                                          if (!controller
-                                              .selectedCriteriaIds[treeIndex -
-                                                  1]
-                                              .contains(11)) {
-                                            controller
-                                                .selectedCriteriaIds[treeIndex -
-                                                    1]
-                                                .add(11);
-                                          }
-                                        } else {
-                                          controller
-                                              .selectedCriteriaIds[treeIndex -
-                                                  1]
-                                              .remove(11);
+                                        if (value == 'Kurang Dalam') {
+                                          selectDepthRadioBtn(treeIndex, 9);
+                                        } else if (value == 'Normatif') {
+                                          selectDepthRadioBtn(treeIndex, 10);
+                                        } else if (value == 'Terlalu Dalam') {
+                                          selectDepthRadioBtn(treeIndex, 11);
                                         }
                                       },
                                       controlAffinity:
@@ -1199,20 +1220,11 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           isQ4Answered(),
                                         );
                                         if (value == '> 30 derajat') {
-                                          if (!controller
-                                              .selectedCriteriaIds[treeIndex -
-                                                  1]
-                                              .contains(20)) {
-                                            controller
-                                                .selectedCriteriaIds[treeIndex -
-                                                    1]
-                                                .add(20);
-                                          }
-                                        } else {
-                                          controller
-                                              .selectedCriteriaIds[treeIndex -
-                                                  1]
-                                              .remove(20);
+                                          selectAngleRadioBtn(treeIndex, 20);
+                                        } else if (value == '< 30 derajat') {
+                                          selectAngleRadioBtn(treeIndex, 21);
+                                        } else if (value == '30 derajat') {
+                                          selectAngleRadioBtn(treeIndex, 22);
                                         }
                                       },
 
@@ -1247,21 +1259,12 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           3,
                                           isQ4Answered(),
                                         );
-                                        if (value == '< 30 derajat') {
-                                          if (!controller
-                                              .selectedCriteriaIds[treeIndex -
-                                                  1]
-                                              .contains(21)) {
-                                            controller
-                                                .selectedCriteriaIds[treeIndex -
-                                                    1]
-                                                .add(21);
-                                          }
-                                        } else {
-                                          controller
-                                              .selectedCriteriaIds[treeIndex -
-                                                  1]
-                                              .remove(21);
+                                        if (value == '> 30 derajat') {
+                                          selectAngleRadioBtn(treeIndex, 20);
+                                        } else if (value == '< 30 derajat') {
+                                          selectAngleRadioBtn(treeIndex, 21);
+                                        } else if (value == '30 derajat') {
+                                          selectAngleRadioBtn(treeIndex, 22);
                                         }
                                       },
                                       controlAffinity:
@@ -1295,21 +1298,12 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           3,
                                           isQ4Answered(),
                                         );
-                                        if (value == '30 derajat') {
-                                          if (!controller
-                                              .selectedCriteriaIds[treeIndex -
-                                                  1]
-                                              .contains(22)) {
-                                            controller
-                                                .selectedCriteriaIds[treeIndex -
-                                                    1]
-                                                .add(22);
-                                          }
-                                        } else {
-                                          controller
-                                              .selectedCriteriaIds[treeIndex -
-                                                  1]
-                                              .remove(22);
+                                        if (value == '> 30 derajat') {
+                                          selectAngleRadioBtn(treeIndex, 20);
+                                        } else if (value == '< 30 derajat') {
+                                          selectAngleRadioBtn(treeIndex, 21);
+                                        } else if (value == '30 derajat') {
+                                          selectAngleRadioBtn(treeIndex, 22);
                                         }
                                       },
                                       controlAffinity:
@@ -1395,23 +1389,11 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           isQ5Answered(),
                                         );
                                         if (value == 'Diambil') {
-                                          if (!controller
-                                              .selectedCriteriaIds[treeIndex -
-                                                  1]
-                                              .contains(26)) {
-                                            controller
-                                                .selectedCriteriaIds[treeIndex -
-                                                    1]
-                                                .add(26);
-                                          }
-                                        } else {
-                                          controller
-                                              .selectedCriteriaIds[treeIndex -
-                                                  1]
-                                              .remove(26);
+                                          selectScrapRadioBtn(treeIndex, 26);
+                                        } else if (value == 'Tidak Diambil') {
+                                          selectScrapRadioBtn(treeIndex, 27);
                                         }
                                       },
-
                                       controlAffinity:
                                           ListTileControlAffinity.trailing,
                                     ),
@@ -1443,21 +1425,10 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           4,
                                           isQ5Answered(),
                                         );
-                                        if (value == 'Tidak Diambil') {
-                                          if (!controller
-                                              .selectedCriteriaIds[treeIndex -
-                                                  1]
-                                              .contains(27)) {
-                                            controller
-                                                .selectedCriteriaIds[treeIndex -
-                                                    1]
-                                                .add(27);
-                                          }
-                                        } else {
-                                          controller
-                                              .selectedCriteriaIds[treeIndex -
-                                                  1]
-                                              .remove(27);
+                                        if (value == 'Diambil') {
+                                          selectScrapRadioBtn(treeIndex, 26);
+                                        } else if (value == 'Tidak Diambil') {
+                                          selectScrapRadioBtn(treeIndex, 27);
                                         }
                                       },
                                       controlAffinity:
@@ -1976,20 +1947,9 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           isQ8Answered(),
                                         );
                                         if (value == 'Bersih') {
-                                          if (!controller
-                                              .selectedCriteriaIds[treeIndex -
-                                                  1]
-                                              .contains(35)) {
-                                            controller
-                                                .selectedCriteriaIds[treeIndex -
-                                                    1]
-                                                .add(35);
-                                          }
-                                        } else {
-                                          controller
-                                              .selectedCriteriaIds[treeIndex -
-                                                  1]
-                                              .remove(35);
+                                          selectBlongRadioBtn(treeIndex, 35);
+                                        } else if (value == 'Kotor') {
+                                          selectBlongRadioBtn(treeIndex, 36);
                                         }
                                       },
 
@@ -2024,21 +1984,10 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           7,
                                           isQ8Answered(),
                                         );
-                                        if (value == 'Kotor') {
-                                          if (!controller
-                                              .selectedCriteriaIds[treeIndex -
-                                                  1]
-                                              .contains(36)) {
-                                            controller
-                                                .selectedCriteriaIds[treeIndex -
-                                                    1]
-                                                .add(36);
-                                          }
-                                        } else {
-                                          controller
-                                              .selectedCriteriaIds[treeIndex -
-                                                  1]
-                                              .remove(36);
+                                        if (value == 'Bersih') {
+                                          selectBlongRadioBtn(treeIndex, 35);
+                                        } else if (value == 'Kotor') {
+                                          selectBlongRadioBtn(treeIndex, 36);
                                         }
                                       },
                                       controlAffinity:
@@ -2124,20 +2073,15 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           isQ9Answered(),
                                         );
                                         if (value == 'Ya') {
-                                          if (!controller
-                                              .selectedCriteriaIds[treeIndex -
-                                                  1]
-                                              .contains(37)) {
-                                            controller
-                                                .selectedCriteriaIds[treeIndex -
-                                                    1]
-                                                .add(37);
-                                          }
-                                        } else {
-                                          controller
-                                              .selectedCriteriaIds[treeIndex -
-                                                  1]
-                                              .remove(37);
+                                          selectHealthyTreeRadioBtn(
+                                            treeIndex,
+                                            37,
+                                          );
+                                        } else if (value == 'Tidak') {
+                                          selectHealthyTreeRadioBtn(
+                                            treeIndex,
+                                            38,
+                                          );
                                         }
                                       },
 
@@ -2172,21 +2116,16 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           8,
                                           isQ9Answered(),
                                         );
-                                        if (value == 'Tidak') {
-                                          if (!controller
-                                              .selectedCriteriaIds[treeIndex -
-                                                  1]
-                                              .contains(38)) {
-                                            controller
-                                                .selectedCriteriaIds[treeIndex -
-                                                    1]
-                                                .add(38);
-                                          }
-                                        } else {
-                                          controller
-                                              .selectedCriteriaIds[treeIndex -
-                                                  1]
-                                              .remove(38);
+                                        if (value == 'Ya') {
+                                          selectHealthyTreeRadioBtn(
+                                            treeIndex,
+                                            37,
+                                          );
+                                        } else if (value == 'Tidak') {
+                                          selectHealthyTreeRadioBtn(
+                                            treeIndex,
+                                            38,
+                                          );
                                         }
                                       },
                                       controlAffinity:
@@ -2272,20 +2211,15 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           isQ10Answered(),
                                         );
                                         if (value == 'Ya') {
-                                          if (!controller
-                                              .selectedCriteriaIds[treeIndex -
-                                                  1]
-                                              .contains(39)) {
-                                            controller
-                                                .selectedCriteriaIds[treeIndex -
-                                                    1]
-                                                .add(39);
-                                          }
-                                        } else {
-                                          controller
-                                              .selectedCriteriaIds[treeIndex -
-                                                  1]
-                                              .remove(39);
+                                          selectResultTakeRadioBtn(
+                                            treeIndex,
+                                            39,
+                                          );
+                                        } else if (value == 'Tidak') {
+                                          selectResultTakeRadioBtn(
+                                            treeIndex,
+                                            40,
+                                          );
                                         }
                                       },
 
@@ -2320,21 +2254,16 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           9,
                                           isQ10Answered(),
                                         );
-                                        if (value == 'Tidak') {
-                                          if (!controller
-                                              .selectedCriteriaIds[treeIndex -
-                                                  1]
-                                              .contains(40)) {
-                                            controller
-                                                .selectedCriteriaIds[treeIndex -
-                                                    1]
-                                                .add(40);
-                                          }
-                                        } else {
-                                          controller
-                                              .selectedCriteriaIds[treeIndex -
-                                                  1]
-                                              .remove(40);
+                                        if (value == 'Ya') {
+                                          selectResultTakeRadioBtn(
+                                            treeIndex,
+                                            39,
+                                          );
+                                        } else if (value == 'Tidak') {
+                                          selectResultTakeRadioBtn(
+                                            treeIndex,
+                                            40,
+                                          );
                                         }
                                       },
                                       controlAffinity:
@@ -2420,20 +2349,15 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           isQ11Answered(),
                                         );
                                         if (value == 'Ya') {
-                                          if (!controller
-                                              .selectedCriteriaIds[treeIndex -
-                                                  1]
-                                              .contains(41)) {
-                                            controller
-                                                .selectedCriteriaIds[treeIndex -
-                                                    1]
-                                                .add(41);
-                                          }
-                                        } else {
-                                          controller
-                                              .selectedCriteriaIds[treeIndex -
-                                                  1]
-                                              .remove(41);
+                                          selectTalangSadapRadioBtn(
+                                            treeIndex,
+                                            41,
+                                          );
+                                        } else if (value == 'Tidak') {
+                                          selectTalangSadapRadioBtn(
+                                            treeIndex,
+                                            42,
+                                          );
                                         }
                                       },
 
@@ -2468,21 +2392,16 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           10,
                                           isQ11Answered(),
                                         );
-                                        if (value == 'Tidak') {
-                                          if (!controller
-                                              .selectedCriteriaIds[treeIndex -
-                                                  1]
-                                              .contains(42)) {
-                                            controller
-                                                .selectedCriteriaIds[treeIndex -
-                                                    1]
-                                                .add(42);
-                                          }
-                                        } else {
-                                          controller
-                                              .selectedCriteriaIds[treeIndex -
-                                                  1]
-                                              .remove(42);
+                                        if (value == 'Ya') {
+                                          selectTalangSadapRadioBtn(
+                                            treeIndex,
+                                            41,
+                                          );
+                                        } else if (value == 'Tidak') {
+                                          selectTalangSadapRadioBtn(
+                                            treeIndex,
+                                            42,
+                                          );
                                         }
                                       },
                                       controlAffinity:

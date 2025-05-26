@@ -143,7 +143,7 @@ INSERT INTO criteria (id, name, description, score) VALUES
 (33, 'Kebersihan Alat', 'Mangkok Kotor', 1),
 (34, 'Kebersihan Alat', 'Alat Bersih', 0),
 (35, 'Kebersihan Ember/Blong Latek', 'Bersih', 0),
-(36, 'Kebersihan Ember/Blong Latek', 'Kotor', 0),
+(36, 'Kebersihan Ember/Blong Latek', 'Kotor', 2),
 (37, 'Pohon Sehat tidak disadap', 'Ya', 10),
 (38, 'Pohon Sehat tidak disadap', 'Tidak', 0),
 (39, 'Hasil tidak dipungut', 'Ya', 10),

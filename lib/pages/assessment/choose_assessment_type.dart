@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tapping_quality/controllers/assessment_bo_detail_controller.dart';
+import 'package:tapping_quality/controllers/assessment_ho_detail_controller.dart';
 import 'package:tapping_quality/pages/assessment/assessment_bo/add_assessment_bo.dart';
 import 'package:tapping_quality/pages/assessment/assessment_ho/add_assessment_ho.dart';
 
@@ -111,6 +112,7 @@ class ChooseAssessmentType extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: GestureDetector(
         onTap: () {
+          Get.delete<AssessmentHoDetailController>();
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => const AddAssessmentHo()),
