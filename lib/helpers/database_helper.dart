@@ -29,18 +29,33 @@ class DatabaseHelper {
 
     // users
     await db.execute('''
-      CREATE TABLE users (
+      CREATE TABLE IF NOT EXISTS users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         nik VARCHAR(255) NOT NULL UNIQUE,
         name TEXT NOT NULL,
-        role TEXT NOT NULL,
+        jabatan TEXT DEFAULT NULL,
+        departemen TEXT DEFAULT NULL,
+        status TEXT DEFAULT NULL,
+        email VARCHAR(255) NOT NULL UNIQUE,
+        password TEXT,
+        role VARCHAR(50)
+      );
+      ''');
+
+    // tappers
+    await db.execute('''
+      CREATE TABLE IF NOT EXISTS tappers (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        nik VARCHAR(255) NOT NULL UNIQUE,
+        name TEXT NOT NULL,
         jabatan TEXT DEFAULT NULL,
         status TEXT DEFAULT NULL,
         departemen TEXT NOT NULL,
         kemandoran TEXT DEFAULT NULL,
         email TEXT DEFAULT NULL,
         password TEXT DEFAULT NULL,
-        no_hp TEXT DEFAULT NULL
+        no_hp TEXT DEFAULT NULL,
+        user_id INTEGER CONSTRAINT fk_user_id REFERENCES users(id) ON DELETE SET NULL
       );
 ''');
     // assessment_details
@@ -48,7 +63,7 @@ class DatabaseHelper {
       CREATE TABLE assessment_details (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         assessment_code VARCHAR(75) NOT NULL,
-        nik_penyadap VARCHAR(255) CONSTRAINT fk_nik_penyadap REFERENCES users(nik),
+        nik_penyadap VARCHAR(255) CONSTRAINT fk_nik_penyadap REFERENCES tappers(nik),
         blok VARCHAR(255) NOT NULL,
         task VARCHAR(255) NOT NULL,
         no_hancak VARCHAR(255) NOT NULL,
@@ -93,17 +108,27 @@ class DatabaseHelper {
      )
 ''');
 
+    // create users
+    await db.execute('''
+      INSERT INTO users (nik, name, jabatan, departemen, status, email, password, role) VALUES 
+      ('111-111', 'Arif Halimawan', 'Mdr', 'Sub Divisi A', 'Monthly', 'arif@example.com', 'arif2022', 'mandor'),
+      ('111-112', 'Isno Hernandi', 'Mdr', 'Sub Divisi A', 'Monthly', 'isno@example.com', 'isno2022', 'mandor')
+
+''');
+
     // Create users
     await db.execute('''
-      INSERT INTO users (nik, name, role, jabatan, status, departemen, kemandoran, email, password, no_hp)
+      INSERT INTO tappers (nik, name, jabatan, status, departemen, kemandoran, no_hp, user_id)
       VALUES
-      ('111-111', 'Arif Halimawan', 'Mandor', 'Mdr', 'Monthly', 'Sub Divisi A', NULL, NULL, NULL, NULL),
-        ('222-222', 'John Doe', 'Instruktur', 'Inst', 'Monthly', 'Sub Divisi A', NULL, NULL, NULL, NULL),
-        ('333-333', 'Krisna Mukti Wibowo', 'Penyadap', '', 'FL', 'Sub Divisi A', 'Arif Halimawan', NULL, NULL, NULL),
-        ('444-444', 'M. Novriyan', 'Penyadap', '', 'Reguler', 'Sub Divisi A', 'Arif Halimawan', NULL, NULL, NULL),
-        ('555-555', 'M. Hidayaturrahman', 'Penyadap', '', 'Reguler', 'Sub Divisi A', 'Arif Halimawan', NULL, NULL, NULL),
-        ('666-666', 'Nanda Dwi Perkasa', 'Penyadap', '', 'Reguler', 'Sub Divisi A', 'Arif Halimawan', NULL, NULL, NULL),
-        ('777-777', 'Alif Ilham', 'Penyadap', '', 'FL', 'Sub Divisi A', NULL, NULL, 'Arif Halimawan', NULL)
+        ('333-333', 'Krisna Mukti Wibowo', '', 'FL', 'Sub Divisi A', 'Arif Halimawan', NULL, 1),
+        ('444-444', 'M. Novriyan', '', 'Reguler', 'Sub Divisi A', 'Arif Halimawan', NULL, 1),
+        ('555-555', 'M. Hidayaturrahman', '', 'Reguler', 'Sub Divisi A', 'Arif Halimawan', NULL, 1),
+        ('666-666', 'Nanda Dwi Perkasa', '', 'Reguler', 'Sub Divisi A', 'Arif Halimawan', NULL, 1),
+        ('777-777', 'Alif Ilham', '', 'FL', 'Sub Divisi B', 'Isno Hernandi', NULL, 2),
+        ('888-888', 'Budi Santoso', '', 'Reguler', 'Sub Divisi B', 'Isno Hernandi', NULL, 2),
+        ('999-999', 'Citra Ayu Lestari', '', 'Reguler', 'Sub Divisi B', 'Isno Hernandi', NULL, 2);
+
+        
 ''');
     // Create criteria
     await db.execute('''

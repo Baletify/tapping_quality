@@ -1,11 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:tapping_quality/controllers/assessment_bo_input_controller.dart';
 import 'package:tapping_quality/helpers/database_helper.dart';
-// import 'package:tapping_quality/pages/assessment/assessment_result.dart';
 import 'package:tapping_quality/pages/home_page.dart';
+// import 'package:tapping_quality/pages/assessment/assessment_result.dart';
+// import 'package:tapping_quality/pages/home_page.dart';
+import 'package:tapping_quality/pages/login_page.dart';
+
 // import 'package:tapping_quality/services/assessment_input_bo_service.dart';
 // import 'package:tapping_quality/services/assessment_result_service.dart';
+
+Future<bool> isLoggedIn() async {
+  final prefs = await SharedPreferences.getInstance();
+  return prefs.getBool('isLoggedIn') ?? false;
+}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,17 +38,19 @@ void main() async {
   // print('Assessment Details in the database: $data');
 
   await DatabaseHelper().database; // Initialize the database
-  runApp(const MyApp());
+  bool loggedIn = await isLoggedIn();
+  runApp(MyApp(loggedIn: loggedIn));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final bool loggedIn;
+  const MyApp({super.key, required this.loggedIn});
 
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const HomePage(),
+      home: loggedIn ? HomePage() : LoginPage(),
     );
   }
 }

@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:tapping_quality/controllers/inspection_log_controller.dart';
+import 'package:tapping_quality/controllers/user_controller.dart';
 import 'package:tapping_quality/pages/assessment/choose_assessment_type.dart';
 import 'package:tapping_quality/pages/inspection_log/inspection_log.dart';
+import 'package:tapping_quality/pages/login_page.dart';
+import 'package:tapping_quality/services/auth_service.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -8,16 +13,18 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          _topBar(),
-          const SizedBox(height: 20),
-          _topMenu(),
-          const SizedBox(height: 10),
-          _titleMenuSection(),
-          const SizedBox(height: 10),
-          _menuSection(context),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            _topBar(),
+            const SizedBox(height: 20),
+            _topMenu(),
+            const SizedBox(height: 10),
+            _titleMenuSection(),
+            const SizedBox(height: 10),
+            _menuSection(context),
+          ],
+        ),
       ),
     );
   }
@@ -74,6 +81,7 @@ class HomePage extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
+                    Get.delete<InspectionLogController>();
                     // Navigate to the Choose Assessment Type page
                     Navigator.push(
                       context,
@@ -383,6 +391,7 @@ class HomePage extends StatelessWidget {
   }
 
   Row _topBar() {
+    final UserController userController = Get.put(UserController());
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -412,44 +421,55 @@ class HomePage extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
-                        'Halo, John Doe',
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 18,
-                          fontWeight: FontWeight.w800,
-                          color: Colors.black,
+                      Obx(
+                        () => Text(
+                          'Halo, ${userController.userName.value}',
+                          style: TextStyle(
+                            fontFamily: 'Poppins',
+                            fontSize: 18,
+                            fontWeight: FontWeight.w800,
+                            color: Colors.black,
+                          ),
                         ),
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Container(
-                            margin: const EdgeInsets.only(),
-                            width: 30,
-                            height: 30,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(50),
-                              image: const DecorationImage(
-                                image: AssetImage(
-                                  'assets/icons/notification-4-line.png',
-                                ),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
+                          // Container(
+                          //   margin: const EdgeInsets.only(),
+                          //   width: 30,
+                          //   height: 30,
+                          //   decoration: BoxDecoration(
+                          //     color: Colors.white,
+                          //     borderRadius: BorderRadius.circular(50),
+                          //     image: const DecorationImage(
+                          //       image: AssetImage(
+                          //         'assets/icons/notification-4-line.png',
+                          //       ),
+                          //       fit: BoxFit.cover,
+                          //     ),
+                          //   ),
+                          // ),
                           const SizedBox(width: 10),
-                          Container(
-                            margin: const EdgeInsets.only(),
-                            width: 30,
-                            height: 30,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(50),
-                              image: const DecorationImage(
-                                image: AssetImage('assets/icons/user-line.png'),
-                                fit: BoxFit.cover,
+                          GestureDetector(
+                            onTap: () async {
+                              // Call the logout function from AuthService
+                              await AuthService().logout();
+                              Get.to(() => LoginPage());
+                            },
+                            child: Container(
+                              margin: const EdgeInsets.only(),
+                              width: 30,
+                              height: 30,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(50),
+                                image: const DecorationImage(
+                                  image: AssetImage(
+                                    'assets/icons/logout-box-line.png',
+                                  ),
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                             ),
                           ),

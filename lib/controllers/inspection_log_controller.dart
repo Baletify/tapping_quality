@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tapping_quality/models/user_model.dart';
 import 'package:tapping_quality/services/assessment_result_service.dart';
 import 'package:tapping_quality/services/user_service.dart';
@@ -10,20 +11,28 @@ class InspectionLogController extends GetxController {
   var selectedUser = Rxn<UserModel>();
   var isSearched = false.obs;
   var assessmentReport = <Map<String, dynamic>>[].obs;
+  var userID = 0.obs;
 
   @override
   void onInit() async {
     super.onInit();
+    await getUserID();
     try {
       // Fetch users from the UserService
-      final users = await UserService().getTapperByDepartment('Sub Divisi A');
+      final users = await UserService().getTapper(userID.value);
       userList.value = users;
       filteredUsers.value = users;
+      print('userID: $userID');
     } catch (e) {
       print('Error fetching users: $e');
       userList.value = [];
       filteredUsers.value = [];
     }
+  }
+
+  Future<void> getUserID() async {
+    final prefs = await SharedPreferences.getInstance();
+    userID.value = prefs.getInt('userId') ?? 0;
   }
 
   void updateDate(DateTime date) {

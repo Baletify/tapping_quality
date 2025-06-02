@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tapping_quality/models/user_model.dart';
 import 'package:tapping_quality/services/user_service.dart';
 
@@ -12,6 +13,7 @@ class AssessmentBoDetailController extends GetxController {
   var treeSkinType = ['Perawan', 'Pulihan', 'NTA'].obs;
   var tappingPanel = ['HO', 'VH', 'GO'].obs;
   var taskList = ['A', 'B', 'C', 'D'].obs;
+  var userID = 0.obs;
 
   final nikController = TextEditingController();
   final kemandoranController = TextEditingController();
@@ -33,6 +35,7 @@ class AssessmentBoDetailController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
+    await getUserID();
     resetAllFields();
     // Initialize the user list
     treeSkinType = ['Perawan', 'Pulihan', 'NTA'].obs;
@@ -41,7 +44,7 @@ class AssessmentBoDetailController extends GetxController {
 
     try {
       // Fetch users from the UserService
-      final users = await UserService().getTapperByDepartment('Sub Divisi A');
+      final users = await UserService().getTapper(userID.value);
       userList.value = users;
       filteredUsers.value = users;
     } catch (e) {
@@ -49,6 +52,11 @@ class AssessmentBoDetailController extends GetxController {
       userList.value = [];
       filteredUsers.value = [];
     }
+  }
+
+  Future<void> getUserID() async {
+    final prefs = await SharedPreferences.getInstance();
+    userID.value = prefs.getInt('userId') ?? 0;
   }
 
   // Method to filter users based on search query
