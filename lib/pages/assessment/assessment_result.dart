@@ -482,7 +482,7 @@ class _AssessmentResultState extends State<AssessmentResult> {
                                               right: 4.0,
                                             ),
                                             child: Text(
-                                              result?['kemandoran'] ?? 'N/A',
+                                              result?['inspection_by'] ?? 'N/A',
                                               style: TextStyle(
                                                 fontFamily: 'Poppins',
                                                 fontSize: 14,

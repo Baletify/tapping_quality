@@ -188,194 +188,7 @@ class InspectionLog extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   _leftCard(report),
-                  Container(
-                    width: 175,
-                    height: 100,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          spreadRadius: 2,
-                          blurRadius: 5,
-                          offset: const Offset(0, 3),
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 5.0, left: 5.0),
-                          child: const Text(
-                            'Hasil Assessment:',
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                            ),
-                          ),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                top: 1.0,
-                                left: 5.0,
-                                right: 5.0,
-                              ),
-                              child: const Text(
-                                'Panel Sadap:',
-                                style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                top: 1.0,
-                                left: 5.0,
-                                right: 5.0,
-                              ),
-                              child: Text(
-                                report.first['panel_sadap'] ?? 'N/A',
-                                style: const TextStyle(
-                                  fontFamily: 'Poppins',
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                top: 1.0,
-                                left: 5.0,
-                                right: 5.0,
-                              ),
-                              child: const Text(
-                                'Status Kulit:',
-                                style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ),
-                            Flexible(
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                  top: 1.0,
-                                  left: 5.0,
-                                  right: 5.0,
-                                ),
-                                child: Text(
-                                  report.first['jenis_kulit_pohon'] ?? 'N/A',
-                                  style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                top: 1.0,
-                                left: 5.0,
-                                right: 5.0,
-                              ),
-                              child: const Text(
-                                'Nilai:',
-                                style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ),
-                            Flexible(
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                  top: 1.0,
-                                  left: 5.0,
-                                  right: 5.0,
-                                ),
-                                child: Text(
-                                  totalScore.toStringAsFixed(1),
-                                  style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                top: 1.0,
-                                left: 5.0,
-                                right: 5.0,
-                              ),
-                              child: const Text(
-                                'Kelas:',
-                                style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ),
-                            Flexible(
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                  top: 1.0,
-                                  left: 5.0,
-                                  right: 5.0,
-                                ),
-                                child: Text(
-                                  kelas,
-                                  style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
+                  _rightCard(report, totalScore, kelas),
                 ],
               );
             }
@@ -469,10 +282,220 @@ class InspectionLog extends StatelessWidget {
     );
   }
 
+  Container _rightCard(
+    RxList<Map<String, dynamic>> report,
+    double totalScore,
+    String kelas,
+  ) {
+    return Container(
+      width: 175,
+      height: 130,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8),
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            spreadRadius: 2,
+            blurRadius: 5,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 5.0, left: 5.0),
+            child: const Text(
+              'Hasil Assessment:',
+              style: TextStyle(
+                fontFamily: 'Poppins',
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 1.0, left: 5.0, right: 5.0),
+                child: const Text(
+                  'Panel Sadap:',
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 1.0, left: 5.0, right: 5.0),
+                child: Text(
+                  report.first['panel_sadap'] ?? 'N/A',
+                  style: const TextStyle(
+                    fontFamily: 'Poppins',
+                    fontSize: 10,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 1.0, left: 5.0, right: 5.0),
+                child: const Text(
+                  'Status Kulit:',
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+              Flexible(
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    top: 1.0,
+                    left: 5.0,
+                    right: 5.0,
+                  ),
+                  child: Text(
+                    report.first['jenis_kulit_pohon'] ?? 'N/A',
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 10,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 1.0, left: 5.0, right: 5.0),
+                child: const Text(
+                  'Nilai:',
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+              Flexible(
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    top: 1.0,
+                    left: 5.0,
+                    right: 5.0,
+                  ),
+                  child: Text(
+                    totalScore.toStringAsFixed(1),
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 10,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 1.0, left: 5.0, right: 5.0),
+                child: const Text(
+                  'Kelas:',
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+              Flexible(
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    top: 1.0,
+                    left: 5.0,
+                    right: 5.0,
+                  ),
+                  child: Text(
+                    kelas,
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 10,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 1.0, left: 5.0, right: 5.0),
+                child: const Text(
+                  'Inspeksi Oleh:',
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+              Flexible(
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    top: 1.0,
+                    left: 5.0,
+                    right: 5.0,
+                  ),
+                  child: Text(
+                    report.first['inspection_by'] ?? 'N/A',
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 10,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
   Container _leftCard(RxList<Map<String, dynamic>> report) {
     return Container(
       width: 175,
-      height: 100,
+      height: 130,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
         color: Colors.white,

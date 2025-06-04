@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tapping_quality/controllers/assessment_bo_detail_controller.dart';
 import 'package:tapping_quality/controllers/assessment_bo_input_controller.dart';
 import 'package:tapping_quality/models/user_model.dart';
@@ -327,34 +328,34 @@ class AddAssessmentBo extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 15),
-            Obx(() {
-              return Padding(
-                padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-                child: Container(
-                  decoration: BoxDecoration(color: Colors.white),
-                  child: DropdownMenu<String>(
-                    controller:
-                        TextEditingController(), // Optional: Add a controller if needed
-                    width: double.infinity,
-                    hintText: 'Panel Sadap',
-                    requestFocusOnTap: true,
-                    dropdownMenuEntries:
-                        userController.tappingPanel
-                            .map(
-                              (type) => DropdownMenuEntry<String>(
-                                label: type,
-                                value: type,
-                              ),
-                            )
-                            .toList(),
-                    onSelected: (value) {
-                      userController.updateTappingPanel(value!);
-                    },
-                  ),
-                ),
-              );
-            }),
-            const SizedBox(height: 15),
+            // Obx(() {
+            //   return Padding(
+            //     padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+            //     child: Container(
+            //       decoration: BoxDecoration(color: Colors.white),
+            //       child: DropdownMenu<String>(
+            //         controller:
+            //             TextEditingController(), // Optional: Add a controller if needed
+            //         width: double.infinity,
+            //         hintText: 'Panel Sadap',
+            //         requestFocusOnTap: true,
+            //         dropdownMenuEntries:
+            //             userController.tappingPanel
+            //                 .map(
+            //                   (type) => DropdownMenuEntry<String>(
+            //                     label: type,
+            //                     value: type,
+            //                   ),
+            //                 )
+            //                 .toList(),
+            //         onSelected: (value) {
+            //           userController.updateTappingPanel(value!);
+            //         },
+            //       ),
+            //     ),
+            //   );
+            // }),
+            // const SizedBox(height: 15),
             Obx(() {
               return Padding(
                 padding: const EdgeInsets.only(left: 8.0, right: 8.0),
@@ -392,6 +393,8 @@ class AddAssessmentBo extends StatelessWidget {
               ),
               child: GestureDetector(
                 onTap: () async {
+                  final prefs = await SharedPreferences.getInstance();
+                  final String? inspectionBy = prefs.getString('name');
                   final Map<String, dynamic> data = {
                     'assessment_code': generateRandomCode(),
                     'tanggal_inspeksi':
@@ -402,11 +405,11 @@ class AddAssessmentBo extends StatelessWidget {
                     'tahun_tanam': userController.tahunTanamController.text,
                     'clone': userController.cloneController.text,
                     'sistem_sadap': userController.sistemSadapController.text,
-                    'panel_sadap': userController.tappingPanelController.text,
+                    'panel_sadap': 'BO',
                     'jenis_kulit_pohon':
                         userController.treeSkinTypeController.text,
-                    'jenis_sadap': 'BO',
                     'nik_penyadap': userController.nikController.text,
+                    'inspection_by': inspectionBy,
                   };
 
                   final Map<String, dynamic> details = await service

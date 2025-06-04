@@ -71,8 +71,8 @@ class DatabaseHelper {
         clone VARCHAR(255) NOT NULL,
         sistem_sadap TEXT NOT NULL,
         panel_sadap TEXT NOT NULL,
-        jenis_sadap TEXT NOT NULL,
         jenis_kulit_pohon TEXT NOT NULL,
+        inspection_by VARCHAR(255) NOT NULL,
         tanggal_inspeksi DATE NOT NULL,
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
         foreman_upload_at DATETIME DEFAULT NULL

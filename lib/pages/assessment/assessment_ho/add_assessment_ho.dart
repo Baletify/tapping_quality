@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tapping_quality/controllers/assessment_ho_detail_controller.dart';
 import 'package:tapping_quality/controllers/assessment_ho_input_controller.dart';
 import 'package:tapping_quality/models/user_model.dart';
@@ -394,6 +395,9 @@ class AddAssessmentHo extends StatelessWidget {
               ),
               child: GestureDetector(
                 onTap: () async {
+                  final prefs = await SharedPreferences.getInstance();
+                  final String? inspectionBy = prefs.getString('name');
+                  print('Inspection By: $inspectionBy');
                   final Map<String, dynamic> data = {
                     'assessment_code': generateRandomCode(),
                     'tanggal_inspeksi':
@@ -407,8 +411,8 @@ class AddAssessmentHo extends StatelessWidget {
                     'panel_sadap': userController.tappingPanelController.text,
                     'jenis_kulit_pohon':
                         userController.treeSkinTypeController.text,
-                    'jenis_sadap': 'HO',
                     'nik_penyadap': userController.nikController.text,
+                    'inspection_by': inspectionBy,
                   };
 
                   final Map<String, dynamic> details = await service
