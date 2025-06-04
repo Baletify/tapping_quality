@@ -22,370 +22,367 @@ class InspectionLog extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(right: 2.0),
-                        child: Container(
-                          height: 58,
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.black),
-                            borderRadius: BorderRadius.circular(8),
-                            color: Colors.white,
-                          ),
-                          child: Obx(() {
-                            return TextButton(
-                              onPressed: () async {
-                                DateTime? pickedDate = await showDatePicker(
-                                  context: context,
-                                  initialDate: controller.selectedDate.value,
-                                  firstDate: DateTime(2000),
-                                  lastDate: DateTime(2100),
-                                );
-
-                                if (pickedDate != null) {
-                                  controller.updateDate(pickedDate);
-                                }
-                              },
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    "${controller.selectedDate.value.day}/${controller.selectedDate.value.month}/${controller.selectedDate.value.year}",
-                                    style: const TextStyle(
-                                      fontFamily: 'Poppins',
-                                      fontSize: 16,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 8),
-                                  const Icon(
-                                    Icons.calendar_today,
-                                    color: Colors.black,
-                                  ),
-                                ],
-                              ),
-                            );
-                          }),
-                        ),
-                      ),
-                      Obx(() {
-                        return Padding(
-                          padding: const EdgeInsets.only(left: 2.0),
-                          child: Container(
-                            height: 55,
-                            decoration: BoxDecoration(color: Colors.white),
-                            child: DropdownMenu<UserModel>(
-                              width: 180,
-                              hintText: 'Pilih Penyadap',
-                              requestFocusOnTap: true,
-                              enableFilter: true,
-                              dropdownMenuEntries:
-                                  controller.userList
-                                      .map(
-                                        (user) => DropdownMenuEntry<UserModel>(
-                                          label: user.name,
-                                          value: user,
-                                        ),
-                                      )
-                                      .toList(),
-                              onSelected: (value) {
-                                controller.updateSelectedUser(value);
-                              },
-                            ),
-                          ),
-                        );
-                      }),
-                      ElevatedButton(
-                        onPressed: () {
-                          final selectedUserNik =
-                              controller.selectedUser.value?.nik ?? '';
-                          final date = controller.selectedDate.value;
-                          final dateString =
-                              "${date.year.toString().padLeft(4, '0')}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}";
-                          controller.fetchAssessmentReport(
-                            selectedUserNik,
-                            dateString,
-                          );
-                          // print(dateString);
-                          // print(selectedUserNik);
-                          controller.isSearched.value = true;
-                        },
-
-                        style: ElevatedButton.styleFrom(
-                          minimumSize: const Size(20, 55),
-                          padding: const EdgeInsets.all(12),
-                          backgroundColor: Colors.blue,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                        ),
-                        child: Icon(Icons.search, color: Colors.white),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 10),
-            Obx(() {
-              final report = controller.assessmentReport;
-              double totalScore = report.fold(
-                0.0,
-                (prev, element) =>
-                    prev +
-                    (element['avg_score'] != null
-                        ? (element['avg_score'] as num).toDouble()
-                        : 0.0),
-              );
-              String kelas = '';
-              if (totalScore >= 0 && totalScore <= 10.9) {
-                kelas = '1';
-              } else if (totalScore > 10.9 && totalScore <= 20.9) {
-                kelas = '2';
-              } else if (totalScore > 20.9 && totalScore <= 26.9) {
-                kelas = '3';
-              } else if (totalScore > 26.9 && totalScore <= 32.9) {
-                kelas = '4';
-              } else {
-                kelas = 'No Class';
-              }
-              final isAllNull =
-                  report.isNotEmpty &&
-                  report.first.values.every((value) => value == null);
-              if (!controller.isSearched.value || isAllNull) {
-                return SingleChildScrollView(
-                  child: Center(
-                    child: Image.asset(
-                      'assets/images/search.png',
-                      width: 300,
-                      height: 500,
-                      fit: BoxFit.contain,
-                    ),
-                  ),
-                );
-              } else if (report.isEmpty) {
-                return SingleChildScrollView(
-                  child: Center(
-                    child: Image.asset(
-                      'assets/images/404-page.png',
-                      width: 300,
-                      height: 500,
-                      fit: BoxFit.contain,
-                    ),
-                  ),
-                );
-              } else {
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      body: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    _leftCard(report),
-                    Container(
-                      width: 175,
-                      height: 100,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.1),
-                            spreadRadius: 2,
-                            blurRadius: 5,
-                            offset: const Offset(0, 3),
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(top: 5.0, left: 5.0),
-                            child: const Text(
-                              'Hasil Assessment:',
-                              style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 2.0),
+                      child: Container(
+                        height: 58,
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black),
+                          borderRadius: BorderRadius.circular(8),
+                          color: Colors.white,
+                        ),
+                        child: Obx(() {
+                          return TextButton(
+                            onPressed: () async {
+                              DateTime? pickedDate = await showDatePicker(
+                                context: context,
+                                initialDate: controller.selectedDate.value,
+                                firstDate: DateTime(2000),
+                                lastDate: DateTime(2100),
+                              );
+
+                              if (pickedDate != null) {
+                                controller.updateDate(pickedDate);
+                              }
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "${controller.selectedDate.value.day}/${controller.selectedDate.value.month}/${controller.selectedDate.value.year}",
+                                  style: const TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontSize: 16,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                const SizedBox(width: 8),
+                                const Icon(
+                                  Icons.calendar_today,
+                                  color: Colors.black,
+                                ),
+                              ],
                             ),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                  top: 1.0,
-                                  left: 5.0,
-                                  right: 5.0,
-                                ),
-                                child: const Text(
-                                  'Panel Sadap:',
-                                  style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ),
-                              Flexible(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                    top: 1.0,
-                                    left: 5.0,
-                                    right: 5.0,
-                                  ),
-                                  child: Text(
-                                    report.first['panel_sadap'] ?? 'N/A',
-                                    style: const TextStyle(
-                                      fontFamily: 'Poppins',
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                  top: 1.0,
-                                  left: 5.0,
-                                  right: 5.0,
-                                ),
-                                child: const Text(
-                                  'Status Kulit:',
-                                  style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ),
-                              Flexible(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                    top: 1.0,
-                                    left: 5.0,
-                                    right: 5.0,
-                                  ),
-                                  child: Text(
-                                    report.first['jenis_kulit_pohon'] ?? 'N/A',
-                                    style: TextStyle(
-                                      fontFamily: 'Poppins',
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                  top: 1.0,
-                                  left: 5.0,
-                                  right: 5.0,
-                                ),
-                                child: const Text(
-                                  'Nilai:',
-                                  style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ),
-                              Flexible(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                    top: 1.0,
-                                    left: 5.0,
-                                    right: 5.0,
-                                  ),
-                                  child: Text(
-                                    totalScore.toStringAsFixed(1),
-                                    style: TextStyle(
-                                      fontFamily: 'Poppins',
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                  top: 1.0,
-                                  left: 5.0,
-                                  right: 5.0,
-                                ),
-                                child: const Text(
-                                  'Kelas:',
-                                  style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ),
-                              Flexible(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                    top: 1.0,
-                                    left: 5.0,
-                                    right: 5.0,
-                                  ),
-                                  child: Text(
-                                    kelas,
-                                    style: TextStyle(
-                                      fontFamily: 'Poppins',
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
+                          );
+                        }),
                       ),
+                    ),
+                    Obx(() {
+                      return Padding(
+                        padding: const EdgeInsets.only(left: 2.0),
+                        child: Container(
+                          height: 55,
+                          decoration: BoxDecoration(color: Colors.white),
+                          child: DropdownMenu<UserModel>(
+                            width: 180,
+                            hintText: 'Pilih Penyadap',
+                            requestFocusOnTap: true,
+                            enableFilter: true,
+                            dropdownMenuEntries:
+                                controller.userList
+                                    .map(
+                                      (user) => DropdownMenuEntry<UserModel>(
+                                        label: user.name,
+                                        value: user,
+                                      ),
+                                    )
+                                    .toList(),
+                            onSelected: (value) {
+                              controller.updateSelectedUser(value);
+                            },
+                          ),
+                        ),
+                      );
+                    }),
+                    ElevatedButton(
+                      onPressed: () {
+                        final selectedUserNik =
+                            controller.selectedUser.value?.nik ?? '';
+                        final date = controller.selectedDate.value;
+                        final dateString =
+                            "${date.year.toString().padLeft(4, '0')}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}";
+                        controller.fetchAssessmentReport(
+                          selectedUserNik,
+                          dateString,
+                        );
+                        // print(dateString);
+                        // print(selectedUserNik);
+                        controller.isSearched.value = true;
+                      },
+
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(20, 55),
+                        padding: const EdgeInsets.all(12),
+                        backgroundColor: Colors.blue,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      child: Icon(Icons.search, color: Colors.white),
                     ),
                   ],
-                );
-              }
-            }),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          Obx(() {
+            final report = controller.assessmentReport;
+            double totalScore = report.fold(
+              0.0,
+              (prev, element) =>
+                  prev +
+                  (element['avg_score'] != null
+                      ? (element['avg_score'] as num).toDouble()
+                      : 0.0),
+            );
+            String kelas = '';
+            if (totalScore >= 0 && totalScore <= 10.9) {
+              kelas = '1';
+            } else if (totalScore > 10.9 && totalScore <= 20.9) {
+              kelas = '2';
+            } else if (totalScore > 20.9 && totalScore <= 26.9) {
+              kelas = '3';
+            } else if (totalScore > 26.9 && totalScore <= 32.9) {
+              kelas = '4';
+            } else {
+              kelas = 'No Class';
+            }
+            final isAllNull =
+                report.isNotEmpty &&
+                report.first.values.every((value) => value == null);
+            if (!controller.isSearched.value || isAllNull) {
+              return Expanded(
+                child: Center(
+                  child: Image.asset(
+                    'assets/images/search.png',
+                    width: 300,
+                    height: 500,
+                    fit: BoxFit.contain,
+                  ),
+                ),
+              );
+            } else if (report.isEmpty) {
+              return Expanded(
+                child: Center(
+                  child: Image.asset(
+                    'assets/images/404-page.png',
+                    width: 300,
+                    height: 500,
+                    fit: BoxFit.contain,
+                  ),
+                ),
+              );
+            } else {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  _leftCard(report),
+                  Container(
+                    width: 175,
+                    height: 100,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.1),
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset: const Offset(0, 3),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 5.0, left: 5.0),
+                          child: const Text(
+                            'Hasil Assessment:',
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                top: 1.0,
+                                left: 5.0,
+                                right: 5.0,
+                              ),
+                              child: const Text(
+                                'Panel Sadap:',
+                                style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                top: 1.0,
+                                left: 5.0,
+                                right: 5.0,
+                              ),
+                              child: Text(
+                                report.first['panel_sadap'] ?? 'N/A',
+                                style: const TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                top: 1.0,
+                                left: 5.0,
+                                right: 5.0,
+                              ),
+                              child: const Text(
+                                'Status Kulit:',
+                                style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                            Flexible(
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                  top: 1.0,
+                                  left: 5.0,
+                                  right: 5.0,
+                                ),
+                                child: Text(
+                                  report.first['jenis_kulit_pohon'] ?? 'N/A',
+                                  style: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                top: 1.0,
+                                left: 5.0,
+                                right: 5.0,
+                              ),
+                              child: const Text(
+                                'Nilai:',
+                                style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                            Flexible(
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                  top: 1.0,
+                                  left: 5.0,
+                                  right: 5.0,
+                                ),
+                                child: Text(
+                                  totalScore.toStringAsFixed(1),
+                                  style: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                top: 1.0,
+                                left: 5.0,
+                                right: 5.0,
+                              ),
+                              child: const Text(
+                                'Kelas:',
+                                style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                            Flexible(
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                  top: 1.0,
+                                  left: 5.0,
+                                  right: 5.0,
+                                ),
+                                child: Text(
+                                  kelas,
+                                  style: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              );
+            }
+          }),
 
-            Padding(
+          Expanded(
+            child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
                 decoration: BoxDecoration(
@@ -398,32 +395,36 @@ class InspectionLog extends StatelessWidget {
                       report.isNotEmpty &&
                       report.first.values.every((value) => value == null);
                   if (!controller.isSearched.value || isAllNull) {
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Silahkan pilih tanggal dan nama penyadap',
-                          style: const TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 14,
-                            color: Colors.black,
+                    return SingleChildScrollView(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Silahkan pilih tanggal dan nama penyadap',
+                            style: const TextStyle(
+                              fontFamily: 'Poppins',
+                              fontSize: 14,
+                              color: Colors.black,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     );
                   } else if (report.isEmpty) {
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Data Tidak Ditemukan',
-                          style: const TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 16,
-                            color: Colors.black,
+                    return SingleChildScrollView(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Data Tidak Ditemukan',
+                            style: const TextStyle(
+                              fontFamily: 'Poppins',
+                              fontSize: 16,
+                              color: Colors.black,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     );
                   } else {
                     // Show your Card/ListView with results
@@ -462,8 +463,8 @@ class InspectionLog extends StatelessWidget {
                 }),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
