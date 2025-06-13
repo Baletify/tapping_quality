@@ -66,6 +66,7 @@ class DatabaseHelper {
         nik_penyadap VARCHAR(255) CONSTRAINT fk_nik_penyadap REFERENCES tappers(nik),
         blok VARCHAR(255) NOT NULL,
         task VARCHAR(255) NOT NULL,
+        kemandoran VARCHAR(255) NOT NULL,
         no_hancak VARCHAR(255) NOT NULL,
         tahun_tanam INTEGER NOT NULL,
         clone VARCHAR(255) NOT NULL,

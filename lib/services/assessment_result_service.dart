@@ -38,4 +38,6 @@ class AssessmentResultService extends GetxController {
     // print('Assessment Result: $result');
     return result;
   }
+
+
 }

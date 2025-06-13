@@ -405,6 +405,7 @@ class AddAssessmentBo extends StatelessWidget {
                     'tahun_tanam': userController.tahunTanamController.text,
                     'clone': userController.cloneController.text,
                     'sistem_sadap': userController.sistemSadapController.text,
+                    'kemandoran': userController.kemandoranController.text,
                     'panel_sadap': 'BO',
                     'jenis_kulit_pohon':
                         userController.treeSkinTypeController.text,

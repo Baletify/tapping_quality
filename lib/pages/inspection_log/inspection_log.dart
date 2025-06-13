@@ -289,7 +289,7 @@ class InspectionLog extends StatelessWidget {
   ) {
     return Container(
       width: 175,
-      height: 130,
+      height: 105,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
         color: Colors.white,
@@ -495,7 +495,7 @@ class InspectionLog extends StatelessWidget {
   Container _leftCard(RxList<Map<String, dynamic>> report) {
     return Container(
       width: 175,
-      height: 130,
+      height: 105,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
         color: Colors.white,

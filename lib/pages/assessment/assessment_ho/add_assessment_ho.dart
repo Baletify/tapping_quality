@@ -407,6 +407,7 @@ class AddAssessmentHo extends StatelessWidget {
                     'no_hancak': userController.noHancakController.text,
                     'tahun_tanam': userController.tahunTanamController.text,
                     'clone': userController.cloneController.text,
+                    'kemandoran': userController.kemandoranController.text,
                     'sistem_sadap': userController.sistemSadapController.text,
                     'panel_sadap': userController.tappingPanelController.text,
                     'jenis_kulit_pohon':
