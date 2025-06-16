@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tapping_quality/services/assessment_upload_service.dart';
@@ -7,6 +8,8 @@ import 'dart:convert';
 class UploadAssessmentController extends GetxController {
   var assessmentDetails = <Map<String, dynamic>>[].obs;
   var treeAssessment = <Map<String, dynamic>>[].obs;
+  var isUploading = false.obs;
+  var uploadingId = <String>{}.obs;
 
   @override
   void onInit() {
@@ -25,8 +28,12 @@ class UploadAssessmentController extends GetxController {
   }
 
   void uploadAssessment(Map<String, dynamic> data) async {
-    final url = Uri.parse('http://192.168.100.23:8000/api/assessment/upload');
+    isUploading.value = true;
+    final url = Uri.parse('http://192.168.3.184:8000/api/assessment-upload');
+    final service = AssessmentUploadService();
     try {
+      print('Uploading assessment: ${data['assessment_id']}');
+
       final response = await http.post(
         url,
         headers: {'Content-Type': 'application/json'},
@@ -48,15 +55,64 @@ class UploadAssessmentController extends GetxController {
       );
 
       if (response.statusCode == 200 || response.statusCode == 201) {
+        await service.updateAssessmentDetails(data['assessment_code']);
+
+        uploadingId.add(data['assessment_id'].toString());
         // Successfully uploaded
         print('Assessment uploaded successfully');
-        getAssessmentDetails(); // Refresh the assessment details
+        final responseData = jsonDecode(response.body);
+        print('Success: ${responseData['success']}');
+        print('Message: ${responseData['message']}');
+        print('Data: ${responseData['data']}');
+        await service.getTreeAssessment(data['assessment_id']);
+        treeAssessment.assignAll(
+          await service.getTreeAssessment(data['assessment_id']),
+        );
+        print('Tree Assessment: $treeAssessment');
+        for (final data in treeAssessment) {
+          await http.post(
+            Uri.parse('http://192.168.3.184:8000/api/tree-assessment-upload'),
+            headers: {'Content-Type': 'application/json'},
+            body: jsonEncode({
+              'assessment_code': data['assessment_code'],
+              'tree_id': data['tree_id'],
+              'criteria_id': data['criteria_id'],
+            }),
+          );
+        }
+        getAssessmentDetails();
+        uploadingId.remove(data['assessment_id']);
+        Get.snackbar(
+          'Success',
+          'Assessment uploaded successfully',
+          snackPosition: SnackPosition.BOTTOM,
+        );
       } else {
         // Handle error
+        Get.snackbar(
+          'Error',
+          'Failed to upload assessment: ${response.statusCode}',
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+        );
         print('Failed to upload assessment: ${response.body}');
+        uploadingId.remove(data['assessment_id']);
       }
     } catch (e) {
       print('Error uploading assessment: $e');
+      Get.snackbar(
+        'Error',
+        'An error occurred while uploading the assessment',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+      uploadingId.remove(data['assessment_id']);
+    } finally {
+      uploadingId.remove(data['assessment_id']);
+      isUploading.value = false;
+      getAssessmentDetails();
     }
   }
 }

@@ -178,10 +178,28 @@ class UploadAssessment extends StatelessWidget {
                                           );
                                         }
                                       },
-                                      child: const Icon(
-                                        Icons.upload,
-                                        color: Colors.blue,
-                                        size: 30,
+                                      child: Obx(
+                                        () =>
+                                            controller.uploadingId.contains(
+                                                      data['assessment_id'],
+                                                    ) &&
+                                                    controller
+                                                            .isUploading
+                                                            .value ==
+                                                        true
+                                                ? const SizedBox(
+                                                  width: 24,
+                                                  height: 24,
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                        strokeWidth: 2,
+                                                        color: Colors.blue,
+                                                      ),
+                                                )
+                                                : Icon(
+                                                  Icons.cloud_upload,
+                                                  color: Colors.blue,
+                                                ),
                                       ),
                                     ),
                                   ),
