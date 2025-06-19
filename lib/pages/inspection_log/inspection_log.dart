@@ -142,22 +142,26 @@ class InspectionLog extends StatelessWidget {
               0.0,
               (prev, element) =>
                   prev +
-                  (element['avg_score'] != null
-                      ? (element['avg_score'] as num).toDouble()
+                  (element['score'] != null
+                      ? (element['score'] as num).toDouble()
                       : 0.0),
             );
+
             String kelas = '';
-            if (totalScore >= 0 && totalScore <= 10.9) {
+            double actualScore;
+            actualScore = totalScore / 10;
+            if (actualScore >= 0 && actualScore <= 10.9) {
               kelas = '1';
-            } else if (totalScore > 10.9 && totalScore <= 20.9) {
+            } else if (actualScore > 10.9 && actualScore <= 20.9) {
               kelas = '2';
-            } else if (totalScore > 20.9 && totalScore <= 26.9) {
+            } else if (actualScore > 20.9 && actualScore <= 26.9) {
               kelas = '3';
-            } else if (totalScore > 26.9 && totalScore <= 32.9) {
+            } else if (actualScore > 26.9 && actualScore <= 32.9) {
               kelas = '4';
             } else {
               kelas = 'No Class';
             }
+
             final isAllNull =
                 report.isNotEmpty &&
                 report.first.values.every((value) => value == null);
@@ -188,7 +192,7 @@ class InspectionLog extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   _leftCard(report),
-                  _rightCard(report, totalScore, kelas),
+                  _rightCard(report, totalScore, actualScore, kelas),
                 ],
               );
             }
@@ -248,7 +252,10 @@ class InspectionLog extends StatelessWidget {
                         return Card(
                           child: ListTile(
                             title: Text(
-                              result['criteria_name'] ?? 'N/A',
+                              (result['criteria_name'] +
+                                      " - " +
+                                      result['criteria_description']) ??
+                                  'N/A',
                               style: const TextStyle(
                                 fontFamily: 'Poppins',
                                 fontSize: 12,
@@ -257,8 +264,8 @@ class InspectionLog extends StatelessWidget {
                               ),
                             ),
                             trailing: Text(
-                              result['avg_score'] != null
-                                  ? (result['avg_score'] as num)
+                              result['score'] != null
+                                  ? ((result['score'] / 10) as num)
                                       .toStringAsFixed(1)
                                   : 'N/A',
                               style: const TextStyle(
@@ -285,6 +292,7 @@ class InspectionLog extends StatelessWidget {
   Container _rightCard(
     RxList<Map<String, dynamic>> report,
     double totalScore,
+    double actualScore,
     String kelas,
   ) {
     return Container(
@@ -405,7 +413,7 @@ class InspectionLog extends StatelessWidget {
                     right: 5.0,
                   ),
                   child: Text(
-                    totalScore.toStringAsFixed(1),
+                    actualScore.toStringAsFixed(1),
                     style: TextStyle(
                       fontFamily: 'Poppins',
                       fontSize: 10,

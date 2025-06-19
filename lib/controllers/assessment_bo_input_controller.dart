@@ -34,7 +34,7 @@ class AssessmentBoInputController extends GetxController {
     super.onInit();
     fetchAssessmentDetails();
     fetchCriteria();
-    selectedCriteriaIds.value = List.generate(10, (_) => []);
+    selectedCriteriaIds.value = List.generate(12, (_) => []);
     resetState();
   }
 

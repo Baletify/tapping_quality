@@ -103,7 +103,7 @@ class _InputAssessmentHoState extends State<InputAssessmentHo> {
     }
   }
 
-  List<bool> answeredQuestions = List.generate(11, (index) => false);
+  List<bool> answeredQuestions = List.generate(12, (index) => false);
   bool isQ1Answered() => controller.selectedWound.value.isNotEmpty;
   bool isQ2Answered() => controller.selectedDepth.value.isNotEmpty;
   bool isQ3Answered() =>
@@ -153,7 +153,7 @@ class _InputAssessmentHoState extends State<InputAssessmentHo> {
   void resetQuestionCount() {
     setState(() {
       questionIndex = 0;
-      answeredQuestions = List.generate(11, (index) => false);
+      answeredQuestions = List.generate(12, (index) => false);
     });
   }
 
@@ -409,12 +409,20 @@ class _InputAssessmentHoState extends State<InputAssessmentHo> {
                                                 .selectedCriteriaIds[treeIndex -
                                                     1]
                                                 .add(5);
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .remove(8);
                                           }
                                         } else {
                                           controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
                                               .remove(5);
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(8);
                                         }
                                       },
                                       controlAffinity:
@@ -455,12 +463,20 @@ class _InputAssessmentHoState extends State<InputAssessmentHo> {
                                                 .selectedCriteriaIds[treeIndex -
                                                     1]
                                                 .add(6);
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .remove(8);
                                           }
                                         } else {
                                           controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
                                               .remove(6);
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(8);
                                         }
                                       },
                                       controlAffinity:
@@ -501,12 +517,20 @@ class _InputAssessmentHoState extends State<InputAssessmentHo> {
                                                 .selectedCriteriaIds[treeIndex -
                                                     1]
                                                 .add(7);
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .remove(8);
                                           }
                                         } else {
                                           controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
                                               .remove(7);
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(8);
                                         }
                                       },
                                       controlAffinity:
@@ -547,8 +571,32 @@ class _InputAssessmentHoState extends State<InputAssessmentHo> {
                                                 .selectedCriteriaIds[treeIndex -
                                                     1]
                                                 .add(8);
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .remove(5);
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .remove(6);
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .remove(7);
                                           }
                                         } else {
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(5);
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(6);
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(7);
                                           controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
@@ -634,7 +682,7 @@ class _InputAssessmentHoState extends State<InputAssessmentHo> {
                                       onChanged: (value) {
                                         controller.selectDepth(value!);
                                         checkAndAdvanceQuestion(
-                                          1,
+                                          2,
                                           isQ2Answered(),
                                         );
                                         if (value == 'Kurang Dalam') {
@@ -673,7 +721,7 @@ class _InputAssessmentHoState extends State<InputAssessmentHo> {
                                       onChanged: (value) {
                                         controller.selectDepth(value!);
                                         checkAndAdvanceQuestion(
-                                          1,
+                                          2,
                                           isQ2Answered(),
                                         );
                                         if (value == 'Kurang Dalam') {
@@ -712,7 +760,7 @@ class _InputAssessmentHoState extends State<InputAssessmentHo> {
                                       onChanged: (value) {
                                         controller.selectDepth(value!);
                                         checkAndAdvanceQuestion(
-                                          1,
+                                          2,
                                           isQ2Answered(),
                                         );
                                         if (value == 'Kurang Dalam') {
@@ -800,7 +848,7 @@ class _InputAssessmentHoState extends State<InputAssessmentHo> {
                                       onChanged: (value) {
                                         controller.toggleCheckbox2('opt1');
                                         checkAndAdvanceQuestion(
-                                          2,
+                                          3,
                                           isQ3Answered(),
                                         );
                                         if (value == true) {
@@ -812,12 +860,20 @@ class _InputAssessmentHoState extends State<InputAssessmentHo> {
                                                 .selectedCriteriaIds[treeIndex -
                                                     1]
                                                 .add(12);
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .remove(19);
                                           }
                                         } else {
                                           controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
                                               .remove(12);
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(19);
                                         }
                                       },
                                       controlAffinity:
@@ -846,7 +902,7 @@ class _InputAssessmentHoState extends State<InputAssessmentHo> {
                                       onChanged: (value) {
                                         controller.toggleCheckbox2('opt2');
                                         checkAndAdvanceQuestion(
-                                          2,
+                                          3,
                                           isQ3Answered(),
                                         );
                                         if (value == true) {
@@ -858,12 +914,20 @@ class _InputAssessmentHoState extends State<InputAssessmentHo> {
                                                 .selectedCriteriaIds[treeIndex -
                                                     1]
                                                 .add(13);
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .remove(19);
                                           }
                                         } else {
                                           controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
                                               .remove(13);
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(19);
                                         }
                                       },
                                       controlAffinity:
@@ -892,7 +956,7 @@ class _InputAssessmentHoState extends State<InputAssessmentHo> {
                                       onChanged: (value) {
                                         controller.toggleCheckbox2('opt3');
                                         checkAndAdvanceQuestion(
-                                          2,
+                                          3,
                                           isQ3Answered(),
                                         );
                                         if (value == true) {
@@ -904,12 +968,20 @@ class _InputAssessmentHoState extends State<InputAssessmentHo> {
                                                 .selectedCriteriaIds[treeIndex -
                                                     1]
                                                 .add(14);
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .remove(19);
                                           }
                                         } else {
                                           controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
                                               .remove(14);
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(19);
                                         }
                                       },
                                       controlAffinity:
@@ -938,7 +1010,7 @@ class _InputAssessmentHoState extends State<InputAssessmentHo> {
                                       onChanged: (value) {
                                         controller.toggleCheckbox2('opt4');
                                         checkAndAdvanceQuestion(
-                                          2,
+                                          3,
                                           isQ3Answered(),
                                         );
                                         if (value == true) {
@@ -950,12 +1022,20 @@ class _InputAssessmentHoState extends State<InputAssessmentHo> {
                                                 .selectedCriteriaIds[treeIndex -
                                                     1]
                                                 .add(15);
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .remove(19);
                                           }
                                         } else {
                                           controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
                                               .remove(15);
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(19);
                                         }
                                       },
                                       controlAffinity:
@@ -984,7 +1064,7 @@ class _InputAssessmentHoState extends State<InputAssessmentHo> {
                                       onChanged: (value) {
                                         controller.toggleCheckbox2('opt5');
                                         checkAndAdvanceQuestion(
-                                          2,
+                                          3,
                                           isQ3Answered(),
                                         );
                                         if (value == true) {
@@ -996,12 +1076,20 @@ class _InputAssessmentHoState extends State<InputAssessmentHo> {
                                                 .selectedCriteriaIds[treeIndex -
                                                     1]
                                                 .add(16);
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .remove(19);
                                           }
                                         } else {
                                           controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
                                               .remove(16);
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(19);
                                         }
                                       },
                                       controlAffinity:
@@ -1030,7 +1118,7 @@ class _InputAssessmentHoState extends State<InputAssessmentHo> {
                                       onChanged: (value) {
                                         controller.toggleCheckbox2('opt6');
                                         checkAndAdvanceQuestion(
-                                          2,
+                                          3,
                                           isQ3Answered(),
                                         );
                                         if (value == true) {
@@ -1042,12 +1130,20 @@ class _InputAssessmentHoState extends State<InputAssessmentHo> {
                                                 .selectedCriteriaIds[treeIndex -
                                                     1]
                                                 .add(17);
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .remove(19);
                                           }
                                         } else {
                                           controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
                                               .remove(17);
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(19);
                                         }
                                       },
                                       controlAffinity:
@@ -1076,7 +1172,7 @@ class _InputAssessmentHoState extends State<InputAssessmentHo> {
                                       onChanged: (value) {
                                         controller.toggleCheckbox2('opt7');
                                         checkAndAdvanceQuestion(
-                                          2,
+                                          3,
                                           isQ3Answered(),
                                         );
                                         if (value == true) {
@@ -1088,12 +1184,20 @@ class _InputAssessmentHoState extends State<InputAssessmentHo> {
                                                 .selectedCriteriaIds[treeIndex -
                                                     1]
                                                 .add(18);
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .remove(19);
                                           }
                                         } else {
                                           controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
                                               .remove(18);
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(19);
                                         }
                                       },
                                       controlAffinity:
@@ -1122,7 +1226,7 @@ class _InputAssessmentHoState extends State<InputAssessmentHo> {
                                       onChanged: (value) {
                                         controller.toggleCheckbox2('opt8');
                                         checkAndAdvanceQuestion(
-                                          2,
+                                          3,
                                           isQ3Answered(),
                                         );
                                         if (value == true) {
@@ -1134,8 +1238,64 @@ class _InputAssessmentHoState extends State<InputAssessmentHo> {
                                                 .selectedCriteriaIds[treeIndex -
                                                     1]
                                                 .add(19);
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .remove(12);
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .remove(13);
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .remove(14);
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .remove(15);
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .remove(16);
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .remove(17);
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .remove(18);
                                           }
                                         } else {
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(12);
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(13);
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(14);
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(15);
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(16);
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(17);
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(18);
                                           controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
@@ -1221,7 +1381,7 @@ class _InputAssessmentHoState extends State<InputAssessmentHo> {
                                       onChanged: (value) {
                                         controller.selectAngle(value!);
                                         checkAndAdvanceQuestion(
-                                          3,
+                                          4,
                                           isQ4Answered(),
                                         );
                                         if (value == '> 45 derajat') {
@@ -1261,7 +1421,7 @@ class _InputAssessmentHoState extends State<InputAssessmentHo> {
                                       onChanged: (value) {
                                         controller.selectAngle(value!);
                                         checkAndAdvanceQuestion(
-                                          3,
+                                          4,
                                           isQ4Answered(),
                                         );
                                         if (value == '> 45 derajat') {
@@ -1300,7 +1460,7 @@ class _InputAssessmentHoState extends State<InputAssessmentHo> {
                                       onChanged: (value) {
                                         controller.selectAngle(value!);
                                         checkAndAdvanceQuestion(
-                                          3,
+                                          4,
                                           isQ4Answered(),
                                         );
                                         if (value == '> 45 derajat') {
@@ -1390,7 +1550,7 @@ class _InputAssessmentHoState extends State<InputAssessmentHo> {
                                       onChanged: (value) {
                                         controller.selectScrap(value!);
                                         checkAndAdvanceQuestion(
-                                          4,
+                                          5,
                                           isQ5Answered(),
                                         );
                                         if (value == 'Diambil') {
@@ -1428,7 +1588,7 @@ class _InputAssessmentHoState extends State<InputAssessmentHo> {
                                       onChanged: (value) {
                                         controller.selectScrap(value!);
                                         checkAndAdvanceQuestion(
-                                          4,
+                                          5,
                                           isQ5Answered(),
                                         );
                                         if (value == 'Diambil') {
@@ -1514,7 +1674,7 @@ class _InputAssessmentHoState extends State<InputAssessmentHo> {
                                       onChanged: (value) {
                                         controller.toggleCheckbox3('Talang');
                                         checkAndAdvanceQuestion(
-                                          5,
+                                          6,
                                           isQ6Answered(),
                                         );
                                         if (value == true) {
@@ -1526,12 +1686,20 @@ class _InputAssessmentHoState extends State<InputAssessmentHo> {
                                                 .selectedCriteriaIds[treeIndex -
                                                     1]
                                                 .add(28);
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .remove(31);
                                           }
                                         } else {
                                           controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
                                               .remove(28);
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(31);
                                         }
                                       },
                                       controlAffinity:
@@ -1560,7 +1728,7 @@ class _InputAssessmentHoState extends State<InputAssessmentHo> {
                                       onChanged: (value) {
                                         controller.toggleCheckbox3('Mangkok');
                                         checkAndAdvanceQuestion(
-                                          5,
+                                          6,
                                           isQ6Answered(),
                                         );
                                         if (value == true) {
@@ -1572,12 +1740,20 @@ class _InputAssessmentHoState extends State<InputAssessmentHo> {
                                                 .selectedCriteriaIds[treeIndex -
                                                     1]
                                                 .add(29);
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .remove(31);
                                           }
                                         } else {
                                           controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
                                               .remove(29);
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(31);
                                         }
                                       },
                                       controlAffinity:
@@ -1606,7 +1782,7 @@ class _InputAssessmentHoState extends State<InputAssessmentHo> {
                                       onChanged: (value) {
                                         controller.toggleCheckbox3('Hanger');
                                         checkAndAdvanceQuestion(
-                                          5,
+                                          6,
                                           isQ6Answered(),
                                         );
                                         if (value == true) {
@@ -1618,12 +1794,20 @@ class _InputAssessmentHoState extends State<InputAssessmentHo> {
                                                 .selectedCriteriaIds[treeIndex -
                                                     1]
                                                 .add(30);
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .remove(31);
                                           }
                                         } else {
                                           controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
                                               .remove(30);
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(31);
                                         }
                                       },
                                       controlAffinity:
@@ -1652,7 +1836,7 @@ class _InputAssessmentHoState extends State<InputAssessmentHo> {
                                       onChanged: (value) {
                                         controller.toggleCheckbox3('Lengkap');
                                         checkAndAdvanceQuestion(
-                                          5,
+                                          6,
                                           isQ6Answered(),
                                         );
                                         if (value == true) {
@@ -1664,8 +1848,32 @@ class _InputAssessmentHoState extends State<InputAssessmentHo> {
                                                 .selectedCriteriaIds[treeIndex -
                                                     1]
                                                 .add(31);
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .remove(28);
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .remove(29);
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .remove(30);
                                           }
                                         } else {
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(28);
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(29);
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(30);
                                           controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
@@ -1752,7 +1960,7 @@ class _InputAssessmentHoState extends State<InputAssessmentHo> {
                                       onChanged: (value) {
                                         controller.toggleCheckbox4('Talang');
                                         checkAndAdvanceQuestion(
-                                          6,
+                                          7,
                                           isQ7Answered(),
                                         );
                                         if (value == true) {
@@ -1764,12 +1972,20 @@ class _InputAssessmentHoState extends State<InputAssessmentHo> {
                                                 .selectedCriteriaIds[treeIndex -
                                                     1]
                                                 .add(32);
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .remove(34);
                                           }
                                         } else {
                                           controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
                                               .remove(32);
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(34);
                                         }
                                       },
                                       controlAffinity:
@@ -1801,7 +2017,7 @@ class _InputAssessmentHoState extends State<InputAssessmentHo> {
                                       onChanged: (value) {
                                         controller.toggleCheckbox4('Mangkok');
                                         checkAndAdvanceQuestion(
-                                          6,
+                                          7,
                                           isQ7Answered(),
                                         );
                                         if (value == true) {
@@ -1813,12 +2029,20 @@ class _InputAssessmentHoState extends State<InputAssessmentHo> {
                                                 .selectedCriteriaIds[treeIndex -
                                                     1]
                                                 .add(33);
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .remove(34);
                                           }
                                         } else {
                                           controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
                                               .remove(33);
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(34);
                                         }
                                       },
                                       controlAffinity:
@@ -1850,7 +2074,7 @@ class _InputAssessmentHoState extends State<InputAssessmentHo> {
                                       onChanged: (value) {
                                         controller.toggleCheckbox4('Bersih');
                                         checkAndAdvanceQuestion(
-                                          6,
+                                          7,
                                           isQ7Answered(),
                                         );
                                         if (value == true) {
@@ -1862,8 +2086,24 @@ class _InputAssessmentHoState extends State<InputAssessmentHo> {
                                                 .selectedCriteriaIds[treeIndex -
                                                     1]
                                                 .add(34);
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .remove(32);
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .remove(33);
                                           }
                                         } else {
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(32);
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(33);
                                           controller
                                               .selectedCriteriaIds[treeIndex -
                                                   1]
@@ -1949,7 +2189,7 @@ class _InputAssessmentHoState extends State<InputAssessmentHo> {
                                       onChanged: (value) {
                                         controller.selectBlong(value!);
                                         checkAndAdvanceQuestion(
-                                          7,
+                                          8,
                                           isQ8Answered(),
                                         );
                                         if (value == 'Bersih') {
@@ -1987,7 +2227,7 @@ class _InputAssessmentHoState extends State<InputAssessmentHo> {
                                       onChanged: (value) {
                                         controller.selectBlong(value!);
                                         checkAndAdvanceQuestion(
-                                          7,
+                                          8,
                                           isQ8Answered(),
                                         );
                                         if (value == 'Bersih') {
@@ -2075,7 +2315,7 @@ class _InputAssessmentHoState extends State<InputAssessmentHo> {
                                       onChanged: (value) {
                                         controller.selectHealthyTree(value!);
                                         checkAndAdvanceQuestion(
-                                          8,
+                                          9,
                                           isQ9Answered(),
                                         );
                                         if (value == 'Ya') {
@@ -2119,7 +2359,7 @@ class _InputAssessmentHoState extends State<InputAssessmentHo> {
                                       onChanged: (value) {
                                         controller.selectHealthyTree(value!);
                                         checkAndAdvanceQuestion(
-                                          8,
+                                          9,
                                           isQ9Answered(),
                                         );
                                         if (value == 'Ya') {
@@ -2213,7 +2453,7 @@ class _InputAssessmentHoState extends State<InputAssessmentHo> {
                                       onChanged: (value) {
                                         controller.selectResultTake(value!);
                                         checkAndAdvanceQuestion(
-                                          9,
+                                          10,
                                           isQ10Answered(),
                                         );
                                         if (value == 'Ya') {
@@ -2257,7 +2497,7 @@ class _InputAssessmentHoState extends State<InputAssessmentHo> {
                                       onChanged: (value) {
                                         controller.selectResultTake(value!);
                                         checkAndAdvanceQuestion(
-                                          9,
+                                          10,
                                           isQ10Answered(),
                                         );
                                         if (value == 'Ya') {
@@ -2351,7 +2591,7 @@ class _InputAssessmentHoState extends State<InputAssessmentHo> {
                                       onChanged: (value) {
                                         controller.selectTalangSadap(value!);
                                         checkAndAdvanceQuestion(
-                                          10,
+                                          11,
                                           isQ11Answered(),
                                         );
                                         if (value == 'Ya') {
@@ -2395,7 +2635,7 @@ class _InputAssessmentHoState extends State<InputAssessmentHo> {
                                       onChanged: (value) {
                                         controller.selectTalangSadap(value!);
                                         checkAndAdvanceQuestion(
-                                          10,
+                                          11,
                                           isQ11Answered(),
                                         );
                                         if (value == 'Ya') {

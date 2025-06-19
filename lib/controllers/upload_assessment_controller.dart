@@ -29,7 +29,7 @@ class UploadAssessmentController extends GetxController {
 
   void uploadAssessment(Map<String, dynamic> data) async {
     isUploading.value = true;
-    final url = Uri.parse('http://192.168.3.184:8000/api/assessment-upload');
+    final url = Uri.parse('http://192.168.100.18:8000/api/assessment-upload');
     final service = AssessmentUploadService();
     try {
       print('Uploading assessment: ${data['assessment_id']}');
@@ -55,8 +55,6 @@ class UploadAssessmentController extends GetxController {
       );
 
       if (response.statusCode == 200 || response.statusCode == 201) {
-        await service.updateAssessmentDetails(data['assessment_code']);
-
         uploadingId.add(data['assessment_id'].toString());
         // Successfully uploaded
         print('Assessment uploaded successfully');
@@ -71,7 +69,7 @@ class UploadAssessmentController extends GetxController {
         print('Tree Assessment: $treeAssessment');
         for (final data in treeAssessment) {
           await http.post(
-            Uri.parse('http://192.168.3.184:8000/api/tree-assessment-upload'),
+            Uri.parse('http://192.168.100.18:8000/api/tree-assessment-upload'),
             headers: {'Content-Type': 'application/json'},
             body: jsonEncode({
               'assessment_code': data['assessment_code'],
@@ -80,8 +78,10 @@ class UploadAssessmentController extends GetxController {
             }),
           );
         }
+        await service.updateAssessmentDetails(data['assessment_code']);
         getAssessmentDetails();
         uploadingId.remove(data['assessment_id']);
+        isUploading.value = false;
         Get.snackbar(
           'Success',
           'Assessment uploaded successfully',
@@ -98,6 +98,7 @@ class UploadAssessmentController extends GetxController {
         );
         print('Failed to upload assessment: ${response.body}');
         uploadingId.remove(data['assessment_id']);
+        isUploading.value = false;
       }
     } catch (e) {
       print('Error uploading assessment: $e');
@@ -109,6 +110,7 @@ class UploadAssessmentController extends GetxController {
         colorText: Colors.white,
       );
       uploadingId.remove(data['assessment_id']);
+      isUploading.value = false;
     } finally {
       uploadingId.remove(data['assessment_id']);
       isUploading.value = false;

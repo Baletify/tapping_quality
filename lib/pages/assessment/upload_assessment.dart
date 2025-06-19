@@ -180,13 +180,7 @@ class UploadAssessment extends StatelessWidget {
                                       },
                                       child: Obx(
                                         () =>
-                                            controller.uploadingId.contains(
-                                                      data['assessment_id'],
-                                                    ) &&
-                                                    controller
-                                                            .isUploading
-                                                            .value ==
-                                                        true
+                                            controller.isUploading.value
                                                 ? const SizedBox(
                                                   width: 24,
                                                   height: 24,
