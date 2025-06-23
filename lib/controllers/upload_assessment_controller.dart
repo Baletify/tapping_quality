@@ -7,6 +7,7 @@ import 'dart:convert';
 
 class UploadAssessmentController extends GetxController {
   var assessmentDetails = <Map<String, dynamic>>[].obs;
+  var uploadedAssessmentDetails = <Map<String, dynamic>>[].obs;
   var treeAssessment = <Map<String, dynamic>>[].obs;
   var isUploading = false.obs;
   var uploadingId = <String>{}.obs;
@@ -15,6 +16,7 @@ class UploadAssessmentController extends GetxController {
   void onInit() {
     super.onInit();
     getAssessmentDetails();
+    getUploadedAssessmentDetails();
   }
 
   void getAssessmentDetails() async {
@@ -25,6 +27,14 @@ class UploadAssessmentController extends GetxController {
     assessmentDetails.assignAll(data);
     // print('userId: $userId');
     // print('Assessment Details: $assessmentDetails');
+  }
+
+  void getUploadedAssessmentDetails() async {
+    final prefs = await SharedPreferences.getInstance();
+    final userId = prefs.getInt('userId') ?? 0;
+    final service = AssessmentUploadService();
+    final data = await service.getUploadedAssessmentDetails(userId);
+    uploadedAssessmentDetails.assignAll(data);
   }
 
   void uploadAssessment(Map<String, dynamic> data) async {
@@ -46,6 +56,7 @@ class UploadAssessmentController extends GetxController {
           'no_hancak': data['no_hancak'],
           'tahun_tanam': data['tahun_tanam'],
           'clone': data['clone'],
+          'jenis_sadap': data['jenis_sadap'],
           'sistem_sadap': data['sistem_sadap'],
           'panel_sadap': data['panel_sadap'],
           'jenis_kulit_pohon': data['jenis_kulit_pohon'],

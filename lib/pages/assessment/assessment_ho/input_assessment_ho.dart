@@ -1052,7 +1052,7 @@ class _InputAssessmentHoState extends State<InputAssessmentHo> {
                                   child: Obx(
                                     () => CheckboxListTile(
                                       title: const Text(
-                                        'Tebal tatal > 2mm',
+                                        'Tebal tatal > 3mm',
                                         style: TextStyle(
                                           fontFamily: 'Poppins',
                                           fontSize: 12,

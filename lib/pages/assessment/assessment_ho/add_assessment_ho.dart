@@ -409,6 +409,7 @@ class AddAssessmentHo extends StatelessWidget {
                     'clone': userController.cloneController.text,
                     'kemandoran': userController.kemandoranController.text,
                     'sistem_sadap': userController.sistemSadapController.text,
+                    'jenis_sadap': 'HO',
                     'panel_sadap': userController.tappingPanelController.text,
                     'jenis_kulit_pohon':
                         userController.treeSkinTypeController.text,

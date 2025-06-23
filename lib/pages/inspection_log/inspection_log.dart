@@ -142,8 +142,8 @@ class InspectionLog extends StatelessWidget {
               0.0,
               (prev, element) =>
                   prev +
-                  (element['score'] != null
-                      ? (element['score'] as num).toDouble()
+                  (element['sum_score'] != null
+                      ? (element['sum_score'] as num).toDouble()
                       : 0.0),
             );
 
@@ -252,10 +252,7 @@ class InspectionLog extends StatelessWidget {
                         return Card(
                           child: ListTile(
                             title: Text(
-                              (result['criteria_name'] +
-                                      " - " +
-                                      result['criteria_description']) ??
-                                  'N/A',
+                              '${result['criteria_name'] ?? 'N/A'} - ${result['desc'] ?? 'N/A'}',
                               style: const TextStyle(
                                 fontFamily: 'Poppins',
                                 fontSize: 12,
@@ -264,8 +261,8 @@ class InspectionLog extends StatelessWidget {
                               ),
                             ),
                             trailing: Text(
-                              result['score'] != null
-                                  ? ((result['score'] / 10) as num)
+                              result['sum_score'] != null
+                                  ? ((result['sum_score'] / 10) as num)
                                       .toStringAsFixed(1)
                                   : 'N/A',
                               style: const TextStyle(

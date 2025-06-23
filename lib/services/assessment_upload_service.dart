@@ -33,7 +33,7 @@ class AssessmentUploadService {
       [userId],
     );
     // print(userId);
-    // print('Uploaded Assessment Details: $result');
+    print('Uploaded Assessment Details: $result');
 
     return result;
   }

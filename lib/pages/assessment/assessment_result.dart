@@ -114,8 +114,9 @@ class _AssessmentResultState extends State<AssessmentResult> {
                             0.0,
                             (prev, element) =>
                                 prev +
-                                (element['avg_score'] != null
-                                    ? (element['avg_score'] as num).toDouble()
+                                (element['sum_score'] != null
+                                    ? (element['sum_score'] as num).toDouble() /
+                                        10
                                     : 0.0),
                           );
                           final result =

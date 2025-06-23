@@ -5,6 +5,7 @@ import 'package:tapping_quality/controllers/upload_assessment_controller.dart';
 import 'package:tapping_quality/controllers/user_controller.dart';
 import 'package:tapping_quality/pages/assessment/choose_assessment_type.dart';
 import 'package:tapping_quality/pages/assessment/upload_assessment.dart';
+import 'package:tapping_quality/pages/assessment/upload_log_assessment.dart';
 import 'package:tapping_quality/pages/inspection_log/inspection_log.dart';
 import 'package:tapping_quality/pages/login_page.dart';
 import 'package:tapping_quality/services/auth_service.dart';
@@ -114,7 +115,18 @@ class HomePage extends StatelessWidget {
                   },
                   child: _menuSection3(),
                 ),
-                _menuSection4(),
+                GestureDetector(
+                  onTap: () {
+                    Get.delete<UploadAssessmentController>();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const UploadLogAssessment(),
+                      ),
+                    );
+                  },
+                  child: _menuSection4(),
+                ),
               ],
             ),
           ),
