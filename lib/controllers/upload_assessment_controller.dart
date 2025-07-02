@@ -39,7 +39,7 @@ class UploadAssessmentController extends GetxController {
 
   void uploadAssessment(Map<String, dynamic> data) async {
     isUploading.value = true;
-    final url = Uri.parse('http://192.168.100.18:8000/api/assessment-upload');
+    final url = Uri.parse('http://192.168.3.184:8000/api/assessment-upload');
     final service = AssessmentUploadService();
     try {
       print('Uploading assessment: ${data['assessment_id']}');
@@ -80,7 +80,7 @@ class UploadAssessmentController extends GetxController {
         print('Tree Assessment: $treeAssessment');
         for (final data in treeAssessment) {
           await http.post(
-            Uri.parse('http://192.168.100.18:8000/api/tree-assessment-upload'),
+            Uri.parse('http://192.168.3.184:8000/api/tree-assessment-upload'),
             headers: {'Content-Type': 'application/json'},
             body: jsonEncode({
               'assessment_code': data['assessment_code'],
