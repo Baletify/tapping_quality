@@ -19,7 +19,9 @@ class InspectionLogController extends GetxController {
     await getUserID();
     try {
       // Fetch users from the UserService
-      final users = await UserService().getTapper(userID.value);
+      final prefs = await SharedPreferences.getInstance();
+      final dept = prefs.getString('department') ?? '';
+      final users = await UserService().getTapper(dept);
       userList.value = users;
       filteredUsers.value = users;
       print('userID: $userID');

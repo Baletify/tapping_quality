@@ -136,12 +136,13 @@ class AddAssessmentHo extends StatelessWidget {
                     width: double.infinity,
                     hintText: 'Pilih Penyadap',
                     requestFocusOnTap: true,
+                    menuHeight: 200,
                     enableFilter: true,
                     dropdownMenuEntries:
                         userController.userList
                             .map(
                               (user) => DropdownMenuEntry<UserModel>(
-                                label: '${user.name} (${user.nik})',
+                                label: user.name,
                                 value: user,
                               ),
                             )

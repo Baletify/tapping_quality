@@ -135,6 +135,7 @@ class AddAssessmentBo extends StatelessWidget {
                     hintText: 'Pilih Penyadap',
                     requestFocusOnTap: true,
                     enableFilter: true,
+                    menuHeight: 200,
                     dropdownMenuEntries:
                         userController.userList
                             .map(

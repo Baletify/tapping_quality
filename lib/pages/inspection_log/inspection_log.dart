@@ -88,6 +88,7 @@ class InspectionLog extends StatelessWidget {
                             hintText: 'Pilih Penyadap',
                             requestFocusOnTap: true,
                             enableFilter: true,
+                            menuHeight: 200,
                             dropdownMenuEntries:
                                 controller.userList
                                     .map(
@@ -251,11 +252,16 @@ class InspectionLog extends StatelessWidget {
                         final result = controller.assessmentReport[index];
                         return Card(
                           child: ListTile(
+                            dense: true,
+                            visualDensity: const VisualDensity(
+                              horizontal: 0,
+                              vertical: -4,
+                            ),
                             title: Text(
                               '${result['criteria_name'] ?? 'N/A'} - ${result['desc'] ?? 'N/A'}',
                               style: const TextStyle(
                                 fontFamily: 'Poppins',
-                                fontSize: 12,
+                                fontSize: 10,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black,
                               ),
@@ -267,7 +273,7 @@ class InspectionLog extends StatelessWidget {
                                   : 'N/A',
                               style: const TextStyle(
                                 fontFamily: 'Poppins',
-                                fontSize: 12,
+                                fontSize: 10,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black,
                               ),

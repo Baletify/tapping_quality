@@ -44,7 +44,10 @@ class AssessmentBoDetailController extends GetxController {
 
     try {
       // Fetch users from the UserService
-      final users = await UserService().getTapper(userID.value);
+      final prefs = await SharedPreferences.getInstance();
+      final dept = prefs.getString('department') ?? '';
+      print('Department: $dept');
+      final users = await UserService().getTapper(dept);
       userList.value = users;
       filteredUsers.value = users;
     } catch (e) {

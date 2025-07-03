@@ -1,3 +1,5 @@
+import 'package:csv/csv.dart';
+import 'package:flutter/services.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -24,6 +26,61 @@ class DatabaseHelper {
     return await openDatabase(path, version: 1, onCreate: _onCreate);
   }
 
+  Future<void> initDataFromCsvIfNeeded() async {
+    final dbClient = await database;
+
+    // Check if users exist
+    final userCount = Sqflite.firstIntValue(
+      await dbClient.rawQuery('SELECT COUNT(*) FROM users'),
+    );
+    if (userCount == 0) {
+      final usersCsv = await rootBundle.loadString('assets/csv/users.csv');
+      final usersList = const CsvToListConverter().convert(usersCsv, eol: '\n');
+      for (int i = 1; i < usersList.length; i++) {
+        // skip header
+        final row = usersList[i];
+        await dbClient.insert('users', {
+          'id': row[0],
+          'nik': row[1],
+          'name': row[2],
+          'status': row[3],
+          'departemen': row[4],
+          'jabatan': row[5],
+          'email': row[6],
+          'role': row[8],
+          'password': row[11],
+        });
+      }
+    }
+
+    // Check if tappers exist
+    final tapperCount = Sqflite.firstIntValue(
+      await dbClient.rawQuery('SELECT COUNT(*) FROM tappers'),
+    );
+    if (tapperCount == 0) {
+      final tappersCsv = await rootBundle.loadString('assets/csv/tappers.csv');
+      final tappersList = const CsvToListConverter().convert(
+        tappersCsv,
+        eol: '\n',
+      );
+      for (int i = 1; i < tappersList.length; i++) {
+        // skip header
+        final row = tappersList[i];
+        await dbClient.insert('tappers', {
+          'id': row[0],
+          'nik': row[1],
+          'name': row[2],
+          'status': row[3],
+          'departemen': row[4],
+          'jabatan': row[5],
+          'kemandoran': row[6],
+          'no_hp': row[7],
+          'user_id': row[9],
+        });
+      }
+    }
+  }
+
   Future<void> _onCreate(Database db, int version) async {
     // Create tables
 
@@ -36,7 +93,7 @@ class DatabaseHelper {
         jabatan TEXT DEFAULT NULL,
         departemen TEXT DEFAULT NULL,
         status TEXT DEFAULT NULL,
-        email VARCHAR(255) NOT NULL UNIQUE,
+        email VARCHAR(255),
         password TEXT,
         role VARCHAR(50)
       );
@@ -55,7 +112,7 @@ class DatabaseHelper {
         email TEXT DEFAULT NULL,
         password TEXT DEFAULT NULL,
         no_hp TEXT DEFAULT NULL,
-        user_id INTEGER CONSTRAINT fk_user_id REFERENCES users(id) ON DELETE SET NULL
+        user_id INTEGER DEFAULT NULL CONSTRAINT fk_user_id REFERENCES users(id) ON DELETE SET NULL
       );
 ''');
     // assessment_details
@@ -111,27 +168,26 @@ class DatabaseHelper {
 ''');
 
     // create users
-    await db.execute('''
-      INSERT INTO users (nik, name, jabatan, departemen, status, email, password, role) VALUES 
-      ('111-111', 'Arif Halimawan', 'Mdr', 'Sub Divisi A', 'Monthly', 'arif@example.com', 'arif2022', 'mandor'),
-      ('111-112', 'Isno Hernandi', 'Mdr', 'Sub Divisi A', 'Monthly', 'isno@example.com', 'isno2022', 'mandor')
+    //     await db.execute('''
+    //       INSERT INTO users (nik, name, jabatan, departemen, status, email, password, role) VALUES
+    //       ('111-111', 'Arif Halimawan', 'Mdr', 'Sub Divisi A', 'Monthly', 'arif@example.com', 'arif2022', 'mandor'),
+    //       ('111-112', 'Isno Hernandi', 'Mdr', 'Sub Divisi A', 'Monthly', 'isno@example.com', 'isno2022', 'mandor')
 
-''');
+    // ''');
 
     // Create users
-    await db.execute('''
-      INSERT INTO tappers (nik, name, jabatan, status, departemen, kemandoran, no_hp, user_id)
-      VALUES
-        ('333-333', 'Krisna Mukti Wibowo', '', 'FL', 'Sub Divisi A', 'Arif Halimawan', NULL, 1),
-        ('444-444', 'M. Novriyan', '', 'Reguler', 'Sub Divisi A', 'Arif Halimawan', NULL, 1),
-        ('555-555', 'M. Hidayaturrahman', '', 'Reguler', 'Sub Divisi A', 'Arif Halimawan', NULL, 1),
-        ('666-666', 'Nanda Dwi Perkasa', '', 'Reguler', 'Sub Divisi A', 'Arif Halimawan', NULL, 1),
-        ('777-777', 'Alif Ilham', '', 'FL', 'Sub Divisi B', 'Isno Hernandi', NULL, 2),
-        ('888-888', 'Budi Santoso', '', 'Reguler', 'Sub Divisi B', 'Isno Hernandi', NULL, 2),
-        ('999-999', 'Citra Ayu Lestari', '', 'Reguler', 'Sub Divisi B', 'Isno Hernandi', NULL, 2);
+    //     await db.execute('''
+    //       INSERT INTO tappers (nik, name, jabatan, status, departemen, kemandoran, no_hp, user_id)
+    //       VALUES
+    //         ('333-333', 'Krisna Mukti Wibowo', '', 'FL', 'Sub Divisi A', 'Arif Halimawan', NULL, 1),
+    //         ('444-444', 'M. Novriyan', '', 'Reguler', 'Sub Divisi A', 'Arif Halimawan', NULL, 1),
+    //         ('555-555', 'M. Hidayaturrahman', '', 'Reguler', 'Sub Divisi A', 'Arif Halimawan', NULL, 1),
+    //         ('666-666', 'Nanda Dwi Perkasa', '', 'Reguler', 'Sub Divisi A', 'Arif Halimawan', NULL, 1),
+    //         ('777-777', 'Alif Ilham', '', 'FL', 'Sub Divisi B', 'Isno Hernandi', NULL, 2),
+    //         ('888-888', 'Budi Santoso', '', 'Reguler', 'Sub Divisi B', 'Isno Hernandi', NULL, 2),
+    //         ('999-999', 'Citra Ayu Lestari', '', 'Reguler', 'Sub Divisi B', 'Isno Hernandi', NULL, 2);
 
-        
-''');
+    // ''');
     // Create criteria
     await db.execute('''
 INSERT INTO criteria (id, name, description, score) VALUES

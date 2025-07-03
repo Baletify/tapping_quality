@@ -20,7 +20,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // await DatabaseHelper().deleteDatabaseFile();
   // await DatabaseHelper().checkTables();
-  // List<Map<String, dynamic>> users = await DatabaseHelper().getAllUsers();
 
   // await AssessmentInputBoService().getCriteria();
   // final listCriteria = Get.put(AssessmentBoInputController());
@@ -31,13 +30,14 @@ void main() async {
   //     await AssessmentResultService().getAssessmentResultTest();
   // print('Result in local: $treeAssessment');
 
-  // print('Users in the database: $users');
-
   // final List<Map<String, dynamic>> data =
   //     await DatabaseHelper().getAllAssessmentDetails();
   // print('Assessment Details in the database: $data');
 
   await DatabaseHelper().database; // Initialize the database
+  await DatabaseHelper().initDataFromCsvIfNeeded(); // Insert CSV data if needed
+  // List<Map<String, dynamic>> users = await DatabaseHelper().getAllUsers();
+  // print('Users in the database: $users');
   bool loggedIn = await isLoggedIn();
   runApp(MyApp(loggedIn: loggedIn));
 }
