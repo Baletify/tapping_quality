@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tapping_quality/services/assessment_upload_service.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -11,6 +11,10 @@ class UploadAssessmentController extends GetxController {
   var treeAssessment = <Map<String, dynamic>>[].obs;
   var isUploading = false.obs;
   var uploadingId = <String>{}.obs;
+  var isUploadingMap = <String, bool>{}.obs;
+  var uploadTotalMap = <String, int>{}.obs;
+  var uploadCurrentMap = <String, int>{}.obs;
+  var isAnyUploading = false.obs;
 
   @override
   void onInit() {
@@ -20,27 +24,32 @@ class UploadAssessmentController extends GetxController {
   }
 
   void getAssessmentDetails() async {
-    final prefs = await SharedPreferences.getInstance();
-    final userId = prefs.getInt('userId') ?? 0;
+    // final prefs = await SharedPreferences.getInstance();
+    // final userId = prefs.getInt('userId') ?? 0;
     final service = AssessmentUploadService();
-    final data = await service.getAssessmentDetails(userId);
+    final data = await service.getAssessmentDetails();
     assessmentDetails.assignAll(data);
     // print('userId: $userId');
     // print('Assessment Details: $assessmentDetails');
   }
 
   void getUploadedAssessmentDetails() async {
-    final prefs = await SharedPreferences.getInstance();
-    final userId = prefs.getInt('userId') ?? 0;
+    // final prefs = await SharedPreferences.getInstance();
+    // final userId = prefs.getInt('userId') ?? 0;
     final service = AssessmentUploadService();
-    final data = await service.getUploadedAssessmentDetails(userId);
+    final data = await service.getUploadedAssessmentDetails();
     uploadedAssessmentDetails.assignAll(data);
   }
 
   void uploadAssessment(Map<String, dynamic> data) async {
     isUploading.value = true;
-    final url = Uri.parse('http://192.168.3.184:8000/api/assessment-upload');
+    final url = Uri.parse('http://192.168.100.18:8000/api/assessment-upload');
     final service = AssessmentUploadService();
+    final id = data['assessment_id'].toString();
+    isUploadingMap[id] = true;
+    uploadTotalMap[id] = 0;
+    uploadCurrentMap[id] = 0;
+    isAnyUploading.value = true;
     try {
       print('Uploading assessment: ${data['assessment_id']}');
 
@@ -72,15 +81,17 @@ class UploadAssessmentController extends GetxController {
         final responseData = jsonDecode(response.body);
         print('Success: ${responseData['success']}');
         print('Message: ${responseData['message']}');
-        print('Data: ${responseData['data']}');
+        // print('Data: ${responseData['data']}');
         await service.getTreeAssessment(data['assessment_id']);
         treeAssessment.assignAll(
           await service.getTreeAssessment(data['assessment_id']),
         );
-        print('Tree Assessment: $treeAssessment');
+        // print('Tree Assessment: $treeAssessment');
+        uploadTotalMap[id] = treeAssessment.length;
+        uploadCurrentMap[id] = 0;
         for (final data in treeAssessment) {
           await http.post(
-            Uri.parse('http://192.168.3.184:8000/api/tree-assessment-upload'),
+            Uri.parse('http://192.168.100.18:8000/api/tree-assessment-upload'),
             headers: {'Content-Type': 'application/json'},
             body: jsonEncode({
               'assessment_code': data['assessment_code'],
@@ -88,6 +99,7 @@ class UploadAssessmentController extends GetxController {
               'criteria_id': data['criteria_id'],
             }),
           );
+          uploadCurrentMap[id] = uploadCurrentMap[id]! + 1;
         }
         await service.updateAssessmentDetails(data['assessment_code']);
         getAssessmentDetails();
@@ -98,6 +110,10 @@ class UploadAssessmentController extends GetxController {
           'Assessment uploaded successfully',
           snackPosition: SnackPosition.BOTTOM,
         );
+        isUploadingMap[id] = false;
+        uploadTotalMap[id] = 0;
+        uploadCurrentMap[id] = 0;
+        isAnyUploading.value = false;
       } else {
         // Handle error
         Get.snackbar(
@@ -110,6 +126,10 @@ class UploadAssessmentController extends GetxController {
         print('Failed to upload assessment: ${response.body}');
         uploadingId.remove(data['assessment_id']);
         isUploading.value = false;
+        isUploadingMap[id] = false;
+        uploadTotalMap[id] = 0;
+        uploadCurrentMap[id] = 0;
+        isAnyUploading.value = false;
       }
     } catch (e) {
       print('Error uploading assessment: $e');
@@ -122,10 +142,18 @@ class UploadAssessmentController extends GetxController {
       );
       uploadingId.remove(data['assessment_id']);
       isUploading.value = false;
+      isUploadingMap[id] = false;
+      uploadTotalMap[id] = 0;
+      uploadCurrentMap[id] = 0;
+      isAnyUploading.value = false;
     } finally {
       uploadingId.remove(data['assessment_id']);
       isUploading.value = false;
       getAssessmentDetails();
+      isUploadingMap[id] = false;
+      uploadTotalMap[id] = 0;
+      uploadCurrentMap[id] = 0;
+      isAnyUploading.value = false;
     }
   }
 }

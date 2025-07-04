@@ -60,7 +60,7 @@ class UploadAssessment extends StatelessWidget {
                   itemCount: controller.assessmentDetails.length,
                   itemBuilder: (context, index) {
                     final data = controller.assessmentDetails[index];
-                    print(data);
+                    // print(data);
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Container(
@@ -166,6 +166,9 @@ class UploadAssessment extends StatelessWidget {
                                     ),
                                     child: GestureDetector(
                                       onTap: () async {
+                                        if (controller.isAnyUploading.value) {
+                                          return; // Prevent tap if uploading
+                                        }
                                         try {
                                           controller.uploadAssessment(data);
                                         } catch (e) {
@@ -178,23 +181,67 @@ class UploadAssessment extends StatelessWidget {
                                           );
                                         }
                                       },
-                                      child: Obx(
-                                        () =>
-                                            controller.isUploading.value
-                                                ? const SizedBox(
-                                                  width: 24,
-                                                  height: 24,
-                                                  child:
-                                                      CircularProgressIndicator(
-                                                        strokeWidth: 2,
-                                                        color: Colors.blue,
+                                      child: Obx(() {
+                                        final id =
+                                            data['assessment_id'].toString();
+                                        final isUploading =
+                                            controller.isUploadingMap[id] ??
+                                            false;
+                                        final total =
+                                            controller.uploadTotalMap[id] ?? 0;
+                                        final current =
+                                            controller.uploadCurrentMap[id] ??
+                                            0;
+                                        final isAnyUploading =
+                                            controller.isAnyUploading.value;
+
+                                        return AbsorbPointer(
+                                          absorbing:
+                                              isAnyUploading &&
+                                              !isUploading, // disable if another upload is running
+                                          child:
+                                              isUploading
+                                                  ? Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      SizedBox(
+                                                        width: 24,
+                                                        height: 24,
+                                                        child:
+                                                            CircularProgressIndicator(
+                                                              strokeWidth: 2,
+                                                              color:
+                                                                  Colors.blue,
+                                                              value:
+                                                                  total > 0
+                                                                      ? current /
+                                                                          total
+                                                                      : null,
+                                                            ),
                                                       ),
-                                                )
-                                                : Icon(
-                                                  Icons.cloud_upload,
-                                                  color: Colors.blue,
-                                                ),
-                                      ),
+                                                      const SizedBox(height: 4),
+                                                      Text(
+                                                        '$current / $total',
+                                                        style: const TextStyle(
+                                                          fontSize: 10,
+                                                          color: Colors.blue,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  )
+                                                  : Icon(
+                                                    Icons.cloud_upload,
+                                                    color:
+                                                        isAnyUploading
+                                                            ? Colors.grey
+                                                            : Colors.blue,
+                                                  ),
+                                        );
+                                      }),
                                     ),
                                   ),
                                 ),
