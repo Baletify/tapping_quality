@@ -104,7 +104,11 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
   }
 
   List<bool> answeredQuestions = List.generate(11, (index) => false);
-  bool isQ1Answered() => controller.selectedWound.value.isNotEmpty;
+  bool isQ1Answered() =>
+      controller.isWound1Checked.value ||
+      controller.isWound2Checked.value ||
+      controller.isWound3Checked.value ||
+      controller.isWound4Checked.value;
   bool isQ2Answered() => controller.selectedDepth.value.isNotEmpty;
   bool isQ3Answered() =>
       controller.isOpt1Checked.value ||
@@ -150,14 +154,6 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
       questionIndex = 0;
       answeredQuestions = List.generate(11, (index) => false);
     });
-  }
-
-  void selectWoundRadioBtn(int treeIndex, int selectedId) {
-    final woundID = [1, 2, 3, 4]; // all possible IDs for this question
-    controller.selectedCriteriaIds[treeIndex - 1].removeWhere(
-      (id) => woundID.contains(id),
-    );
-    controller.selectedCriteriaIds[treeIndex - 1].add(selectedId);
   }
 
   void selectDepthRadioBtn(int treeIndex, int selectedId) {
@@ -362,7 +358,7 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                               bottom: 8.0,
                             ),
                             child: Text(
-                              'Luka Kayu - Hanya 1 Pilihan',
+                              'Luka Kayu - Bisa Pilih Lebih dari 1',
                               style: TextStyle(
                                 fontFamily: 'Poppins',
                                 fontSize: 14,
@@ -386,9 +382,9 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   child: Obx(
-                                    () => RadioListTile<String>(
+                                    () => CheckboxListTile(
                                       title: const Text(
-                                        'Kecil (1 cm x 0.6 cm)',
+                                        'Kecil (1cm x0.6cm)',
                                         style: TextStyle(
                                           fontFamily: 'Poppins',
                                           fontSize: 12,
@@ -396,30 +392,40 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           color: Colors.black,
                                         ),
                                       ),
-                                      value: 'Kecil (1 cm x 0.6 cm)',
-                                      groupValue:
-                                          controller.selectedWound.value,
+                                      value: controller.isWound1Checked.value,
                                       onChanged: (value) {
-                                        controller.selectWound(value!);
+                                        controller.toggleWoundCheckbox('Kecil');
                                         checkAndAdvanceQuestion(
                                           0,
                                           isQ1Answered(),
                                         );
-                                        if (value == 'Kecil (1 cm x 0.6 cm)') {
-                                          selectWoundRadioBtn(treeIndex, 1);
-                                        } else if (value ==
-                                            'Sedang (1.5 cm x 3 cm)') {
-                                          selectWoundRadioBtn(treeIndex, 2);
-                                        } else if (value ==
-                                            'Besar (>1.5 cm x 3 cm)') {
-                                          selectWoundRadioBtn(treeIndex, 3);
-                                        } else if (value ==
-                                            'Tidak ada luka kayu') {
-                                          selectWoundRadioBtn(treeIndex, 4);
+                                        if (value == true) {
+                                          if (!controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .contains(1)) {
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .add(1);
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .remove(4);
+                                          }
+                                        } else {
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(1);
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(4);
                                         }
                                       },
                                       controlAffinity:
-                                          ListTileControlAffinity.trailing,
+                                          ListTileControlAffinity.platform,
                                     ),
                                   ),
                                 ),
@@ -430,9 +436,9 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   child: Obx(
-                                    () => RadioListTile<String>(
+                                    () => CheckboxListTile(
                                       title: const Text(
-                                        'Sedang (1.5 cm x 3 cm)',
+                                        'Sedang (1.5cm x 3cm)',
                                         style: TextStyle(
                                           fontFamily: 'Poppins',
                                           fontSize: 12,
@@ -440,30 +446,42 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           color: Colors.black,
                                         ),
                                       ),
-                                      value: 'Sedang (1.5 cm x 3 cm)',
-                                      groupValue:
-                                          controller.selectedWound.value,
+                                      value: controller.isWound2Checked.value,
                                       onChanged: (value) {
-                                        controller.selectWound(value!);
+                                        controller.toggleWoundCheckbox(
+                                          'Sedang',
+                                        );
                                         checkAndAdvanceQuestion(
                                           0,
                                           isQ1Answered(),
                                         );
-                                        if (value == 'Kecil (1 cm x 0.6 cm)') {
-                                          selectWoundRadioBtn(treeIndex, 1);
-                                        } else if (value ==
-                                            'Sedang (1.5 cm x 3 cm)') {
-                                          selectWoundRadioBtn(treeIndex, 2);
-                                        } else if (value ==
-                                            'Besar (>1.5 cm x 3 cm)') {
-                                          selectWoundRadioBtn(treeIndex, 3);
-                                        } else if (value ==
-                                            'Tidak ada luka kayu') {
-                                          selectWoundRadioBtn(treeIndex, 4);
+                                        if (value == true) {
+                                          if (!controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .contains(2)) {
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .add(2);
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .remove(4);
+                                          }
+                                        } else {
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(2);
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(4);
                                         }
                                       },
                                       controlAffinity:
-                                          ListTileControlAffinity.trailing,
+                                          ListTileControlAffinity.platform,
                                     ),
                                   ),
                                 ),
@@ -474,9 +492,9 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   child: Obx(
-                                    () => RadioListTile<String>(
+                                    () => CheckboxListTile(
                                       title: const Text(
-                                        'Besar (>1.5 cm x 3 cm)',
+                                        'Besar(>1.5cm x 3cm)',
                                         style: TextStyle(
                                           fontFamily: 'Poppins',
                                           fontSize: 12,
@@ -484,30 +502,40 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           color: Colors.black,
                                         ),
                                       ),
-                                      value: 'Besar (>1.5 cm x 3 cm)',
-                                      groupValue:
-                                          controller.selectedWound.value,
+                                      value: controller.isWound3Checked.value,
                                       onChanged: (value) {
-                                        controller.selectWound(value!);
+                                        controller.toggleWoundCheckbox('Besar');
                                         checkAndAdvanceQuestion(
                                           0,
                                           isQ1Answered(),
                                         );
-                                        if (value == 'Kecil (1 cm x 0.6 cm)') {
-                                          selectWoundRadioBtn(treeIndex, 1);
-                                        } else if (value ==
-                                            'Sedang (1.5 cm x 3 cm)') {
-                                          selectWoundRadioBtn(treeIndex, 2);
-                                        } else if (value ==
-                                            'Besar (>1.5 cm x 3 cm)') {
-                                          selectWoundRadioBtn(treeIndex, 3);
-                                        } else if (value ==
-                                            'Tidak ada luka kayu') {
-                                          selectWoundRadioBtn(treeIndex, 4);
+                                        if (value == true) {
+                                          if (!controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .contains(3)) {
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .add(3);
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .remove(4);
+                                          }
+                                        } else {
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(3);
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(4);
                                         }
                                       },
                                       controlAffinity:
-                                          ListTileControlAffinity.trailing,
+                                          ListTileControlAffinity.platform,
                                     ),
                                   ),
                                 ),
@@ -518,9 +546,9 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   child: Obx(
-                                    () => RadioListTile<String>(
+                                    () => CheckboxListTile(
                                       title: const Text(
-                                        'Tidak ada luka kayu',
+                                        'Tidak Ada Luka Kayu',
                                         style: TextStyle(
                                           fontFamily: 'Poppins',
                                           fontSize: 12,
@@ -528,33 +556,60 @@ class _InputAssessmentBoState extends State<InputAssessmentBo> {
                                           color: Colors.black,
                                         ),
                                       ),
-                                      value: 'Tidak ada luka kayu',
-                                      groupValue:
-                                          controller.selectedWound.value,
+                                      value: controller.isWound4Checked.value,
                                       onChanged: (value) {
-                                        controller.selectWound(value!);
+                                        controller.toggleWoundCheckbox('OK');
                                         checkAndAdvanceQuestion(
                                           0,
                                           isQ1Answered(),
                                         );
-                                        if (value == 'Kecil (1 cm x 0.6 cm)') {
-                                          selectWoundRadioBtn(treeIndex, 1);
-                                        } else if (value ==
-                                            'Sedang (1.5 cm x 3 cm)') {
-                                          selectWoundRadioBtn(treeIndex, 2);
-                                        } else if (value ==
-                                            'Besar (>1.5 cm x 3 cm)') {
-                                          selectWoundRadioBtn(treeIndex, 3);
-                                        } else if (value ==
-                                            'Tidak ada luka kayu') {
-                                          selectWoundRadioBtn(treeIndex, 4);
+                                        if (value == true) {
+                                          if (!controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .contains(4)) {
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .add(4);
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .remove(1);
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .remove(2);
+                                            controller
+                                                .selectedCriteriaIds[treeIndex -
+                                                    1]
+                                                .remove(3);
+                                          }
+                                        } else {
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(1);
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(2);
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(3);
+                                          controller
+                                              .selectedCriteriaIds[treeIndex -
+                                                  1]
+                                              .remove(4);
                                         }
                                       },
                                       controlAffinity:
-                                          ListTileControlAffinity.trailing,
+                                          ListTileControlAffinity.platform,
                                     ),
                                   ),
                                 ),
+                                SizedBox(height: 5),
                               ],
                             ),
                           ),

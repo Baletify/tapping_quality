@@ -2,7 +2,10 @@ import 'package:get/get.dart';
 import 'package:tapping_quality/services/assessment_input_bo_service.dart';
 
 class AssessmentBoInputController extends GetxController {
-  var selectedWound = ''.obs;
+  var isWound1Checked = false.obs;
+  var isWound2Checked = false.obs;
+  var isWound3Checked = false.obs;
+  var isWound4Checked = false.obs;
   var selectedDepth = ''.obs;
   var isOpt1Checked = false.obs;
   var isOpt2Checked = false.obs;
@@ -54,8 +57,10 @@ class AssessmentBoInputController extends GetxController {
   }
 
   void resetState() {
-    selectedWound.value = '';
-    selectedDepth.value = '';
+    isWound1Checked.value = false;
+    isWound2Checked.value = false;
+    isWound3Checked.value = false;
+    isWound4Checked.value = false;
     isOpt1Checked.value = false;
     isOpt2Checked.value = false;
     isOpt3Checked.value = false;
@@ -79,8 +84,36 @@ class AssessmentBoInputController extends GetxController {
     isCleanedTool3Checked.value = false;
   }
 
-  void selectWound(String size) {
-    selectedWound.value = size;
+  void toggleWoundCheckbox(String wound) {
+    switch (wound) {
+      case 'Kecil':
+        isWound1Checked.value = !isWound1Checked.value;
+        if (isWound1Checked.value && isWound4Checked.value) {
+          isWound4Checked.value = false;
+        }
+        break;
+      case 'Sedang':
+        isWound2Checked.value = !isWound2Checked.value;
+        if (isWound2Checked.value && isWound4Checked.value) {
+          isWound4Checked.value = false;
+        }
+        break;
+      case 'Besar':
+        isWound3Checked.value = !isWound3Checked.value;
+        if (isWound4Checked.value && isWound4Checked.value) {
+          isWound4Checked.value = false;
+        }
+        break;
+      case 'OK':
+        isWound4Checked.value = !isWound4Checked.value;
+        if (isWound4Checked.value) {
+          // Uncheck all others if "OK" is checked
+          isWound1Checked.value = false;
+          isWound2Checked.value = false;
+          isWound3Checked.value = false;
+        }
+        break;
+    }
   }
 
   void selectDepth(String depth) {
