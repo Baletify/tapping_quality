@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tapping_quality/controllers/assessment_bo_detail_controller.dart';
 import 'package:tapping_quality/controllers/assessment_bo_input_controller.dart';
+import 'package:tapping_quality/models/block_model.dart';
 import 'package:tapping_quality/models/user_model.dart';
 import 'package:tapping_quality/pages/assessment/assessment_bo/input_assessment_bo.dart';
 import 'package:tapping_quality/services/assessment_detail_bo_service.dart';
@@ -18,6 +19,10 @@ class AddAssessmentBo extends StatelessWidget {
       AssessmentBoDetailController(),
     );
     final AssessmentBoDetailController userController = Get.put(
+      AssessmentBoDetailController(),
+    );
+
+    final AssessmentBoDetailController blockController = Get.put(
       AssessmentBoDetailController(),
     );
 
@@ -221,14 +226,58 @@ class AddAssessmentBo extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 15),
+            Obx(() {
+              return Padding(
+                padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                child: Container(
+                  decoration: BoxDecoration(color: Colors.white),
+                  child: DropdownMenu<BlockModel>(
+                    width: double.infinity,
+                    hintText: 'Pilih Blok',
+                    requestFocusOnTap: true,
+                    enableFilter: true,
+                    menuHeight: 200,
+                    dropdownMenuEntries:
+                        blockController.blockList
+                            .map(
+                              (block) => DropdownMenuEntry<BlockModel>(
+                                label: block.blockCode,
+                                value: block,
+                              ),
+                            )
+                            .toList(),
+                    onSelected: (value) {
+                      blockController.updateSelectedBlock(value);
+                    },
+                  ),
+                ),
+              );
+            }),
+            const SizedBox(height: 15),
             Padding(
               padding: const EdgeInsets.only(left: 8.0, right: 8.0),
               child: Container(
                 decoration: BoxDecoration(color: Colors.white),
                 child: TextField(
-                  controller: userController.blokController,
+                  controller: userController.tahunTanamController,
                   decoration: InputDecoration(
-                    labelText: 'Blok',
+                    labelText: 'Tahun Tanam',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 15),
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+              child: Container(
+                decoration: BoxDecoration(color: Colors.white),
+                child: TextField(
+                  controller: userController.cloneController,
+                  decoration: InputDecoration(
+                    labelText: 'Clone',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
@@ -273,38 +322,6 @@ class AddAssessmentBo extends StatelessWidget {
                   controller: userController.noHancakController,
                   decoration: InputDecoration(
                     labelText: 'No. Hancak (1-25)',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 15),
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-              child: Container(
-                decoration: BoxDecoration(color: Colors.white),
-                child: TextField(
-                  controller: userController.tahunTanamController,
-                  decoration: InputDecoration(
-                    labelText: 'Tahun Tanam',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 15),
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-              child: Container(
-                decoration: BoxDecoration(color: Colors.white),
-                child: TextField(
-                  controller: userController.cloneController,
-                  decoration: InputDecoration(
-                    labelText: 'Clone',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
@@ -400,11 +417,11 @@ class AddAssessmentBo extends StatelessWidget {
                     'assessment_code': generateRandomCode(),
                     'tanggal_inspeksi':
                         dateController.selectedDate.value.toString(),
-                    'blok': userController.blokController.text,
+                    'blok': blockController.blokController.text,
                     'task': userController.taskController.text,
                     'no_hancak': userController.noHancakController.text,
-                    'tahun_tanam': userController.tahunTanamController.text,
-                    'clone': userController.cloneController.text,
+                    'tahun_tanam': blockController.tahunTanamController.text,
+                    'clone': blockController.cloneController.text,
                     'sistem_sadap': userController.sistemSadapController.text,
                     'kemandoran': userController.kemandoranController.text,
                     'jenis_sadap': 'BO',

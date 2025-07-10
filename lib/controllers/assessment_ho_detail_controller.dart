@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tapping_quality/models/block_model.dart';
 import 'package:tapping_quality/models/user_model.dart';
+import 'package:tapping_quality/services/block_service.dart';
 import 'package:tapping_quality/services/user_service.dart';
 
 class AssessmentHoDetailController extends GetxController {
@@ -10,6 +12,9 @@ class AssessmentHoDetailController extends GetxController {
   var userList = <UserModel>[].obs;
   var filteredUsers = <UserModel>[].obs;
   var selectedUser = Rx<UserModel?>(null);
+  var blockList = <BlockModel>[].obs;
+  var filteredBlocks = <BlockModel>[].obs;
+  var selectedBlock = Rx<BlockModel?>(null);
   var treeSkinType = ['Perawan', 'Pulihan', 'NTA'].obs;
   var tappingPanel = ['HO', 'VH', 'GO'].obs;
   var taskList = ['A', 'B', 'C', 'D'].obs;
@@ -49,6 +54,8 @@ class AssessmentHoDetailController extends GetxController {
       final users = await UserService().getTapper(dept);
       userList.value = users;
       filteredUsers.value = users;
+      blockList.value = await BlockService().getBlocks();
+      filteredBlocks.value = blockList;
     } catch (e) {
       print('Error fetching users: $e');
       userList.value = [];
@@ -82,6 +89,27 @@ class AssessmentHoDetailController extends GetxController {
     kemandoranController.text = user?.kemandoran ?? '';
     departemenController.text = user?.departemen ?? '';
     statusController.text = user?.status ?? '';
+  }
+
+  void filterBlocks(String query) {
+    if (query.isEmpty) {
+      filteredBlocks.value = blockList;
+    } else {
+      filteredBlocks.value =
+          blockList
+              .where(
+                (block) =>
+                    block.blockName.toLowerCase().contains(query.toLowerCase()),
+              )
+              .toList();
+    }
+  }
+
+  void updateSelectedBlock(BlockModel? block) {
+    selectedBlock.value = block;
+    blokController.text = block?.blockName ?? '';
+    tahunTanamController.text = block?.tahunTanam.toString() ?? '';
+    cloneController.text = block?.clone ?? '';
   }
 
   void updateTreeSkinType(String type) {

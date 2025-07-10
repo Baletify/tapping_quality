@@ -2784,7 +2784,7 @@ class _InputAssessmentHoState extends State<InputAssessmentHo> {
   Container _rightCard(detail) {
     return Container(
       width: 180,
-      height: 110,
+      height: 130,
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: [
@@ -2953,6 +2953,76 @@ class _InputAssessmentHoState extends State<InputAssessmentHo> {
               ),
             ],
           ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 1.0, left: 5.0, right: 5.0),
+                child: const Text(
+                  'Blok:',
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+              Flexible(
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    top: 1.0,
+                    left: 5.0,
+                    right: 5.0,
+                  ),
+                  child: Text(
+                    detail?['blok'] ?? 'N/A',
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 10,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 1.0, left: 5.0, right: 5.0),
+                child: const Text(
+                  'Clone:',
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+              Flexible(
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    top: 1.0,
+                    left: 5.0,
+                    right: 5.0,
+                  ),
+                  child: Text(
+                    detail?['clone'] ?? 'N/A',
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 10,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ],
       ),
     );
@@ -2961,7 +3031,7 @@ class _InputAssessmentHoState extends State<InputAssessmentHo> {
   Container _leftCard(detail) {
     return Container(
       width: 180,
-      height: 110,
+      height: 130,
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: [

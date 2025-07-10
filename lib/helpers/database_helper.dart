@@ -79,6 +79,30 @@ class DatabaseHelper {
         });
       }
     }
+
+    final blockCount = Sqflite.firstIntValue(
+      await dbClient.rawQuery('SELECT COUNT(*) FROM blocks'),
+    );
+
+    if (blockCount == 0) {
+      final blocksCsv = await rootBundle.loadString('assets/csv/blocks.csv');
+      final blocksList = const CsvToListConverter().convert(
+        blocksCsv,
+        eol: '\n',
+      );
+      for (int i = 1; i < blocksList.length; i++) {
+        // skip header
+        final row = blocksList[i];
+        await dbClient.insert('blocks', {
+          'id': row[0],
+          'dept': row[1],
+          'block_name': row[2],
+          'block_code': row[3],
+          'tahun_tanam': row[4],
+          'clone': row[5],
+        });
+      }
+    }
   }
 
   Future<void> _onCreate(Database db, int version) async {
@@ -165,6 +189,18 @@ class DatabaseHelper {
      tree_id INTEGER NOT NULL,
      criteria_id INTEGER NOT NULL
      )
+''');
+
+    // block
+    await db.execute('''
+      CREATE TABLE blocks (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        dept VARCHAR(255) DEFAULT NULL,
+        block_name TEXT DEFAULT NULL,
+        block_code VARCHAR(255) DEFAULT NULL,
+        tahun_tanam INTEGER DEFAULT NULL,
+        clone VARCHAR(255) DEFAULT NULL
+      );
 ''');
 
     // create users
