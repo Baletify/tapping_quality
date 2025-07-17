@@ -72,6 +72,7 @@ class AssessmentBoInputController extends GetxController {
     selectedAngle.value = '';
     selectedScrap.value = '';
     selectedBlong.value = '';
+    selectedDepth.value = '';
     selectedHealthyTree.value = '';
     selectedResultTake.value = '';
     selectedTalangSadap.value = '';
