@@ -187,11 +187,6 @@ class UploadAssessment extends StatelessWidget {
                                         final isUploading =
                                             controller.isUploadingMap[id] ??
                                             false;
-                                        final total =
-                                            controller.uploadTotalMap[id] ?? 0;
-                                        final current =
-                                            controller.uploadCurrentMap[id] ??
-                                            0;
                                         final isAnyUploading =
                                             controller.isAnyUploading.value;
 
@@ -201,38 +196,16 @@ class UploadAssessment extends StatelessWidget {
                                               !isUploading, // disable if another upload is running
                                           child:
                                               isUploading
-                                                  ? Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      SizedBox(
-                                                        width: 24,
-                                                        height: 24,
-                                                        child:
-                                                            CircularProgressIndicator(
-                                                              strokeWidth: 2,
-                                                              color:
-                                                                  Colors.blue,
-                                                              value:
-                                                                  total > 0
-                                                                      ? current /
-                                                                          total
-                                                                      : null,
-                                                            ),
-                                                      ),
-                                                      const SizedBox(height: 4),
-                                                      Text(
-                                                        '$current / $total',
-                                                        style: const TextStyle(
-                                                          fontSize: 10,
-                                                          color: Colors.blue,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  )
+                                                  ? const SizedBox(
+                                                      width: 24,
+                                                      height: 24,
+                                                      child:
+                                                          CircularProgressIndicator(
+                                                            strokeWidth: 2,
+                                                            color:
+                                                                Colors.blue,
+                                                          ),
+                                                    )
                                                   : Icon(
                                                     Icons.cloud_upload,
                                                     color:

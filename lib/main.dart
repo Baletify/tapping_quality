@@ -7,6 +7,7 @@ import 'package:tapping_quality/pages/home_page.dart';
 // import 'package:tapping_quality/pages/assessment/assessment_result.dart';
 // import 'package:tapping_quality/pages/home_page.dart';
 import 'package:tapping_quality/pages/login_page.dart';
+// import 'package:tapping_quality/services/assessment_upload_service.dart';
 // import 'package:tapping_quality/services/block_service.dart';
 
 // import 'package:tapping_quality/services/assessment_input_bo_service.dart';
@@ -34,7 +35,6 @@ void main() async {
   // final List<Map<String, dynamic>> data =
   //     await DatabaseHelper().getAllAssessmentDetails();
   // print('Assessment Details in the database: $data');
-
   await DatabaseHelper().database; // Initialize the database
   await DatabaseHelper().initDataFromCsvIfNeeded(); // Insert CSV data if needed
   // List<Map<String, dynamic>> users = await DatabaseHelper().getAllUsers();
